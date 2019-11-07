@@ -24,8 +24,8 @@ TEST_F(ShaderProgramTest, checkValidPath) {
     EXPECT_CALL(pathManager, getShadersPath("AnimShader"))
         .Times(1)
         .WillOnce(::testing::Return(std::make_tuple(
-                "../../Engine/Renderable/Shaders/v_model_anim_pokedex_shader.vs",
-                "../../Engine/Renderable/Shaders/f_model_anim_shader.fs")));
+                "Engine/Renderable/Shaders/v_model_anim_pokedex_shader.vs",
+                "Engine/Renderable/Shaders/f_model_anim_shader.fs")));
 
     bool setting_state = shader.setSources(pathManager.getShadersPath("AnimShader"));
 
@@ -46,8 +46,8 @@ TEST_F(ShaderProgramTest, checkCorrectSources) {
     EXPECT_CALL(pathManager, getShadersPath("AnimShader"))
         .Times(1)
         .WillOnce(::testing::Return(std::make_tuple(
-                "../../Engine/Renderable/Shaders/v_model_anim_pokedex_shader.vs",
-                "../../Engine/Renderable/Shaders/f_model_anim_shader.fs")));
+                "Engine/Renderable/Shaders/v_model_anim_pokedex_shader.vs",
+                "Engine/Renderable/Shaders/f_model_anim_shader.fs")));
 
     bool setting_state = shader.setSources(pathManager.getShadersPath("AnimShader"));
 
@@ -62,8 +62,8 @@ TEST_F(ShaderProgramTest, checkIncorrectSources) {
     EXPECT_CALL(pathManager, getShadersPath("AnimShader"))
             .Times(1)
             .WillOnce(::testing::Return(std::make_tuple(
-                    "../../Engine/Renderable/Shaders/incorrect_v_model_anim_pokedex_shader.vs",
-                    "../../Engine/Renderable/Shaders/incorrect_f_model_anim_shader.fs")));
+                    "Engine/Renderable/Shaders/incorrect_v_model_anim_pokedex_shader.vs",
+                    "Engine/Renderable/Shaders/incorrect_f_model_anim_shader.fs")));
 
     bool setting_state = shader.setSources(pathManager.getShadersPath("AnimShader"));
 
@@ -78,8 +78,8 @@ TEST_F(ShaderProgramTest, checkEmptySources) {
     EXPECT_CALL(pathManager, getShadersPath("AnimShader"))
             .Times(1)
             .WillOnce(::testing::Return(std::make_tuple(
-                    "../../Engine/Renderable/Shaders/empty_shader.vs",
-                    "../../Engine/Renderable/Shaders/empty_shader.fs")));
+                    "Engine/Renderable/Shaders/empty_shader.vs",
+                    "Engine/Renderable/Shaders/empty_shader.fs")));
 
     bool setting_state = shader.setSources(pathManager.getShadersPath("AnimShader"));
 
