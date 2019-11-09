@@ -145,15 +145,15 @@ void Model::render() {
 
     glm::mat4 view = _camera->GetViewMatrix();
 
-    shader.set_mat4_uniform("projection", projection);
-    shader.set_mat4_uniform("view", view);
+    shader.setMat4Uniform("projection", projection);
+    shader.setMat4Uniform("view", view);
 
     glm::mat4 pikachu_mod = glm::mat4(1.0f);
     pikachu_mod = glm::translate(pikachu_mod, _translate);
     pikachu_mod = glm::scale(pikachu_mod, _scale);
     pikachu_mod = glm::rotate(pikachu_mod, glm::radians(_angle), _rotate);
 
-    shader.set_mat4_uniform("model", pikachu_mod);
+    shader.setMat4Uniform("model", pikachu_mod);
 
     for (auto mesh: _meshes) {
         mesh.drawMesh(shader);

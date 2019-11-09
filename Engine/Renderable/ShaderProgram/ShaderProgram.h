@@ -22,7 +22,7 @@ class ShaderProgram {
 
     bool compileSources();
 
-    void set_mat4_uniform(const std::string &name, const glm::mat4 &value) const;
+    void setMat4Uniform(const std::string &name, const glm::mat4 &value) const;
 
  private:
     GLuint _program;

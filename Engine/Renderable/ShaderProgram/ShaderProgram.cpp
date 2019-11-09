@@ -30,7 +30,6 @@ bool ShaderProgram::setSources(std::tuple<std::string, std::string> shader_sourc
     return true;
 }
 
-
 bool ShaderProgram::compileSources() {
     const char *v_shader_source = _vs.c_str();
     const char *f_shader_source = _fs.c_str();
@@ -87,6 +86,6 @@ GLuint ShaderProgram::getProgram() {
     return _program;
 }
 
-void ShaderProgram::set_mat4_uniform(const std::string &name, const glm::mat4 &value) const {
+void ShaderProgram::setMat4Uniform(const std::string &name, const glm::mat4 &value) const {
     glUniformMatrix4fv(glGetUniformLocation(_program, name.c_str()), 1, GL_FALSE, &value[0][0]);
 }
