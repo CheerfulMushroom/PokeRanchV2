@@ -7,12 +7,13 @@
 
 class IGameState {
 public:
-    void addElement(IGameElement element);
-    bool deleteElement(std::function<bool()> cmp);
-    int getElementsAmount();
+    virtual ~IGameState() = default;
+    virtual void addElement(IGameElement* element) = 0;
+    virtual bool deleteElement(std::function<bool(IGameElement*)> cmp) = 0;
+    virtual int getElementsAmount() = 0;
 
-    void render();
-    void update(double dt);
+    virtual void render() = 0;
+    virtual void update(double dt) = 0;
 };
 
 #endif //POKERANCHV2_IGAMESTATE_H
