@@ -5,12 +5,13 @@
 
 class IEngine {
 public:
-    void setState(IGameState newState);
-    void start();
+    virtual ~IEngine() = default;
+    virtual void setState(IGameState* newState) = 0;
+    virtual void start() = 0;
 
 protected:
-    void render();
-    void update(double dt);
+    virtual void render() = 0;
+    virtual void update(double dt) = 0;
 };
 
 #endif //POKERANCHV2_IENGINE_H

@@ -5,7 +5,7 @@
 
 class INetworkManager {
 public:
-    std::map<std::string, std::string> send(std::map<std::string, std::string>);
+    virtual std::map<std::string, std::string> send(std::map<std::string, std::string>) = 0;
 };
 
 #endif //POKERANCHV2_INETWORKMANAGER_H
