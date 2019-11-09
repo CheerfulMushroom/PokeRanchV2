@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "GameWindow.h"
+#include <opencv2/opencv.hpp>
 
 GameWindow::GameWindow(int width, int height) {
     glfwInit();
@@ -47,4 +48,35 @@ std::pair<int, int> GameWindow::getWindowSize() {
     glfwGetWindowSize(_window, &width, &height);
 
     return std::make_pair(width, height);
+}
+
+void GameWindow::clearWindowBuffers() {
+    glClearColor(0.5f, 0.4f, 0.3f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+cv::Mat GameWindow::takeScreenshot() {
+    std::pair<int, int> windowSize = getWindowSize();
+
+    int width = std::get<0>(windowSize);
+    int height = std::get<1>(windowSize);
+
+    cv::Mat img(height, width, CV_8UC3);
+
+    glPixelStorei(GL_PACK_ALIGNMENT, (img.step & 3) ? 1 : 4);
+    glPixelStorei(GL_PACK_ROW_LENGTH, img.step / img.elemSize());
+
+    glReadPixels(0, 0, img.cols, img.rows, GL_BGR_EXT, GL_UNSIGNED_BYTE, img.data);
+
+    cv::Mat flipped;
+    cv::flip(img, flipped, 0);
+
+    return flipped;
+}
+
+void GameWindow::swapBuffers() {
+    glfwSwapBuffers(_window);
+}
+GameWindow::~GameWindow() {
+    glfwTerminate();
 }
