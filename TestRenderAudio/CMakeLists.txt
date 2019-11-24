@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(PROJECT_SHADER_PROGRAM_DIR ../Engine/Renderable/ShaderProgram)
 set(PROJECT_GAME_WINDOW_DIR ../Engine/Renderable/GameWindow)
 set(PROJECT_MODEL_DIR ../Engine/Renderable/Model)
+set(PROJECT_INTERFACES_DIR ../Engine/BasicInterfaces)
 
 #set(PROJECT_TEST_SOURCE_DIR tests)
 
@@ -21,6 +22,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 include_directories("${PROJECT_SHADER_PROGRAM_DIR}")
 include_directories("${PROJECT_GAME_WINDOW_DIR}")
 include_directories("${PROJECT_MODEL_DIR}")
+include_directories("${PROJECT_INTERFACES_DIR}")
 
 find_package(OpenCV REQUIRED)
 #include_directories(${OPENCV_INCLUDE_DIRS})

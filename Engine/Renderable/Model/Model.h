@@ -7,11 +7,13 @@
 #include <opencv2/opencv.hpp>
 #include <glm/glm.hpp>
 
+#include <IGameElement.h>
+
 #include "Mesh.h"
 
 class Camera;
 
-class Model  {
+class Model : public IGameElement {
 public:
     Model(std::string const &path,
           Camera *camera,
@@ -19,12 +21,19 @@ public:
           glm::vec3 scale,
           glm::vec3 rotate,
           float angle,
-          int width,
+          int width, // выкинуть
           int heigth);
 
-    ~Model()  = default;
+//    ~Model() override  = default;
 
-    void render() ;
+    void render() override;
+
+    bool isClicked() = delete;
+    double getDistance() = delete;
+    std::string getMeta(std::string) = delete;
+    void exec() = delete;
+
+    void update(double) override {}
 
     ShaderProgram shader;  // temporary public
 private:

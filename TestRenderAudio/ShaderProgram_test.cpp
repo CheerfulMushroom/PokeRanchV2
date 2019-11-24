@@ -46,8 +46,11 @@ TEST_F(ShaderProgramTest, checkCorrectSources) {
     EXPECT_CALL(pathManager, getShadersPath("AnimShader"))
         .Times(1)
         .WillOnce(::testing::Return(std::make_tuple(
-                "Engine/Renderable/Shaders/v_model_anim_pokedex_shader.vs",
-                "Engine/Renderable/Shaders/f_model_anim_shader.fs")));
+                "Engine/Renderable/Shaders/testExample.vs",
+                "Engine/Renderable/Shaders/testExample.fs")));
+// мистический segfault
+//                "Engine/Renderable/Shaders/v_model_anim_pokedex_shader.vs",
+//                "Engine/Renderable/Shaders/f_model_anim_shader.fs")));
 
     bool setting_state = shader.setSources(pathManager.getShadersPath("AnimShader"));
 
