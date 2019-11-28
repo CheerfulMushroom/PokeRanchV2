@@ -5,8 +5,11 @@
 #include "GameState.h"
 
 
-GameState::GameState() : _stateName("Default state") {}
+/********************************************************
+ * PUBLIC
+ ********************************************************/
 
+GameState::GameState() : _stateName("Default state") {}
 
 void GameState::addElement(std::unique_ptr<GameElement> element) {
 #ifdef DEBUG_GAME_STATE
@@ -36,22 +39,19 @@ int GameState::getElementsAmount() {
     return _elements.size();
 }
 
-std::string GameState::getName() {
-    return _stateName;
-}
-
-
 void GameState::update(double dt) {
-    for (const auto& el: _elements) {
+    for (const auto &el: _elements) {
         el->update(dt);
     }
 }
 
 void GameState::render() {
-    for (const auto& el: _elements) {
+    for (const auto &el: _elements) {
         el->render();
     }
 }
 
-
+std::string GameState::getName() {
+    return _stateName;
+}
 

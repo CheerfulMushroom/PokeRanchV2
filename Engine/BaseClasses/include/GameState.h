@@ -11,13 +11,14 @@ class GameState {
 public:
     GameState();
     virtual ~GameState() = default;
+
     void addElement(std::unique_ptr<GameElement> element);
     bool deleteElement(const std::function<bool(GameElement *)> &cmp);
     int getElementsAmount();
-    std::string getName();
 
     void render();
     void update(double dt);
+    std::string getName();
 
 protected:
     std::vector<std::unique_ptr<GameElement>> _elements;

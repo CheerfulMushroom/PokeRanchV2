@@ -3,7 +3,7 @@
 
 #include <map>
 
-class INetworkManager {
+class NetworkManager {
 public:
     virtual std::map<std::string, std::string> send(std::map<std::string, std::string>) = 0;
 };

@@ -8,6 +8,12 @@
 
 #include "Engine.h"
 
+
+/********************************************************
+ * PUBLIC
+ ********************************************************/
+
+
 Engine::Engine(std::unique_ptr<GameState> newState) : _currState(std::move(newState)) {
 #ifdef DEBUG_ENGINE
     std::cout << "Engine state is set to: " << _currState->getName() << std::endl;
@@ -37,6 +43,12 @@ void Engine::start() {
 
 }
 
+
+/********************************************************
+ * PRIVATE
+ ********************************************************/
+
+
 void Engine::render() {
     _currState->render();
 }
@@ -44,4 +56,3 @@ void Engine::render() {
 void Engine::update(double dt) {
     _currState->update(dt);
 }
-
