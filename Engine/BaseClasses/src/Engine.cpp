@@ -1,5 +1,7 @@
 #ifdef DEBUG_ENGINE
+
 #include <iostream>
+
 #endif
 
 #include <ctime>
@@ -14,6 +16,9 @@ Engine::Engine(std::unique_ptr<GameState> newState) : _currState(std::move(newSt
 
 void Engine::setState(std::unique_ptr<GameState> newState) {
     _currState = std::move(newState);
+#ifdef DEBUG_ENGINE
+    std::cout << "Engine state is set to: " << _currState->getName() << std::endl;
+#endif
 }
 
 void Engine::start() {

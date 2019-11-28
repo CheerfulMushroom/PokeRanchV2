@@ -1,6 +1,8 @@
 #ifndef POKERANCHV2_ENGINE_H
 #define POKERANCHV2_ENGINE_H
 
+#include <memory>
+
 #include "GameState.h"
 
 class Engine {
