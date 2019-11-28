@@ -42,11 +42,15 @@ std::string GameState::getName() {
 
 
 void GameState::update(double dt) {
-
+    for (const auto& el: _elements) {
+        el->update(dt);
+    }
 }
 
 void GameState::render() {
-
+    for (const auto& el: _elements) {
+        el->render();
+    }
 }
 
 
