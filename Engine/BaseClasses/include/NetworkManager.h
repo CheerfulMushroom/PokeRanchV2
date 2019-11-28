@@ -1,5 +1,5 @@
-#ifndef POKERANCHV2_INETWORKMANAGER_H
-#define POKERANCHV2_INETWORKMANAGER_H
+#ifndef POKERANCHV2_NETWORKMANAGER_H
+#define POKERANCHV2_NETWORKMANAGER_H
 
 #include <map>
 
@@ -8,4 +8,4 @@ public:
     virtual std::map<std::string, std::string> send(std::map<std::string, std::string>) = 0;
 };
 
-#endif //POKERANCHV2_INETWORKMANAGER_H
+#endif //POKERANCHV2_NETWORKMANAGER_H
