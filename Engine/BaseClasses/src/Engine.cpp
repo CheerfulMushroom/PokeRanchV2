@@ -4,7 +4,7 @@
 
 #endif
 
-#include <ctime>
+#include <chrono>
 
 #include "Engine.h"
 
@@ -26,18 +26,22 @@ void Engine::start() {
     std::cout << "Engine started" << std::endl;
 #endif
 
-    //TODO(al): add game loop
-//    while (true) {
-//
-//    }
+    auto lastUpdateTime = std::chrono::high_resolution_clock::now();
+    while (true) {
+        auto now = std::chrono::high_resolution_clock::now();
+        double timeDelta = std::chrono::duration<double, std::milli>(now - lastUpdateTime).count();
+        lastUpdateTime = now;
+        update(timeDelta);
+        render();
+    }
 
 }
 
 void Engine::render() {
-
+    _currState->render();
 }
 
 void Engine::update(double dt) {
-
+    _currState->update(dt);
 }
 

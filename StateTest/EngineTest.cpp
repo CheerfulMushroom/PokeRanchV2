@@ -26,5 +26,4 @@ TEST(Engine, checkSetState) {
     EXPECT_EQ(state->getElementsAmount(), 2);
 
     EXPECT_NO_THROW(engine.setState(std::move(state)));
-
 }
