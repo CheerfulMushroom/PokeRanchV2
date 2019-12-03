@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(PROJECT_SHADER_PROGRAM_DIR ../Engine/Renderable/ShaderProgram)
 set(PROJECT_GAME_WINDOW_DIR ../Engine/Renderable/GameWindow)
 set(PROJECT_MODEL_DIR ../Engine/Renderable/Model)
-set(PROJECT_INTERFACES_DIR ../Engine/BasicInterfaces)
+set(PROJECT_BASE_CLASSES_DIR ../Engine/BaseClasses)
 set(PROJECT_FORM_DIR ../Engine/GUI/Form)
 set(PROJECT_IMGUI_DIR ../Engine/GUI/imgui)
 set(PROJECT_BUTTON_DIR ../Engine/GUI/Button)
@@ -21,7 +21,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 include_directories("${PROJECT_SHADER_PROGRAM_DIR}")
 include_directories("${PROJECT_GAME_WINDOW_DIR}")
 include_directories("${PROJECT_MODEL_DIR}")
-include_directories("${PROJECT_INTERFACES_DIR}")
+include_directories("${PROJECT_BASE_CLASSES_DIR}/include")
 include_directories("${PROJECT_FORM_DIR}")
 include_directories("${PROJECT_IMGUI_DIR}")
 include_directories("${PROJECT_BUTTON_DIR}")
@@ -84,6 +84,7 @@ add_executable(formMain.out
         ${PROJECT_MODEL_DIR}/Model.cpp
         ${PROJECT_BUTTON_DIR}/Button.cpp
         ${PROJECT_BUTTON_DIR}/ImageButton.cpp
+        ${PROJECT_BASE_CLASSES_DIR}/src/GameElement.cpp
         )
 
 add_compile_definitions(DEBUG_MODEL)

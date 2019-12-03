@@ -2,18 +2,13 @@
 #define POKERANCH_V2_GUI_BUTTON_H_
 
 #include <Button.h>
-#include <IGameElement.h>
+#include <GameElement.h>
 
 static const int labelSize = 64;
 
-class Button : IGameElement {
+class Button : GameElement {
  public:
     Button(std::string _label);
-
-    bool isClicked() = delete;
-    double getDistance() = delete;
-    std::string getMeta(std::string) = delete;
-    void exec() = delete;
 
     void render() override;
 

@@ -7,13 +7,13 @@
 #include <opencv2/opencv.hpp>
 #include <glm/glm.hpp>
 
-#include <IGameElement.h>
+#include <GameElement.h>
 
 #include "Mesh.h"
 
 class Camera;
 
-class Model : public IGameElement {
+class Model : public GameElement {
 public:
     Model(std::string const &path,
           Camera *camera,
@@ -29,16 +29,6 @@ public:
 
     void render() override;
     std::string name;
-
-//    bool isClicked() = delete;
-//    double getDistance() = delete;
-//    std::string getMeta(std::string) = delete;
-//    void exec() = delete;
-//
-//    bool isClicked() = delete;
-//    double getDistance() = delete;
-//    std::string getMeta(std::string) = delete;
-//    void exec() = delete;
 
     void update(double) override {}
 

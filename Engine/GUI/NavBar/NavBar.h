@@ -1,24 +1,17 @@
 #ifndef POKERANCH_V2_GUI_NAVBAR_H_
 #define POKERANCH_V2_GUI_NAVBAR_H_
 
-#include <IGameElement.h>
+#include <GameElement.h>
 #include <vector>
 #include <imgui.h>
 #include <ImageButton.h>
 #include <memory>
 
-class NavBar : IGameElement {
+class NavBar : public GameElement {
  public:
     NavBar();
 
-    bool isClicked() = delete;
-    double getDistance() = delete;
-    std::string getMeta(std::string) = delete;
-    void exec() = delete;
-
     void render() override;
-    void update(double) override {}
-
     void addButton(std::unique_ptr<ImageButton> button);
 
  private:

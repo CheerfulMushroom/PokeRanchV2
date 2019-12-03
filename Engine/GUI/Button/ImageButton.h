@@ -2,20 +2,15 @@
 #define POKERANCH_V2_GUI_IMAGE_BUTTON_H_
 
 #include <ImageButton.h>
-#include <IGameElement.h>
+#include <GameElement.h>
 #include <functional>
 #include <imgui.h>
 
-class ImageButton : IGameElement {
+class ImageButton : public GameElement {
 public:
     ImageButton(const std::string &path, ImVec2 size, int padding, bool disable, const std::function<void()> &func);
 
-    bool isClicked() = delete;
-    double getDistance() = delete;
-    std::string getMeta(std::string) = delete;
-
-
-    void exec();
+    void exec() override;
     void render() override;
     void update(double) override {}
 
