@@ -7,8 +7,10 @@ set(PROJECT_SHADER_PROGRAM_DIR ../Engine/Renderable/ShaderProgram)
 set(PROJECT_GAME_WINDOW_DIR ../Engine/Renderable/GameWindow)
 set(PROJECT_MODEL_DIR ../Engine/Renderable/Model)
 set(PROJECT_INTERFACES_DIR ../Engine/BasicInterfaces)
-
-#set(PROJECT_TEST_SOURCE_DIR tests)
+set(PROJECT_FORM_DIR ../Engine/GUI/Form)
+set(PROJECT_IMGUI_DIR ../Engine/GUI/imgui)
+set(PROJECT_BUTTON_DIR ../Engine/GUI/Button)
+set(PROJECT_NAVBAR_DIR ../Engine/GUI/NavBar)
 
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
@@ -16,16 +18,18 @@ endif()
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
-#include_directories("${PROJECT_HEADER_DIR}")
-#include_directories("${PROJECT_SOURCE_DIR}")
-
 include_directories("${PROJECT_SHADER_PROGRAM_DIR}")
 include_directories("${PROJECT_GAME_WINDOW_DIR}")
 include_directories("${PROJECT_MODEL_DIR}")
 include_directories("${PROJECT_INTERFACES_DIR}")
+include_directories("${PROJECT_FORM_DIR}")
+include_directories("${PROJECT_IMGUI_DIR}")
+include_directories("${PROJECT_BUTTON_DIR}")
+include_directories("${PROJECT_NAVBAR_DIR}")
+
 
 find_package(OpenCV REQUIRED)
-#include_directories(${OPENCV_INCLUDE_DIRS})
+include_directories(${OPENCV_INCLUDE_DIRS})
 
 # sets GTEST_INCLUDE_DIRS and GTEST_LIBRARIES
 find_package(GTest REQUIRED)
@@ -51,6 +55,40 @@ add_executable(first_test.out
 target_link_libraries(first_test.out
         ${GTEST_LIBRARIES}
         ${GMOCK_LIBRARIES}
+        pthread
+        GLEW
+        glfw
+        GL
+        opencv_core
+        opencv_imgproc
+        opencv_highgui
+        opencv_imgcodecs
+        opencv_videoio
+        opencv_calib3d
+        assimp
+        )
+
+add_executable(formMain.out
+        ${PROJECT_SHADER_PROGRAM_DIR}/ShaderProgram.cpp
+        ${PROJECT_GAME_WINDOW_DIR}/GameWindow.cpp
+        ${PROJECT_IMGUI_DIR}/imgui.cpp
+        ${PROJECT_IMGUI_DIR}/imgui_demo.cpp
+        ${PROJECT_IMGUI_DIR}/imgui_draw.cpp
+        ${PROJECT_IMGUI_DIR}/imgui_impl_glfw_gl3.cpp
+        ${PROJECT_IMGUI_DIR}/imgui_impl_opengl3.cpp # возможно лишнее
+        ${PROJECT_IMGUI_DIR}/imgui_widgets.cpp
+        formMain.cpp
+        ${PROJECT_FORM_DIR}/Form.cpp
+        ${PROJECT_NAVBAR_DIR}/NavBar.cpp
+        ${PROJECT_MODEL_DIR}/Mesh.cpp
+        ${PROJECT_MODEL_DIR}/Model.cpp
+        ${PROJECT_BUTTON_DIR}/Button.cpp
+        ${PROJECT_BUTTON_DIR}/ImageButton.cpp
+        )
+
+add_compile_definitions(DEBUG_MODEL)
+
+target_link_libraries(formMain.out
         pthread
         GLEW
         glfw

@@ -9,18 +9,17 @@
 class GameWindow {
  public:
     explicit GameWindow(int width = 1280, int height = 1024);
-
     ~GameWindow();
 
     GLFWwindow* getWindow();
-
     std::pair<int, int> getWindowSize();
 
     void clearWindowBuffers();
+    void swapBuffers();
+    void frameInit();
+    void frameEnd();
 
     cv::Mat takeScreenshot();
-
-    void swapBuffers();
 
  private:
     GLFWwindow *_window;

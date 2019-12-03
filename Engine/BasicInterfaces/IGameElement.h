@@ -1,6 +1,8 @@
 #ifndef POKERANCHV2_IGAMEELEMENT_H
 #define POKERANCHV2_IGAMEELEMENT_H
 
+#include <string>
+
 class IGameElement {
 public:
      ~IGameElement() = default;

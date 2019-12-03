@@ -18,38 +18,57 @@ public:
     Model(std::string const &path,
           Camera *camera,
           glm::vec3 translate,
-          glm::vec3 scale,
+          float scale,
           glm::vec3 rotate,
           float angle,
-          int width, // выкинуть
-          int heigth);
+          int width,
+          int height,
+          std::string name);
 
 //    ~Model() override  = default;
 
     void render() override;
+    std::string name;
 
-    bool isClicked() = delete;
-    double getDistance() = delete;
-    std::string getMeta(std::string) = delete;
-    void exec() = delete;
+//    bool isClicked() = delete;
+//    double getDistance() = delete;
+//    std::string getMeta(std::string) = delete;
+//    void exec() = delete;
+//
+//    bool isClicked() = delete;
+//    double getDistance() = delete;
+//    std::string getMeta(std::string) = delete;
+//    void exec() = delete;
 
     void update(double) override {}
 
-    ShaderProgram shader;  // temporary public
+    #ifdef DEBUG_MODEL
+    ShaderProgram shader;
+    glm::vec3 _translate;
+    //glm::vec3 _scale;
+    float _scaleFactor;
+    glm::vec3 _rotate;
+
+    float _angle;
+    #endif
+
 private:
     std::vector<Mesh> _meshes;
     std::vector<Texture> _texturesLoaded;
     std::string _directory;
 
-    //ShaderProgram shader;
-
     Camera *_camera;
 
+    #ifndef DEBUG_MODEL
+    ShaderProgram shader;
     glm::vec3 _translate;
-    glm::vec3 _scale;
+    //glm::vec3 _scale;
+    float _scaleFactor;
     glm::vec3 _rotate;
 
     float _angle;
+    #endif
+
     int _width;
     int _height;
 

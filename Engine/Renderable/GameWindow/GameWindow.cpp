@@ -2,6 +2,9 @@
 
 #include "GameWindow.h"
 #include <opencv2/opencv.hpp>
+#include <GL/glew.h>
+#include <imgui.h>
+#include <imgui_impl_glfw_gl3.h>
 
 GameWindow::GameWindow(int width, int height) {
     glfwInit();
@@ -28,6 +31,8 @@ GameWindow::GameWindow(int width, int height) {
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+//    glDisable(GL_CULL_FACE);
+//    glCullFace(GL_FRONT_AND_BACK);
 
     int frame_width = 0;
     int frame_height = 0;
@@ -35,6 +40,10 @@ GameWindow::GameWindow(int width, int height) {
     glfwGetFramebufferSize(_window, &frame_width, &frame_height);
 
     glViewport(0, 0, frame_width, frame_height);
+
+    ImGui::CreateContext();
+    ImGui_ImplGlfwGL3_Init(_window, true);
+    ImGui::StyleColorsDark();
 }
 
 GLFWwindow* GameWindow::getWindow() {
@@ -53,6 +62,22 @@ std::pair<int, int> GameWindow::getWindowSize() {
 void GameWindow::clearWindowBuffers() {
     glClearColor(0.5f, 0.4f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void GameWindow::swapBuffers() {
+    glfwSwapBuffers(_window);
+}
+
+void GameWindow::frameInit() {
+    clearWindowBuffers();
+    ImGui_ImplGlfwGL3_NewFrame();
+}
+
+void GameWindow::frameEnd() {
+    ImGui::Render();
+    ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
+    swapBuffers();
+    glfwPollEvents();
 }
 
 cv::Mat GameWindow::takeScreenshot() {
@@ -74,9 +99,8 @@ cv::Mat GameWindow::takeScreenshot() {
     return flipped;
 }
 
-void GameWindow::swapBuffers() {
-    glfwSwapBuffers(_window);
-}
 GameWindow::~GameWindow() {
+    ImGui_ImplGlfwGL3_Shutdown();
+    ImGui::DestroyContext();
     glfwTerminate();
 }

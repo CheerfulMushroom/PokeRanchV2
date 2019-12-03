@@ -1,24 +1,27 @@
-#include "Model.h"
-#include "Camera.h"
+#include <Model.h>
+#include <Camera.h>
+#include <imgui.h>
 
 static unsigned int textureFromFile(const char *path, const std::string &directory);
 
 Model::Model(std::string const &path,
              Camera *camera,
              glm::vec3 translate,
-             glm::vec3 scale,
+             float scale,
              glm::vec3 rotate,
              float angle,
              int width,
-             int height ) {
+             int height,
+             std::string name) {
     loadModel(path);
     this->_translate = translate;
-    this->_scale = scale;
+    this->_scaleFactor = scale;
     this->_rotate = rotate;
     this->_angle = angle;
     this->_camera = camera;
     this->_width = width;
     this->_height = height;
+    this->name = name;
 }
 
 void Model::loadModel(std::string const &path) {
@@ -139,9 +142,22 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial *mat, aiTextureType 
 
 void Model::render() {
 
+    #ifdef DEBUG_MODEL
+        ImGui::Begin(this->name.c_str());
+        ImGui::SliderFloat("scaleFactor", &this->_scaleFactor, 0.0f, 0.5f);
+        ImGui::SliderFloat("translate.x", &this->_translate.x, -5.0f, 5.0f);
+        ImGui::SliderFloat("translate.y", &this->_translate.y, -5.0f, 5.0f);
+        ImGui::SliderFloat("translate.z", &this->_translate.z, -5.0f, 5.0f);
+        ImGui::SliderFloat("angle", &this->_angle, -360.0f, 360.0f);
+        ImGui::SliderFloat("rotate.x", &this->_rotate.x, -1.0f, 1.0f);
+        ImGui::SliderFloat("rotate.y", &this->_rotate.y, -1.0f, 1.0f);
+        ImGui::SliderFloat("rotate.z", &this->_rotate.z, -1.0f, 1.0f);
+        ImGui::End();
+    #endif
+
     glEnable(GL_DEPTH_TEST);
     shader.use();
-    glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float) _width / (float) _height, 0.1f, 100.0f);
+    glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float) _width / (float) _height, 0.1f, 100.0f);  //TODO получать ширину и высоту от класса "мега-мозг"
 
     glm::mat4 view = _camera->GetViewMatrix();
 
@@ -150,7 +166,7 @@ void Model::render() {
 
     glm::mat4 pikachu_mod = glm::mat4(1.0f);
     pikachu_mod = glm::translate(pikachu_mod, _translate);
-    pikachu_mod = glm::scale(pikachu_mod, _scale);
+    pikachu_mod = glm::scale(pikachu_mod, glm::vec3(_scaleFactor));
     pikachu_mod = glm::rotate(pikachu_mod, glm::radians(_angle), _rotate);
 
     shader.setMat4Uniform("model", pikachu_mod);
@@ -174,7 +190,17 @@ static unsigned int textureFromFile(const char *path, const std::string &directo
     cv::Mat image = cv::imread(filename);
 
     glBindTexture(GL_TEXTURE_2D, texture_id);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image.cols, image.rows, 0, GL_BGR, GL_UNSIGNED_BYTE, image.ptr());
+
+    bool has_alpha = image.channels() == 4;
+
+    if (has_alpha) {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.cols, image.rows, 0, GL_BGRA, GL_UNSIGNED_BYTE, image.ptr());
+    } else {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image.cols, image.rows, 0, GL_BGR, GL_UNSIGNED_BYTE, image.ptr());
+    }
+
+    //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image.cols, image.rows, 0, GL_BGR, GL_UNSIGNED_BYTE, image.ptr());
+    //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.cols, image.rows, 0, GL_BGRA, GL_UNSIGNED_BYTE, image.ptr());
     glGenerateMipmap(GL_TEXTURE_2D);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
