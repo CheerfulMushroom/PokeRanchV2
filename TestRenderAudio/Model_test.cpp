@@ -63,20 +63,22 @@ TEST_F(ModelTest, getGoldenImages) {
     Model nanosuit(pathManager.getModelPath("NanosuitModel"),
                      &camera,
                      glm::vec3(.0f, -1.0f, -2.0f),
-                     glm::vec3(0.2f, 0.2f, 0.2f),
+                     0.2f,
                      glm::vec3(0.0f, 0.0f, 1.0f),
                      0.0f,
                      width,
-                     height);
+                     height,
+                     std::string("suit"));
 
     Model gym(pathManager.getModelPath("GymModel"),
                    &camera,
                    glm::vec3(.0f, -1.0f, -2.0f),
-                   glm::vec3(0.02f, 0.02f, 0.02f),
+                   0.02f,
                    glm::vec3(0.0f, 0.0f, 1.0f),
                    0.0f,
                    width,
-                   height);
+                   height,
+                   std::string("gym"));
 
 
     nanosuit.shader.setSources(pathManager.getShadersPath("ModelShaders"));
@@ -85,8 +87,7 @@ TEST_F(ModelTest, getGoldenImages) {
     gym.shader.setSources(pathManager.getShadersPath("ModelShaders"));
     gym.shader.compileSources();
 
-    screen.clearWindowBuffers();
-
+    screen.frameInit();
     nanosuit.render();
 
     cv::Mat nanosuitScreenshot = screen.takeScreenshot();
@@ -98,8 +99,9 @@ TEST_F(ModelTest, getGoldenImages) {
     screen.clearWindowBuffers();
 
     gym.render();
-
     cv::Mat gymScreenshot = screen.takeScreenshot();
+
+    screen.frameEnd();
 
     writeImageResult = cv::imwrite("TestRenderAudio/GoldenImages/Gym.png", gymScreenshot);
 
@@ -125,20 +127,21 @@ TEST_F(ModelTest, compareWithNanosuit) {
     Model nanosuit(pathManager.getModelPath("NanosuitModel"),
                    &camera,
                    glm::vec3(.0f, -1.0f, -2.0f),
-                   glm::vec3(0.2f, 0.2f, 0.2f),
+                   0.2f,
                    glm::vec3(0.0f, 0.0f, 1.0f),
                    0.0f,
                    width,
-                   height);
+                   height,
+                   std::string("suit"));
 
     nanosuit.shader.setSources(pathManager.getShadersPath("ModelShaders"));
     nanosuit.shader.compileSources();
 
-    screen.clearWindowBuffers();
-
+    screen.frameInit();
     nanosuit.render();
 
     cv::Mat nanosuitScreenshot = screen.takeScreenshot();
+    screen.frameEnd();
 
     cv::Mat nanosuitTrue = cv::imread("TestRenderAudio/GoldenImages/Nanosuit.png", cv::IMREAD_COLOR);
 
@@ -164,21 +167,22 @@ TEST_F(ModelTest, compareWithGym) {
     Model gym(pathManager.getModelPath("GymModel"),
                    &camera,
                    glm::vec3(.0f, -1.0f, -2.0f),
-                   glm::vec3(0.02f, 0.02f, 0.02f),
+                   0.02f,
                    glm::vec3(0.0f, 0.0f, 1.0f),
                    0.0f,
                    width,
-                   height);
+                   height,
+                   std::string("gym"));
 
     gym.shader.setSources(pathManager.getShadersPath("ModelShaders"));
     gym.shader.compileSources();
 
-    screen.clearWindowBuffers();
+    screen.frameInit();
 
     gym.render();
-
     cv::Mat gymScreenshot = screen.takeScreenshot();
 
+    screen.frameEnd();
     cv::Mat gymTrue = cv::imread("TestRenderAudio/GoldenImages/Gym.png", cv::IMREAD_COLOR);
 
     EXPECT_TRUE(compareImage(gymScreenshot, gymTrue));

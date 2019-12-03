@@ -50,7 +50,14 @@ add_executable(first_test.out
         Model_test.cpp
         ${PROJECT_MODEL_DIR}/Mesh.cpp
         ${PROJECT_MODEL_DIR}/Model.cpp
-        ${PROJECT_GAME_WINDOW_DIR}/GameWindow.cpp)
+        ${PROJECT_GAME_WINDOW_DIR}/GameWindow.cpp
+        ${PROJECT_BASE_CLASSES_DIR}/src/GameElement.cpp
+        ${PROJECT_IMGUI_DIR}/imgui.cpp
+        ${PROJECT_IMGUI_DIR}/imgui_demo.cpp
+        ${PROJECT_IMGUI_DIR}/imgui_draw.cpp
+        ${PROJECT_IMGUI_DIR}/imgui_impl_glfw_gl3.cpp
+        ${PROJECT_IMGUI_DIR}/imgui_impl_opengl3.cpp # возможно лишнее
+        ${PROJECT_IMGUI_DIR}/imgui_widgets.cpp)
 
 target_link_libraries(first_test.out
         ${GTEST_LIBRARIES}
