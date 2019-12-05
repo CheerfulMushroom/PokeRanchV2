@@ -1,11 +1,11 @@
-#ifndef POKERANCHV2_NETWORKMANAGER_H
-#define POKERANCHV2_NETWORKMANAGER_H
+#ifndef POKERANCH_V2_NETWORK_MANAGER_H
+#define POKERANCH_V2_NETWORK_MANAGER_H
 
 #include <map>
 
 class NetworkManager {
 public:
-    virtual std::map<std::string, std::string> send(std::map<std::string, std::string>) = 0;
+    //virtual std::map<std::string, std::string> send(std::map<std::string, std::string>) = 0;
 };
 
-#endif //POKERANCHV2_NETWORKMANAGER_H
+#endif //POKERANCH_V2_NETWORK_MANAGER_H
