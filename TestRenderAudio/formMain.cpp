@@ -9,6 +9,8 @@
 #include <ImageButton.h>
 #include <HttpNetworkManager.h>
 
+#include <AnimModel.h>
+
 #define FPS 60
 
 int main() {
@@ -25,30 +27,27 @@ int main() {
 
     Model gym("Game/Resources/Models/AzaleaGym/AzaleaGym.obj",
             &camera,
-              glm::vec3(.0f, -1.0f, -2.0f),
+              glm::vec3(-1.3f, -1.0f, -2.0f),
               0.02,
-              glm::vec3(0.0f, 0.0f, 1.0f),
-              0.0f,
+              glm::vec3(0.0f, 38.0f, 0.0f),
               width,
               height,
               std::string("gym"));
 
-//    Model suit("Game/Resources/Models/nanosuit/nanosuit.obj",
-//               &camera,
-//               glm::vec3(.0f, -1.0f, -2.0f),
-//               0.02,
-//               glm::vec3(0.0f, 0.0f, 1.0f),
-//               0.0f,
-//               width,
-//               height,
-//               std::string("suit"));
+    AnimModel pokemon("Game/Resources/Models/Meowth/stay.dae",
+                    &camera,
+                    glm::vec3(0.9f, -1.0f, 0.0f),
+                    0.02,
+                    glm::vec3(90.0f, 140.0f, 0.0f),
+                    width,
+                    height,
+                    std::string("pokemon"));
 
     Model amie("Game/Resources/Models/PokemonAmie/withoutAll.dae",
             &camera,
-              glm::vec3(.0f, -1.0f, -2.0f),
-              1.02,
-              glm::vec3(0.0f, 0.0f, 1.0f),
-              0.0f,
+              glm::vec3(0.0f, -1.0f, -2.0f),
+              0.015,
+              glm::vec3(0.0f, 0.0f, 0.0f),
               width,
               height,
               std::string("amie"));
@@ -88,12 +87,14 @@ int main() {
 
         //ImGui::ShowDemoWindow();
 
-        authForm.render();
+        //authForm.render();
 
         navbar.render();
 
         gym.render();
         //suit.render();
+        pokemon.update();
+        pokemon.render();
 
         amie.render();
 

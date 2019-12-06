@@ -19,8 +19,8 @@ public:
           Camera *camera,
           glm::vec3 translate,
           float scale,
-          glm::vec3 rotate,
-          float angle,
+          glm::vec3 _angles,
+          //float angle,
           int width,
           int height,
           std::string name);
@@ -35,11 +35,10 @@ public:
     #ifdef DEBUG_MODEL
     ShaderProgram shader;
     glm::vec3 _translate;
-    //glm::vec3 _scale;
     float _scaleFactor;
-    glm::vec3 _rotate;
-
-    float _angle;
+    //glm::vec3 _rotate;
+    glm::vec3 _angles;
+    //float _angle;
     #endif
 
 private:

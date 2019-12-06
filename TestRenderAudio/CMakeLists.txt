@@ -90,6 +90,8 @@ add_executable(formMain.out
         ${PROJECT_NAVBAR_DIR}/NavBar.cpp
         ${PROJECT_MODEL_DIR}/Mesh.cpp
         ${PROJECT_MODEL_DIR}/Model.cpp
+        ${PROJECT_MODEL_DIR}/AnimModel.cpp
+        ${PROJECT_MODEL_DIR}/math_3d.cpp
         ${PROJECT_BUTTON_DIR}/Button.cpp
         ${PROJECT_BUTTON_DIR}/ImageButton.cpp
         ${PROJECT_BASE_CLASSES_DIR}/src/GameElement.cpp
@@ -110,4 +112,5 @@ target_link_libraries(formMain.out
         opencv_videoio
         opencv_calib3d
         assimp
+        boost_filesystem
         )

@@ -8,16 +8,15 @@ Model::Model(std::string const &path,
              Camera *camera,
              glm::vec3 translate,
              float scale,
-             glm::vec3 rotate,
-             float angle,
+             glm::vec3 angles,
+             //float angle,
              int width,
              int height,
              std::string name) {
     loadModel(path);
     this->_translate = translate;
     this->_scaleFactor = scale;
-    this->_rotate = rotate;
-    this->_angle = angle;
+    this->_angles = angles;
     this->_camera = camera;
     this->_width = width;
     this->_height = height;
@@ -148,10 +147,9 @@ void Model::render() {
         ImGui::SliderFloat("translate.x", &this->_translate.x, -5.0f, 5.0f);
         ImGui::SliderFloat("translate.y", &this->_translate.y, -5.0f, 5.0f);
         ImGui::SliderFloat("translate.z", &this->_translate.z, -5.0f, 5.0f);
-        ImGui::SliderFloat("angle", &this->_angle, -360.0f, 360.0f);
-        ImGui::SliderFloat("rotate.x", &this->_rotate.x, -1.0f, 1.0f);
-        ImGui::SliderFloat("rotate.y", &this->_rotate.y, -1.0f, 1.0f);
-        ImGui::SliderFloat("rotate.z", &this->_rotate.z, -1.0f, 1.0f);
+        ImGui::SliderFloat("angle.x", &this->_angles.x, -360.0f, 360.0f);
+        ImGui::SliderFloat("angle.y", &this->_angles.y, -360.0f, 360.0f);
+        ImGui::SliderFloat("angle.z", &this->_angles.z, -360.0f, 360.0f);
         ImGui::End();
     #endif
 
@@ -167,7 +165,9 @@ void Model::render() {
     glm::mat4 pikachu_mod = glm::mat4(1.0f);
     pikachu_mod = glm::translate(pikachu_mod, _translate);
     pikachu_mod = glm::scale(pikachu_mod, glm::vec3(_scaleFactor));
-    pikachu_mod = glm::rotate(pikachu_mod, glm::radians(_angle), _rotate);
+    pikachu_mod = glm::rotate(pikachu_mod, glm::radians(_angles.x), glm::vec3(1.0f, 0.0f, 0.0f));
+    pikachu_mod = glm::rotate(pikachu_mod, glm::radians(_angles.y), glm::vec3(0.0f, 1.0f, 0.0f));
+    pikachu_mod = glm::rotate(pikachu_mod, glm::radians(_angles.z), glm::vec3(0.0f, 0.0f, 1.0f));
 
     shader.setMat4Uniform("model", pikachu_mod);
 
