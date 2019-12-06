@@ -1,7 +1,6 @@
 #ifndef POKERANCH_V2_GUI_BUTTON_H_
 #define POKERANCH_V2_GUI_BUTTON_H_
 
-#include <Button.h>
 #include <GameElement.h>
 #include <functional>
 

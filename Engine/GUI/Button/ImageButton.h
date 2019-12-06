@@ -1,7 +1,6 @@
 #ifndef POKERANCH_V2_GUI_IMAGE_BUTTON_H_
 #define POKERANCH_V2_GUI_IMAGE_BUTTON_H_
 
-#include <ImageButton.h>
 #include <GameElement.h>
 #include <functional>
 #include <imgui.h>
