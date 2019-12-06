@@ -3,6 +3,7 @@
 
 #include <GameElement.h>
 #include <string>
+#include <Button.h>
 
 static const int fieldSize = 64;
 
@@ -17,6 +18,8 @@ class Form : public GameElement {
  private:
     char loginBuf[fieldSize];
     char passwordBuf[fieldSize];
+    Button _button;
+
 };
 
 #endif

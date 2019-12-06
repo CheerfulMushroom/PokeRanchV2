@@ -87,7 +87,7 @@ int main() {
 
         //ImGui::ShowDemoWindow();
 
-        //authForm.render();
+        authForm.render();
 
         navbar.render();
 
