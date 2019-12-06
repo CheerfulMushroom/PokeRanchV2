@@ -10,7 +10,7 @@
 *.slo
 *.lo
 *.o
-*.obj
+#*.obj  some our 3D models is .obj
 
 # Precompiled Headers
 *.gch
