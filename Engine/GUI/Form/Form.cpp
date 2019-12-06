@@ -15,11 +15,8 @@ Form::Form() : _button("submit", func) {
 void Form::render() {
     ImGui::Begin("AuthForm");
 
-    ImGui::Text("login");
-    ImGui::InputText("what", loginBuf, fieldSize, ImGuiInputTextFlags_CharsNoBlank);
-
-    ImGui::Text("password");
-    ImGui::InputText("lol", passwordBuf, fieldSize, ImGuiInputTextFlags_Password | ImGuiInputTextFlags_CharsNoBlank);
+    ImGui::InputText("login", loginBuf, fieldSize, ImGuiInputTextFlags_CharsNoBlank);
+    ImGui::InputText("password", passwordBuf, fieldSize, ImGuiInputTextFlags_Password | ImGuiInputTextFlags_CharsNoBlank);
 
     _button.render();
 

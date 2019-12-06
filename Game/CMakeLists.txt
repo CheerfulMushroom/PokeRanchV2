@@ -16,11 +16,14 @@ include_directories("${PROJECT_IMGUI_DIR}")
 include_directories("${PROJECT_BUTTON_DIR}")
 include_directories("${PROJECT_NAVBAR_DIR}")
 include_directories("${PROJECT_NETWORK_DIR}")
+include_directories("${PROJECT_STATES_DIR}/include")
+
 
 add_executable(main.out
         main.cpp
-        ${GAME_PATH}/States/src/AuthState.cpp
-        ${GAME_PATH}/States/src/RegisterState.cpp
+        ${PROJECT_STATES_DIR}/src/AuthState.cpp
+        ${PROJECT_STATES_DIR}/src/RegisterState.cpp
+        ${PROJECT_STATES_DIR}/src/HomeState.cpp
 
         ${PROJECT_BASE_CLASSES_DIR}/src/Engine.cpp
         ${PROJECT_BASE_CLASSES_DIR}/src/GameElement.cpp

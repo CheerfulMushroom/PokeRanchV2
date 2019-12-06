@@ -3,7 +3,7 @@
 #include <opencv2/opencv.hpp>
 #include <imgui_internal.h>
 
-static unsigned int texture_from_file(std::string &path) {  // Перенести в utils
+static unsigned int texture_from_file(const std::string& path) {  // Перенести в utils
     unsigned int texture_id;
     glGenTextures(1, &texture_id);
 
@@ -27,12 +27,13 @@ static unsigned int texture_from_file(std::string &path) {  // Перенест�
     return texture_id;
 }
 
-ImageButton::ImageButton(const std::string &path, ImVec2 size, int padding, bool disable, const std::function<void()> &func) :
-    _pathToPicture(path),
-    _size(size),
-    _padding(padding),
-    _disabled(disable),
-    _execFunc(func) {
+ImageButton::ImageButton(const std::string& path, ImVec2 size, int padding, bool disable,
+                         const std::function<void()>& func) :
+        _pathToPicture(path),
+        _size(size),
+        _padding(padding),
+        _disabled(disable),
+        _execFunc(func) {
     _texture = texture_from_file(_pathToPicture);
 }
 
@@ -48,11 +49,11 @@ void ImageButton::render() {
     // будет ли работать без PushID ?
 
     if (ImGui::ImageButton((ImTextureID) _texture,
-            _size,
-            ImVec2(0, 0),
-            ImVec2(1, 1),
-            _padding,
-            ImVec4(0.0f, 0.0f, 0.f, 1.0f))) {
+                           _size,
+                           ImVec2(0, 0),
+                           ImVec2(1, 1),
+                           _padding,
+                           ImVec4(0.0f, 0.0f, 0.f, 1.0f))) {
         exec();
     }
 

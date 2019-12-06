@@ -17,6 +17,8 @@ set(PROJECT_IMGUI_DIR           ${CMAKE_CURRENT_SOURCE_DIR}/Engine/GUI/imgui)
 set(PROJECT_BUTTON_DIR          ${CMAKE_CURRENT_SOURCE_DIR}/Engine/GUI/Button)
 set(PROJECT_NAVBAR_DIR          ${CMAKE_CURRENT_SOURCE_DIR}/Engine/GUI/NavBar)
 set(PROJECT_NETWORK_DIR         ${CMAKE_CURRENT_SOURCE_DIR}/Engine/Network)
+set(PROJECT_STATES_DIR          ${CMAKE_CURRENT_SOURCE_DIR}/Game/States)
+
 
 
 include_directories(Engine)
