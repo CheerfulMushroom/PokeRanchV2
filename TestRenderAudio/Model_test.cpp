@@ -65,7 +65,6 @@ TEST_F(ModelTest, getGoldenImages) {
                      glm::vec3(.0f, -1.0f, -2.0f),
                      0.2f,
                      glm::vec3(0.0f, 0.0f, 1.0f),
-                     0.0f,
                      width,
                      height,
                      std::string("suit"));
@@ -75,7 +74,6 @@ TEST_F(ModelTest, getGoldenImages) {
                    glm::vec3(.0f, -1.0f, -2.0f),
                    0.02f,
                    glm::vec3(0.0f, 0.0f, 1.0f),
-                   0.0f,
                    width,
                    height,
                    std::string("gym"));
@@ -129,7 +127,6 @@ TEST_F(ModelTest, compareWithNanosuit) {
                    glm::vec3(.0f, -1.0f, -2.0f),
                    0.2f,
                    glm::vec3(0.0f, 0.0f, 1.0f),
-                   0.0f,
                    width,
                    height,
                    std::string("suit"));
@@ -169,7 +166,6 @@ TEST_F(ModelTest, compareWithGym) {
                    glm::vec3(.0f, -1.0f, -2.0f),
                    0.02f,
                    glm::vec3(0.0f, 0.0f, 1.0f),
-                   0.0f,
                    width,
                    height,
                    std::string("gym"));
