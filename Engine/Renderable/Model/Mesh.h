@@ -15,7 +15,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-#include <ShaderProgram.h>
+#include "ShaderProgram.h"
 
 struct Vertex {
     glm::vec3 position;

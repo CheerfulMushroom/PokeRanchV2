@@ -2,7 +2,7 @@
 #include <iostream>
 #endif
 
-#include "GameElement.h"
+#include "BaseClasses/include/GameElement.h"
 
 /********************************************************
  * PUBLIC

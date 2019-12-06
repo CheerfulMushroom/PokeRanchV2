@@ -2,7 +2,7 @@
 #include <iostream>
 #endif
 
-#include "GameState.h"
+#include "BaseClasses/include/GameState.h"
 
 
 /********************************************************

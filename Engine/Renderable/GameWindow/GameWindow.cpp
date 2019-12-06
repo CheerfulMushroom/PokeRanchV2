@@ -3,8 +3,8 @@
 #include "GameWindow.h"
 #include <opencv2/opencv.hpp>
 #include <GL/glew.h>
-#include <imgui.h>
-#include <imgui_impl_glfw_gl3.h>
+#include "imgui.h"
+#include "imgui_impl_glfw_gl3.h"
 
 GameWindow::GameWindow(int width, int height) {
     glfwInit();
