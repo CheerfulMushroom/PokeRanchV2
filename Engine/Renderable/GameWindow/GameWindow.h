@@ -8,7 +8,7 @@
 
 class GameWindow {
  public:
-    explicit GameWindow(int width = 1280, int height = 1024);
+    explicit GameWindow(int width = 1280, int height = 720);
     ~GameWindow();
 
     GLFWwindow* getWindow();

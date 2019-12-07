@@ -77,9 +77,9 @@ std::string HttpNetworkManager::post(const std::string &target, std::map<std::st
     std::stringstream jsonStream;
     mapToJson(infoForSend, jsonStream, false);
 
-    request.set(http::field::content_type, "application/json");
-    request.set(http::field::content_length, jsonStream.str().length());
-    request.set(http::field::body, jsonStream.str());
+    request.set(http::field::content_type, "text/plain");
+    request.set(http::field::content_length, jsonStream.str().length());;
+    request.body() = jsonStream.str();
 
     std::cout << request << std::endl;
 

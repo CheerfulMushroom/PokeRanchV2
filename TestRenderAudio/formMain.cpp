@@ -25,7 +25,7 @@ int main() {
     int width = std::get<0>(WindowSize);
     int height = std::get<1>(WindowSize);
 
-    Model gym("Game/Resources/Models/AzaleaGym/AzaleaGym.obj",
+    Model gym("Game/Resources/Models/PokemonHouse/PokemonHouse.obj",
             &camera,
               glm::vec3(-1.3f, -1.0f, -2.0f),
               0.02,
