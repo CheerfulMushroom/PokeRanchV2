@@ -4,19 +4,20 @@
 
 HomeState::HomeState() {
     auto func = std::function([] {});
-    auto kitchenButton = std::make_unique<ImageButton>("Resources/Pictures/cake-slice.png",
+
+    auto kitchenButton = std::make_unique<ImageButton>("Game/Resources/Pictures/cake-slice.png",
                                                        ImVec2(64.0f, 64.0f),
                                                        5, false, func);
-    auto homeButton = std::make_unique<ImageButton>("Resources/Pictures/house.png",
+    auto homeButton = std::make_unique<ImageButton>("Game/Resources/Pictures/house.png",
                                                     ImVec2(64.0f, 64.0f),
                                                     5, false, func);
-    auto gymButton = std::make_unique<ImageButton>("Resources/Pictures/muscle-up.png",
+    auto gymButton = std::make_unique<ImageButton>("Game/Resources/Pictures/muscle-up.png",
                                                    ImVec2(128.0f, 128.0f),
                                                    5, true, func);
-    auto socialButton = std::make_unique<ImageButton>("Resources/Pictures/human-pyramid.png",
+    auto socialButton = std::make_unique<ImageButton>("Game/Resources/Pictures/human-pyramid.png",
                                                       ImVec2(64.0f, 64.0f),
                                                       5, false, func);
-    auto battleButton = std::make_unique<ImageButton>("Resources/Pictures/champions.png",
+    auto battleButton = std::make_unique<ImageButton>("Game/Resources/Pictures/champions.png",
                                                       ImVec2(64.0f, 64.0f),
                                                       5, false, func);
 

@@ -20,7 +20,7 @@ set(PROJECT_NETWORK_DIR         ${CMAKE_CURRENT_SOURCE_DIR}/Engine/Network)
 set(PROJECT_STATES_DIR          ${CMAKE_CURRENT_SOURCE_DIR}/Game/States)
 
 
-
+include_directories(/home/alexandr/Downloads/boost_1_71_0)
 include_directories(Engine)
 include_directories(Game)
 

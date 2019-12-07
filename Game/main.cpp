@@ -2,7 +2,8 @@
 #include "HomeState.h"
 
 int main() {
+    auto engine = Engine();
     auto state = std::make_unique<HomeState>();
-    auto engine = Engine(std::move(state));
+    engine.setState(std::move(state));
     engine.start();
 }
