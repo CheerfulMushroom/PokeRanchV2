@@ -1,13 +1,21 @@
 #include "HomeState.h"
 #include "ImageButton.h"
 #include "NavBar.h"
+#include "Engine.h"
+#include "AuthState.h"
 
-HomeState::HomeState() {
+
+HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
     auto func = std::function([] {});
+    auto switchToAuth = std::function([=] {
+        auto authState = std::make_unique<AuthState>(_parentEngine);
+        _parentEngine->setState(std::move(authState));
+    });
+
 
     auto kitchenButton = std::make_unique<ImageButton>("Game/Resources/Pictures/cake-slice.png",
                                                        ImVec2(64.0f, 64.0f),
-                                                       5, false, func);
+                                                       5, false, switchToAuth);
     auto homeButton = std::make_unique<ImageButton>("Game/Resources/Pictures/house.png",
                                                     ImVec2(64.0f, 64.0f),
                                                     5, false, func);

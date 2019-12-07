@@ -3,9 +3,11 @@
 
 #include "GameState.h"
 
+class Engine;
+
 class AuthState : public GameState {
 public:
-    AuthState();
+    explicit AuthState(Engine *parentEngine);
 };
 
 

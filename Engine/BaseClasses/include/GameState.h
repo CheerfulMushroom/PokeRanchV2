@@ -7,9 +7,11 @@
 
 #include "GameElement.h"
 
+class Engine;
+
 class GameState {
 public:
-    GameState();
+    explicit GameState(Engine* parent);
     virtual ~GameState() = default;
 
     void addElement(std::unique_ptr<GameElement> element);
@@ -21,6 +23,7 @@ public:
     std::string getName();
 
 protected:
+    Engine* _parentEngine;
     std::vector<std::unique_ptr<GameElement>> _elements;
     std::string _stateName;
 };

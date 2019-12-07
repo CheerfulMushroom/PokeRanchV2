@@ -2,14 +2,16 @@
 #include <iostream>
 #endif
 
-#include "BaseClasses/include/GameState.h"
+#include "GameState.h"
+#include "Engine.h"
 
 
 /********************************************************
  * PUBLIC
  ********************************************************/
 
-GameState::GameState() : _stateName("Default state") {}
+GameState::GameState(Engine *parentEngine) : _parentEngine(parentEngine),
+                                             _stateName("Default state") {}
 
 void GameState::addElement(std::unique_ptr<GameElement> element) {
 #ifdef DEBUG_GAME_STATE
