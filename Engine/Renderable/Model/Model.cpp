@@ -21,6 +21,13 @@ Model::Model(std::string const &path,
     this->_width = width;
     this->_height = height;
     this->name = name;
+
+
+    #ifndef DEBUG_MODEL
+    std::tuple<std::string, std::string> sources = std::make_tuple("Engine/Renderable/Shaders/v_model_shader.vs",
+                                                                   "Engine/Renderable/Shaders/f_model_shader.fs");
+    shader = ShaderProgram(sources);
+    #endif
 }
 
 void Model::loadModel(std::string const &path) {

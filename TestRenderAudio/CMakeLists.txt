@@ -98,7 +98,7 @@ add_executable(formMain.out
         ${PROJECT_NETWORK_DIR}/HttpNetworkManager.cpp
         )
 
-add_compile_definitions(DEBUG_MODEL)
+#add_compile_definitions(DEBUG_MODEL)
 
 target_link_libraries(formMain.out
         pthread
