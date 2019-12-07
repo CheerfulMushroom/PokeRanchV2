@@ -3,9 +3,11 @@
 
 #include "GameState.h"
 
+class Engine;
+
 class HomeState : public GameState {
 public:
-    HomeState();
+    explicit HomeState(Engine *parentEngine);
 };
 
 #endif //POKERANCHV2_HOMESTATE_H
