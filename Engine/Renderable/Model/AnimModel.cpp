@@ -144,7 +144,7 @@ void AnimModel::render() {
 }
 
 
-void AnimModel::update() {
+void AnimModel::update(double dt) {
     #ifdef DEBUG_MODEL
         ImGui::Begin(this->_name.c_str());
         ImGui::SliderFloat("scaleFactor", &this->_scaleFactor, 0.0f, 0.5f);

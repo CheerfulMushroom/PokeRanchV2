@@ -5,7 +5,7 @@ find_package(OpenCV REQUIRED)
 include_directories(${OPENCV_INCLUDE_DIRS})
 
 
-add_compile_definitions(DEBUG_MODEL)
+#add_compile_definitions(DEBUG_MODEL)
 
 include_directories("${PROJECT_SHADER_PROGRAM_DIR}")
 include_directories("${PROJECT_GAME_WINDOW_DIR}")

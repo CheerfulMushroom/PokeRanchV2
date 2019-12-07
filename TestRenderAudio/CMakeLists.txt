@@ -42,6 +42,10 @@ find_package(GMock REQUIRED)
 # adds the gtest include directory
 include_directories(${GMOCK_INCLUDE_DIRS})
 
+
+add_compile_definitions(DEBUG_MODEL)
+
+
 add_executable(first_test.out
         ${PROJECT_SHADER_PROGRAM_DIR}/ShaderProgram.cpp
         main_test.cpp
@@ -98,7 +102,7 @@ add_executable(formMain.out
         ${PROJECT_NETWORK_DIR}/HttpNetworkManager.cpp
         )
 
-add_compile_definitions(DEBUG_MODEL)
+
 
 target_link_libraries(formMain.out
         pthread

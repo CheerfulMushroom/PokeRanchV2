@@ -9,9 +9,10 @@ class ImageButton : public GameElement {
 public:
     ImageButton(const std::string &path, ImVec2 size, int padding, bool disable, const std::function<void()> &func);
 
-    void exec() override;
     void render() override;
-    void update(double) override {}
+    bool isClicked() override;
+    double getDistance() override;
+    void exec() override;
 
 private:
     std::string _pathToPicture;
@@ -19,6 +20,7 @@ private:
     bool _disabled;
     int _padding;
     int _texture;
+    bool _isClicked;
 
     ImVec2 _size;
 

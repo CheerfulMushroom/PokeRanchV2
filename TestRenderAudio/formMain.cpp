@@ -14,7 +14,7 @@
 #define FPS 60
 
 int main() {
-    GameWindow screen;
+    GameWindow screen(800, 450);
     Form authForm;
     NavBar navbar;
 
@@ -93,7 +93,7 @@ int main() {
 
         gym.render();
         //suit.render();
-        pokemon.update();
+        pokemon.update(0.0);
         pokemon.render();
 
         amie.render();

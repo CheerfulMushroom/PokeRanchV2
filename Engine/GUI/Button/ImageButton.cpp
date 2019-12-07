@@ -3,7 +3,7 @@
 #include <opencv2/opencv.hpp>
 #include <imgui_internal.h>
 
-static unsigned int texture_from_file(const std::string& path) {  // Перенести в utils
+static unsigned int texture_from_file(const std::string &path) {  // Перенести в utils
     unsigned int texture_id;
     glGenTextures(1, &texture_id);
 
@@ -27,18 +27,15 @@ static unsigned int texture_from_file(const std::string& path) {  // Перен�
     return texture_id;
 }
 
-ImageButton::ImageButton(const std::string& path, ImVec2 size, int padding, bool disable,
-                         const std::function<void()>& func) :
+ImageButton::ImageButton(const std::string &path, ImVec2 size, int padding, bool disable,
+                         const std::function<void()> &func) :
         _pathToPicture(path),
         _size(size),
         _padding(padding),
         _disabled(disable),
+        _isClicked(false),
         _execFunc(func) {
     _texture = texture_from_file(_pathToPicture);
-}
-
-void ImageButton::exec() {
-    _execFunc();
 }
 
 void ImageButton::render() {
@@ -54,11 +51,24 @@ void ImageButton::render() {
                            ImVec2(1, 1),
                            _padding,
                            ImVec4(0.0f, 0.0f, 0.f, 1.0f))) {
-        exec();
+        _isClicked = true;
     }
 
     if (_disabled) {
         ImGui::PopItemFlag();
         ImGui::PopStyleVar();
     }
+}
+
+bool ImageButton::isClicked() {
+    return _isClicked;
+}
+
+double ImageButton::getDistance() {
+    return 0;
+}
+
+void ImageButton::exec() {
+    _isClicked = true;
+    _execFunc();
 }

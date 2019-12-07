@@ -12,12 +12,16 @@ class NavBar : public GameElement {
     NavBar();
 
     void render() override;
+    bool isClicked() override;
+    double getDistance() override;
+    void exec() override;
+
     void addButton(std::unique_ptr<ImageButton> button);
 
  private:
     ImGuiWindowFlags windowFlags;
 
-    std::vector<std::unique_ptr<ImageButton>> _imageButtons;
+    std::vector<std::unique_ptr<GameElement>> _elements;
 };
 
 #endif
