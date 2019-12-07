@@ -22,6 +22,7 @@ include_directories("${PROJECT_STATES_DIR}/include")
 add_executable(main.out
         main.cpp
         ${PROJECT_STATES_DIR}/src/AuthState.cpp
+        ${PROJECT_STATES_DIR}/src/GymState.cpp
         ${PROJECT_STATES_DIR}/src/RegisterState.cpp
         ${PROJECT_STATES_DIR}/src/HomeState.cpp
 

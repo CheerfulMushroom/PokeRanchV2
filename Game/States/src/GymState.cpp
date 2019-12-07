@@ -1,6 +1,5 @@
 #include "Engine.h"
 #include "HomeState.h"
-#include "AuthState.h"
 #include "GymState.h"
 #include "ImageButton.h"
 #include "NavBar.h"
@@ -9,28 +8,23 @@
 #include "AnimModel.h"
 
 
-HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
+GymState::GymState(Engine *parentEngine) : GameState(parentEngine) {
     auto func = std::function([] {});
-    auto switchToAuth = std::function([=] {
-        auto authState = std::make_unique<AuthState>(_parentEngine);
-        _parentEngine->setState(std::move(authState));
-    });
-
-    auto switchToGym = std::function([=] {
-        auto gymState = std::make_unique<GymState>(_parentEngine);
-        _parentEngine->setState(std::move(gymState));
+    auto switchToHome = std::function([=] {
+        auto homeState = std::make_unique<HomeState>(_parentEngine);
+        _parentEngine->setState(std::move(homeState));
     });
 
 
     auto kitchenButton = std::make_unique<ImageButton>("Game/Resources/Pictures/cake-slice.png",
                                                        ImVec2(64.0f, 64.0f),
-                                                       5, false, switchToAuth);
+                                                       5, false, func);
     auto homeButton = std::make_unique<ImageButton>("Game/Resources/Pictures/house.png",
                                                     ImVec2(64.0f, 64.0f),
-                                                    5, true, func);
+                                                    5, false, switchToHome);
     auto gymButton = std::make_unique<ImageButton>("Game/Resources/Pictures/muscle-up.png",
                                                    ImVec2(64.0f, 64.0f),
-                                                   5, false, switchToGym);
+                                                   5, true, func);
     auto socialButton = std::make_unique<ImageButton>("Game/Resources/Pictures/human-pyramid.png",
                                                       ImVec2(64.0f, 64.0f),
                                                       5, false, func);
@@ -51,18 +45,18 @@ HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
 
     int width = _parentEngine->getWindow()->getWindowSize().first;
     int height = _parentEngine->getWindow()->getWindowSize().second;
-    auto house = std::make_unique<Model>("Game/Resources/Models/PokemonHouse/PokemonHouse.obj",
-                                         camera.get(),
-                                         glm::vec3(-1.3f, -1.0f, -2.0f),
-                                         0.02,
-                                         glm::vec3(0.0f, 38.0f, 0.0f),
-                                         width,
-                                         height,
-                                         std::string("house"));
+    auto gym = std::make_unique<Model>("Game/Resources/Models/AzaleaGym/AzaleaGym.obj",
+                                       camera.get(),
+                                       glm::vec3(-1.3f, -1.0f, -2.0f),
+                                       0.02,
+                                       glm::vec3(0.0f, 38.0f, 0.0f),
+                                       width,
+                                       height,
+                                       std::string("gym"));
 
     auto pokemon = std::make_unique<AnimModel>("Game/Resources/Models/Meowth/stay.dae",
                                                camera.get(),
-                                               glm::vec3(-0.9f, -1.0f, 0.0f),
+                                               glm::vec3(0.9f, -1.0f, 0.0f),
                                                0.02,
                                                glm::vec3(90.0f, 140.0f, 0.0f),
                                                width,
@@ -78,7 +72,7 @@ HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
                                         height,
                                         std::string("amie"));
     addElement(std::move(camera));
-    addElement(std::move(house));
+    addElement(std::move(gym));
     addElement(std::move(pokemon));
     addElement(std::move(amie));
 
