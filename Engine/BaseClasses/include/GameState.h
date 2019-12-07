@@ -20,6 +20,8 @@ public:
 
     void render();
     void update(double dt);
+    void pollElements();
+
     std::string getName();
 
 protected:

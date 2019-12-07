@@ -53,7 +53,32 @@ void GameState::render() {
     }
 }
 
+void GameState::pollElements() {
+    std::vector<std::pair<std::unique_ptr<GameElement>&, double>> contenders;
+
+    for (std::unique_ptr<GameElement> &element: _elements) {
+        if (element->isClicked()) {
+            contenders.emplace_back(element, element->getDistance());
+        }
+    }
+
+    if (!contenders.empty()) {
+        size_t minIdx = 0;
+        double minDistance = contenders[0].second;
+
+        for (size_t i = 0; i < contenders.size(); i++) {
+            if (contenders[i].second < minDistance) {
+                minDistance = contenders[i].second;
+                minIdx = i;
+            }
+        }
+
+        contenders[minIdx].first->exec();
+    }
+}
+
 std::string GameState::getName() {
     return _stateName;
 }
+
 

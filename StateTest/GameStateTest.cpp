@@ -5,7 +5,7 @@
 
 
 TEST(GameState, checkAddDelete) {
-    GameState state;
+    GameState state(nullptr);
     auto el1 = std::make_unique<GameElement>();
     auto el2 = std::make_unique<GameElement>();
     EXPECT_TRUE(el1->addMeta("id", "192"));

@@ -4,23 +4,23 @@
 #include <memory>
 
 #include "GameState.h"
-#include "Renderable/GameWindow/GameWindow.h"
+#include "GameWindow.h"
 
 class Engine {
 public:
-    Engine();
-    explicit Engine(std::unique_ptr<GameState> newState);
+    Engine(int width = 900, int height=450, int fps=30);
+    explicit Engine(std::unique_ptr<GameState> newState, int width = 900, int height=450, int fps=30);
     ~Engine() = default;
 
     void setState(std::unique_ptr<GameState> newState);
     void start();
 
-protected:
-    void render();
-    void update(double dt);
+    GameWindow* getWindow();
 
+protected:
     std::unique_ptr<GameState> _currState;
     GameWindow _window;
+    int _fps;
 };
 
 #endif //POKERANCHV2_ENGINE_H

@@ -12,6 +12,7 @@
 #include "ogldev_util.h"
 #include "ogldev_math_3d.h"
 #include "ShaderProgram.h"
+#include "GameElement.h"
 
 
 using namespace std;
@@ -31,7 +32,7 @@ class Camera;
 //public Renderable, public Updatable, public Interactable
 
 
-class AnimModel {
+class AnimModel: public GameElement {
 public:
     AnimModel(std::string const &path,
               Camera *camera,
@@ -48,9 +49,9 @@ public:
 
     bool load_mesh(const string &Filename);
 
-    void render();
+    void render() override ;
 
-    void update();
+    void update(double dt) override ;
     uint NumBones() const {
         return m_NumBones;
     }
