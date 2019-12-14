@@ -26,27 +26,18 @@ AnimModel::AnimModel(std::string const &path,
                      glm::vec3 translate,
                      float scale,
                      glm::vec3 angles,
-                     //float angle,
                      int width,
                      int height,
                      std::string name) {
     this->id = id;
 
-//    model = glm::mat4(1.0f);
-//    model = glm::translate(model, translate);
-//    model = glm::scale(model, scale);
-//    model = glm::rotate(model, glm::radians(angle), rotate);
-//    model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-
     this->_translate = translate;
     this->_scaleFactor = scale;
-    //this->_rotate = rotate;
     this->_angles = angles;
     this->_name = name;
 
     projection = glm::perspective(glm::radians(45.0f), (float) width / (float) height, 0.1f, 100.0f);
     view = camera->GetViewMatrix();
-
 
     m_VAO = 0;
     ZERO_MEM(m_Buffers);
@@ -58,10 +49,8 @@ AnimModel::AnimModel(std::string const &path,
 
     shader = ShaderProgram(sources);
 
-    // example of boost filesystem
 
     boost::filesystem::path modelPath = path;
-    //directory = "Game/Resources/Models/Pikachu/";
     directory = modelPath.parent_path().string();
 
     load_mesh(path);
@@ -69,13 +58,11 @@ AnimModel::AnimModel(std::string const &path,
 
 
 AnimModel::~AnimModel() {
-   // write_pokemon_info(id, scale, anim_id);
     Clear();
 }
 
 
 void AnimModel::Clear() {
-
     if (m_Buffers[0] != 0) {
         glDeleteBuffers(ARRAY_SIZE_IN_ELEMENTS(m_Buffers), m_Buffers);
     }
@@ -84,6 +71,10 @@ void AnimModel::Clear() {
         glDeleteVertexArrays(1, &m_VAO);
         m_VAO = 0;
     }
+
+//    for (auto &texture : textures_loaded) {
+//        glDeleteTextures(1, &texture.id);
+//    }
 }
 
 
@@ -167,27 +158,19 @@ void AnimModel::update(double dt) {
         glUniformMatrix4fv(boneTransform, 1, GL_TRUE, (const GLfloat *) transforms[i]);
     }
 
-//    if (glfwGetTime() - last_update_time > 0.2) {
-//        is_deleted = true;
-//        model = glm::mat4(-1000.0f);
-//    }
+    glm::mat4 model = glm::mat4(1.0f);
 
-    glm::mat4 pikachu_mod = glm::mat4(1.0f);
-    pikachu_mod = glm::translate(pikachu_mod, _translate);
-    pikachu_mod = glm::scale(pikachu_mod, glm::vec3(_scaleFactor));
-    //pikachu_mod = glm::rotate(pikachu_mod, glm::radians(_angle), _rotate);
-    pikachu_mod = glm::rotate(pikachu_mod, glm::radians(_angles.y), glm::vec3(0.0f, 1.0f, 0.0f));
-    pikachu_mod = glm::rotate(pikachu_mod, glm::radians(_angles.x), glm::vec3(1.0f, 0.0f, 0.0f));
-    pikachu_mod = glm::rotate(pikachu_mod, glm::radians(_angles.z), glm::vec3(0.0f, 0.0f, 1.0f));
+    model = glm::translate(model, _translate);
 
+    model = glm::scale(model, glm::vec3(_scaleFactor));
 
-//    model = glm::translate(model, _translate);
-//    model = glm::scale(model, glm::vec3(_scaleFactor));
-//    model = glm::rotate(model, glm::radians(_angle), _rotate);
+    model = glm::rotate(model, glm::radians(_angles.y), glm::vec3(0.0f, 1.0f, 0.0f));
+    model = glm::rotate(model, glm::radians(_angles.x), glm::vec3(1.0f, 0.0f, 0.0f));
+    model = glm::rotate(model, glm::radians(_angles.z), glm::vec3(0.0f, 0.0f, 1.0f));
 
     shader.setMat4Uniform("projection", projection);
     shader.setMat4Uniform("view", view);
-    shader.setMat4Uniform("model", pikachu_mod);
+    shader.setMat4Uniform("model", model);
 }
 
 bool AnimModel::InitFromScene(const aiScene *pScene, const string &Filename) {
@@ -492,7 +475,9 @@ void AnimModel::swap_animation() {
 }
 
 void AnimModel::change_animation(std::string path) {
-    Clear();
+    //boost::filesystem::path modelPath = path;
+    //directory = modelPath.parent_path().string();
+
     load_mesh(path);
 }
 

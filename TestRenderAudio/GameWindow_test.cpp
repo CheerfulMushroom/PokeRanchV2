@@ -3,7 +3,7 @@
 #include <GameWindow.h>
 
 
-TEST(GameWindowTest, checkDefaultSettings) {  // 1280 * 1024
+TEST(GameWindowTest, checkDefaultSettings) {  // 1024 * 720
     GameWindow screen;
 
     EXPECT_TRUE(screen.getWindow() != nullptr);
@@ -11,7 +11,7 @@ TEST(GameWindowTest, checkDefaultSettings) {  // 1280 * 1024
     std::pair<int, int> WindowSize = screen.getWindowSize();
 
     EXPECT_EQ(std::get<0>(WindowSize), 1280);
-    EXPECT_EQ(std::get<1>(WindowSize), 1024);
+    EXPECT_EQ(std::get<1>(WindowSize), 720);
 }
 
 TEST(GameWindowTest, checkHD) {

@@ -45,7 +45,6 @@ std::map<std::string, std::string> HttpNetworkManager::jsonToMap(std::string &js
     boost::property_tree::ptree root;
     boost::property_tree::read_json(jsonStream, root);
 
-
     // depend of json document structure
     // now for (key : value), where value is simple var
     for (auto &node : root.get_child("")) {
@@ -90,7 +89,7 @@ std::string HttpNetworkManager::post(const std::string &target, std::map<std::st
 
     http::read(_stream, buffer, response);
 
-    std::cout << response << std::endl;
+    //std::cout << response << std::endl;
 
     return response.body();
 }

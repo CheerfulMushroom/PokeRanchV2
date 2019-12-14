@@ -29,7 +29,6 @@ class MarkerDetector;
 class Camera;
 
 
-//public Renderable, public Updatable, public Interactable
 
 
 class AnimModel: public GameElement {

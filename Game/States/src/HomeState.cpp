@@ -1,19 +1,27 @@
 #include "Engine.h"
+
 #include "HomeState.h"
 #include "AuthState.h"
 #include "GymState.h"
+#include "KitchenState.h"
+
 #include "ImageButton.h"
 #include "NavBar.h"
 #include "Camera.h"
 #include "Model.h"
 #include "AnimModel.h"
 
-
 HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
     auto func = std::function([] {});
-    auto switchToAuth = std::function([=] {
-        auto authState = std::make_unique<AuthState>(_parentEngine);
-        _parentEngine->setState(std::move(authState));
+
+//    auto switchToAuth = std::function([=] {
+//        auto authState = std::make_unique<AuthState>(_parentEngine);
+//        _parentEngine->setState(std::move(authState));
+//    });
+
+    auto switchToKitchen = std::function([=] {
+        auto kitchenState = std::make_unique<KitchenState>(_parentEngine);
+        _parentEngine->setState(std::move(kitchenState));
     });
 
     auto switchToGym = std::function([=] {
@@ -24,19 +32,19 @@ HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
 
     auto kitchenButton = std::make_unique<ImageButton>("Game/Resources/Pictures/cake-slice.png",
                                                        ImVec2(64.0f, 64.0f),
-                                                       5, false, switchToAuth);
+                                                       5, true, switchToKitchen);
     auto homeButton = std::make_unique<ImageButton>("Game/Resources/Pictures/house.png",
                                                     ImVec2(64.0f, 64.0f),
-                                                    5, true, func);
+                                                    5, false, func);
     auto gymButton = std::make_unique<ImageButton>("Game/Resources/Pictures/muscle-up.png",
                                                    ImVec2(64.0f, 64.0f),
-                                                   5, false, switchToGym);
+                                                   5, true, switchToGym);
     auto socialButton = std::make_unique<ImageButton>("Game/Resources/Pictures/human-pyramid.png",
                                                       ImVec2(64.0f, 64.0f),
-                                                      5, false, func);
+                                                      5, true, func);
     auto battleButton = std::make_unique<ImageButton>("Game/Resources/Pictures/champions.png",
                                                       ImVec2(64.0f, 64.0f),
-                                                      5, false, func);
+                                                      5, true, func);
 
     auto navbar = std::make_unique<NavBar>();
     navbar->addButton(std::move(kitchenButton));
@@ -51,6 +59,7 @@ HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
 
     int width = _parentEngine->getWindow()->getWindowSize().first;
     int height = _parentEngine->getWindow()->getWindowSize().second;
+
     auto house = std::make_unique<Model>("Game/Resources/Models/PokemonHouse/PokemonHouse.obj",
                                          camera.get(),
                                          glm::vec3(-1.3f, -1.0f, -2.0f),
@@ -60,7 +69,7 @@ HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
                                          height,
                                          std::string("house"));
 
-    auto pokemon = std::make_unique<AnimModel>("Game/Resources/Models/Meowth/stay.dae",
+    auto pokemon = std::make_unique<AnimModel>("Game/Resources/Models/Pikachu/stay.dae",
                                                camera.get(),
                                                glm::vec3(-0.9f, -1.0f, 0.0f),
                                                0.02,

@@ -27,19 +27,19 @@ static unsigned int texture_from_file(const std::string &path) {  // Перен�
     return texture_id;
 }
 
-ImageButton::ImageButton(const std::string &path, ImVec2 size, int padding, bool disable,
+ImageButton::ImageButton(const std::string &path, ImVec2 size, int padding, bool isActive,
                          const std::function<void()> &func) :
         _pathToPicture(path),
         _size(size),
         _padding(padding),
-        _disabled(disable),
+        _isActive(isActive),
         _isClicked(false),
         _execFunc(func) {
     _texture = texture_from_file(_pathToPicture);
 }
 
 void ImageButton::render() {
-    if (_disabled) {
+    if (!_isActive) {
         ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
         ImGui::PushStyleVar(ImGuiStyleVar_Alpha, ImGui::GetStyle().Alpha * 0.2f);
     }
@@ -54,7 +54,7 @@ void ImageButton::render() {
         _isClicked = true;
     }
 
-    if (_disabled) {
+    if (!_isActive) {
         ImGui::PopItemFlag();
         ImGui::PopStyleVar();
     }
@@ -69,6 +69,6 @@ double ImageButton::getDistance() {
 }
 
 void ImageButton::exec() {
-    _isClicked = true;
+    _isClicked = false;
     _execFunc();
 }

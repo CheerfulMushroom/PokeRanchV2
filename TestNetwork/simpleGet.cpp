@@ -15,16 +15,14 @@ int main() {
 
     std::cout << '\n';
 
-    infoForOutput.insert(std::make_pair("monkey", "6"));
-    infoForOutput.insert(std::make_pair("zebra", "5"));
-    infoForOutput.insert(std::make_pair("dog", "3"));
-    infoForOutput.insert(std::make_pair("cat", "3"));
-    infoForOutput.insert(std::make_pair("frog", "4"));
+    infoForOutput.insert(std::make_pair("login", "booooooom"));
+    infoForOutput.insert(std::make_pair("password", "password11"));
+    infoForOutput.insert(std::make_pair("mail", "asdjh@"));
 
     netManager.mapToJson(infoForOutput, std::cout, true);
 
-    HttpNetworkManager netPostManager("postman-echo.com", "80");
-    netPostManager.post("/post", infoForOutput);
+    HttpNetworkManager netPostManager("0.0.0.0", "8888");
+    netPostManager.post("/auth", infoForOutput);
 
     return 0;
 }

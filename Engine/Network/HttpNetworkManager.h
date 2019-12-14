@@ -1,3 +1,6 @@
+#ifndef NETWORK_HTTP_MANAGER_H_
+#define NETWORK_HTTP_MANAGER_H_
+
 #include <NetworkManager.h>
 #include <boost/asio.hpp>
 #include <boost/beast/core.hpp>
@@ -18,8 +21,7 @@ class HttpNetworkManager : public NetworkManager {
     std::map<std::string, std::string> jsonToMap(std::string &jsonBody);
     void mapToJson(std::map<std::string, std::string> &info, std::ostream &output, bool pretty);
 
-
-
+    
  private:
     boost::asio::io_context _ioContext;
     tcp::resolver _resolver;
@@ -29,3 +31,5 @@ class HttpNetworkManager : public NetworkManager {
     std::string _addr;
     std::string _port;
 };
+
+#endif  // NETWORK_HTTP_MANAGER_H_
