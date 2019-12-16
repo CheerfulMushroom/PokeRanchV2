@@ -62,11 +62,11 @@ int main() {
         std::cout << "KEK" << std::endl;
     };
 
-    auto kitchenButton = std::make_unique<ImageButton>("Game/Resources/Pictures/cake-slice.png", ImVec2(64.0f, 64.0f), 5, true, func);
-    auto homeButton = std::make_unique<ImageButton>("Game/Resources/Pictures/house.png", ImVec2(64.0f, 64.0f), 5, true, func);
-    auto gymButton = std::make_unique<ImageButton>("Game/Resources/Pictures/muscle-up.png", ImVec2(128.0f, 128.0f), 5, true, func);
-    auto socialButton = std::make_unique<ImageButton>("Game/Resources/Pictures/human-pyramid.png", ImVec2(64.0f, 64.0f), 5, true, func);
-    auto battleButton = std::make_unique<ImageButton>("Game/Resources/Pictures/champions.png", ImVec2(64.0f, 64.0f), 5, true, func);
+    auto kitchenButton = std::make_shared<ImageButton>("Game/Resources/Pictures/cake-slice.png", ImVec2(64.0f, 64.0f), 5, true, func);
+    auto homeButton = std::make_shared<ImageButton>("Game/Resources/Pictures/house.png", ImVec2(64.0f, 64.0f), 5, true, func);
+    auto gymButton = std::make_shared<ImageButton>("Game/Resources/Pictures/muscle-up.png", ImVec2(128.0f, 128.0f), 5, true, func);
+    auto socialButton = std::make_shared<ImageButton>("Game/Resources/Pictures/human-pyramid.png", ImVec2(64.0f, 64.0f), 5, true, func);
+    auto battleButton = std::make_shared<ImageButton>("Game/Resources/Pictures/champions.png", ImVec2(64.0f, 64.0f), 5, true, func);
 
     navbar.addButton(std::move(kitchenButton));
     navbar.addButton(std::move(homeButton));
