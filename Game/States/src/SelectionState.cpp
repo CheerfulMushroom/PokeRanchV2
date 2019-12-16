@@ -18,12 +18,12 @@
 static int idx = 0;
 
 SelectionState::SelectionState(Engine *parentEngine) : GameState(parentEngine) {
-    auto camera = std::make_unique<Camera>(glm::vec3(0.0f, 0.0f, 4.0f));
+    auto camera = std::make_shared<Camera>(glm::vec3(0.0f, 0.0f, 4.0f));
 
     int width = _parentEngine->getWindow()->getWindowSize().first;
     int height = _parentEngine->getWindow()->getWindowSize().second;
 
-    auto model = std::make_unique<AnimModel>("Game/Resources/Models/Trainers/Scientist/scientist.dae",
+    auto model = std::make_shared<AnimModel>("Game/Resources/Models/Trainers/Scientist/scientist.dae",
                                                  camera.get(),
                                                  glm::vec3(0.0f, -1.0f, 0.0f),
                                                  0.012,
@@ -59,7 +59,7 @@ SelectionState::SelectionState(Engine *parentEngine) : GameState(parentEngine) {
             return el->getMeta("modelToDelete") == "true";
         });
 
-        auto newModel = std::make_unique<AnimModel>(currModel,
+        auto newModel = std::make_shared<AnimModel>(currModel,
                                                      camera_ptr,
                                                      glm::vec3(0.0f, -1.0f, 0.0f),
                                                      0.012,
@@ -89,7 +89,7 @@ SelectionState::SelectionState(Engine *parentEngine) : GameState(parentEngine) {
             return el->getMeta("modelToDelete") == "true";
         });
 
-        auto newModel = std::make_unique<AnimModel>(currModel,
+        auto newModel = std::make_shared<AnimModel>(currModel,
                                                     camera_ptr,
                                                     glm::vec3(0.0f, -1.0f, 0.0f),
                                                     0.012,
@@ -104,17 +104,17 @@ SelectionState::SelectionState(Engine *parentEngine) : GameState(parentEngine) {
     });
 
 
-    auto deleteButtonLeft = std::make_unique<ImageButton>("Game/Resources/Pictures/arrowToLeft.png",
+    auto deleteButtonLeft = std::make_shared<ImageButton>("Game/Resources/Pictures/arrowToLeft.png",
                                                       ImVec2(64.0f, 64.0f),
                                                       5, true, changeModelToLeft);
 
-    auto deleteButtonRight = std::make_unique<ImageButton>("Game/Resources/Pictures/arrowToRight.png",
+    auto deleteButtonRight = std::make_shared<ImageButton>("Game/Resources/Pictures/arrowToRight.png",
                                                           ImVec2(64.0f, 64.0f),
                                                           5, true, changeModelToRight);
 
 
 
-    auto navbar = std::make_unique<NavBar>();
+    auto navbar = std::make_shared<NavBar>();
     navbar->addButton(std::move(deleteButtonLeft));
     navbar->addButton(std::move(deleteButtonRight));
 

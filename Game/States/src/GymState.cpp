@@ -11,28 +11,28 @@
 GymState::GymState(Engine *parentEngine) : GameState(parentEngine) {
     auto func = std::function([] {});
     auto switchToHome = std::function([=] {
-        auto homeState = std::make_unique<HomeState>(_parentEngine);
+        auto homeState = std::make_shared<HomeState>(_parentEngine);
         _parentEngine->setState(std::move(homeState));
     });
 
 
-    auto kitchenButton = std::make_unique<ImageButton>("Game/Resources/Pictures/cake-slice.png",
+    auto kitchenButton = std::make_shared<ImageButton>("Game/Resources/Pictures/cake-slice.png",
                                                        ImVec2(64.0f, 64.0f),
                                                        5, true, func);
-    auto homeButton = std::make_unique<ImageButton>("Game/Resources/Pictures/house.png",
+    auto homeButton = std::make_shared<ImageButton>("Game/Resources/Pictures/house.png",
                                                     ImVec2(64.0f, 64.0f),
                                                     5, true, switchToHome);
-    auto gymButton = std::make_unique<ImageButton>("Game/Resources/Pictures/muscle-up.png",
+    auto gymButton = std::make_shared<ImageButton>("Game/Resources/Pictures/muscle-up.png",
                                                    ImVec2(64.0f, 64.0f),
                                                    5, false, func);
-    auto socialButton = std::make_unique<ImageButton>("Game/Resources/Pictures/human-pyramid.png",
+    auto socialButton = std::make_shared<ImageButton>("Game/Resources/Pictures/human-pyramid.png",
                                                       ImVec2(64.0f, 64.0f),
                                                       5, true, func);
-    auto battleButton = std::make_unique<ImageButton>("Game/Resources/Pictures/champions.png",
+    auto battleButton = std::make_shared<ImageButton>("Game/Resources/Pictures/champions.png",
                                                       ImVec2(64.0f, 64.0f),
                                                       5, true, func);
 
-    auto navbar = std::make_unique<NavBar>();
+    auto navbar = std::make_shared<NavBar>();
     navbar->addButton(std::move(kitchenButton));
     navbar->addButton(std::move(homeButton));
     navbar->addButton(std::move(gymButton));
@@ -41,11 +41,11 @@ GymState::GymState(Engine *parentEngine) : GameState(parentEngine) {
     addElement(std::move(navbar));
 
 
-    auto camera = std::make_unique<Camera>(glm::vec3(0.0f, 0.0f, 4.0f));
+    auto camera = std::make_shared<Camera>(glm::vec3(0.0f, 0.0f, 4.0f));
 
     int width = _parentEngine->getWindow()->getWindowSize().first;
     int height = _parentEngine->getWindow()->getWindowSize().second;
-    auto gym = std::make_unique<Model>("Game/Resources/Models/AzaleaGym/AzaleaGym.obj",
+    auto gym = std::make_shared<Model>("Game/Resources/Models/AzaleaGym/AzaleaGym.obj",
                                        camera.get(),
                                        glm::vec3(-1.3f, -1.0f, -2.0f),
                                        0.02,
@@ -54,7 +54,7 @@ GymState::GymState(Engine *parentEngine) : GameState(parentEngine) {
                                        height,
                                        std::string("gym"));
 
-    auto pokemon = std::make_unique<AnimModel>("Game/Resources/Models/Meowth/stay.dae",
+    auto pokemon = std::make_shared<AnimModel>("Game/Resources/Models/Meowth/stay.dae",
                                                camera.get(),
                                                glm::vec3(0.9f, -1.0f, 0.0f),
                                                0.02,
@@ -63,7 +63,7 @@ GymState::GymState(Engine *parentEngine) : GameState(parentEngine) {
                                                height,
                                                std::string("pokemon"));
 
-    auto amie = std::make_unique<Model>("Game/Resources/Models/PokemonAmie/pink.dae",
+    auto amie = std::make_shared<Model>("Game/Resources/Models/PokemonAmie/pink.dae",
                                         camera.get(),
                                         glm::vec3(0.0f, -1.0f, -2.0f),
                                         0.015,
