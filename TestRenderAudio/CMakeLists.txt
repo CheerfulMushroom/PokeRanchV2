@@ -45,7 +45,6 @@ include_directories(${GMOCK_INCLUDE_DIRS})
 
 add_compile_definitions(DEBUG_MODEL)
 
-
 add_executable(first_test.out
         ${PROJECT_SHADER_PROGRAM_DIR}/ShaderProgram.cpp
         main_test.cpp

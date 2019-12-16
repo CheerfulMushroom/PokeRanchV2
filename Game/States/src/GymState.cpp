@@ -63,7 +63,7 @@ GymState::GymState(Engine *parentEngine) : GameState(parentEngine) {
                                                height,
                                                std::string("pokemon"));
 
-    auto amie = std::make_unique<Model>("Game/Resources/Models/PokemonAmie/withoutAll.dae",
+    auto amie = std::make_unique<Model>("Game/Resources/Models/PokemonAmie/pink.dae",
                                         camera.get(),
                                         glm::vec3(0.0f, -1.0f, -2.0f),
                                         0.015,
@@ -75,5 +75,4 @@ GymState::GymState(Engine *parentEngine) : GameState(parentEngine) {
     addElement(std::move(gym));
     addElement(std::move(pokemon));
     addElement(std::move(amie));
-
 }

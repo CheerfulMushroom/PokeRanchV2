@@ -14,7 +14,7 @@
 #define FPS 60
 
 int main() {
-    GameWindow screen(800, 450);
+    GameWindow screen(1280, 1024);
     Form authForm;
     NavBar navbar;
 
@@ -25,16 +25,8 @@ int main() {
     int width = std::get<0>(WindowSize);
     int height = std::get<1>(WindowSize);
 
-    Model gym("Game/Resources/Models/PokemonHouse/PokemonHouse.obj",
-            &camera,
-              glm::vec3(-1.3f, -1.0f, -2.0f),
-              0.02,
-              glm::vec3(0.0f, 38.0f, 0.0f),
-              width,
-              height,
-              std::string("gym"));
 
-    AnimModel pokemon("Game/Resources/Models/Meowth/stay.dae",
+    AnimModel pokemon("Game/Resources/Models/Litten/stay.dae",
                     &camera,
                     glm::vec3(0.9f, -1.0f, 0.0f),
                     0.02,
@@ -43,37 +35,38 @@ int main() {
                     height,
                     std::string("pokemon"));
 
-    Model amie("Game/Resources/Models/PokemonAmie/withoutAll.dae",
-            &camera,
-              glm::vec3(0.0f, -1.0f, -2.0f),
-              0.015,
-              glm::vec3(0.0f, 0.0f, 0.0f),
-              width,
-              height,
-              std::string("amie"));
-
+    AnimModel trainer("Game/Resources/Models/TrainerMale/avatar.dae",
+                      &camera,
+                      glm::vec3(0.9f, -1.0f, 0.0f),
+                      0.02,
+                      glm::vec3(90.0f, 140.0f, 0.0f),
+                      width,
+                      height,
+                      std::string("trainer"));
 
     #ifdef DEBUG_MODEL
-    gym.shader.setSources(std::make_tuple("Engine/Renderable/Shaders/v_model_shader.vs", "Engine/Renderable/Shaders/f_model_shader.fs"));
-    gym.shader.compileSources();
-//
+//    gym.shader.setSources(std::make_tuple("Engine/Renderable/Shaders/v_model_shader.vs", "Engine/Renderable/Shaders/f_model_shader.fs"));
+//    gym.shader.compileSources();
+
 //    suit.shader.setSources(std::make_tuple("Engine/Renderable/Shaders/v_model_shader.vs", "Engine/Renderable/Shaders/f_model_shader.fs"));
 //    suit.shader.compileSources();
 
-    amie.shader.setSources(std::make_tuple("Engine/Renderable/Shaders/v_model_shader.vs", "Engine/Renderable/Shaders/f_model_shader.fs"));
-    amie.shader.compileSources();
+//    amie.shader.setSources(std::make_tuple("Engine/Renderable/Shaders/v_model_shader.vs", "Engine/Renderable/Shaders/f_model_shader.fs"));
+//    amie.shader.compileSources();
+//
+//    logo.shader.setSources(std::make_tuple("Engine/Renderable/Shaders/v_model_shader.vs", "Engine/Renderable/Shaders/f_model_shader.fs"));
+//    logo.shader.compileSources();
     #endif
-
 
     auto func = []() {
         std::cout << "KEK" << std::endl;
     };
 
-    auto kitchenButton = std::make_unique<ImageButton>("Game/Resources/Pictures/cake-slice.png", ImVec2(64.0f, 64.0f), 5, false, func);
-    auto homeButton = std::make_unique<ImageButton>("Game/Resources/Pictures/house.png", ImVec2(64.0f, 64.0f), 5, false, func);
+    auto kitchenButton = std::make_unique<ImageButton>("Game/Resources/Pictures/cake-slice.png", ImVec2(64.0f, 64.0f), 5, true, func);
+    auto homeButton = std::make_unique<ImageButton>("Game/Resources/Pictures/house.png", ImVec2(64.0f, 64.0f), 5, true, func);
     auto gymButton = std::make_unique<ImageButton>("Game/Resources/Pictures/muscle-up.png", ImVec2(128.0f, 128.0f), 5, true, func);
-    auto socialButton = std::make_unique<ImageButton>("Game/Resources/Pictures/human-pyramid.png", ImVec2(64.0f, 64.0f), 5, false, func);
-    auto battleButton = std::make_unique<ImageButton>("Game/Resources/Pictures/champions.png", ImVec2(64.0f, 64.0f), 5, false, func);
+    auto socialButton = std::make_unique<ImageButton>("Game/Resources/Pictures/human-pyramid.png", ImVec2(64.0f, 64.0f), 5, true, func);
+    auto battleButton = std::make_unique<ImageButton>("Game/Resources/Pictures/champions.png", ImVec2(64.0f, 64.0f), 5, true, func);
 
     navbar.addButton(std::move(kitchenButton));
     navbar.addButton(std::move(homeButton));
@@ -85,18 +78,19 @@ int main() {
         double frame_start_time = glfwGetTime();
         screen.frameInit();
 
-        //ImGui::ShowDemoWindow();
+        ImGui::ShowDemoWindow();
 
-        authForm.render();
+        //authForm.render();
 
-        navbar.render();
+        //navbar.render();
 
-        gym.render();
-        //suit.render();
-        pokemon.update(0.0);
-        pokemon.render();
 
-        amie.render();
+//        pokemon.update(0.0);
+//        pokemon.render();
+
+//        trainer.update(0.0);
+//        trainer.render();
+
 
         double allowed_frame_time = 1.0 / FPS;
         double frame_end_time = glfwGetTime();

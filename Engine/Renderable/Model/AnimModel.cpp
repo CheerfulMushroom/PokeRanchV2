@@ -98,6 +98,7 @@ bool AnimModel::load_mesh(const string &Filename) {
         Ret = InitFromScene(m_pScene, Filename);
     } else {
         printf("Error parsing '%s': '%s'\n", Filename.c_str(), m_Importer.GetErrorString());
+        exit(EXIT_FAILURE);
     }
 
     // Make sure the VAO is not changed from the outside

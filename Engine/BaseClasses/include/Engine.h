@@ -8,8 +8,8 @@
 
 class Engine {
 public:
-    Engine(int width = 900, int height=450, int fps=30);
-    explicit Engine(std::unique_ptr<GameState> newState, int width = 900, int height=450, int fps=30);
+    Engine(int width = 1024, int height=720, int fps=30);
+    explicit Engine(std::unique_ptr<GameState> newState, int width = 1024, int height=720, int fps=30);
     ~Engine() = default;
 
     void setState(std::unique_ptr<GameState> newState);

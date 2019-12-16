@@ -4,21 +4,13 @@
 #include <imgui.h>
 #include <imgui_internal.h>
 
-//static std::vector<std::string> texturesPaths = {
-//        "Game/Resources/Pictures/cake-slice.png",
-//        "Game/Resources/Pictures/house.png",
-//        "Game/Resources/Pictures/muscle-up.png",
-//        "Game/Resources/Pictures/human-pyramid.png",
-//        "Game/Resources/Pictures/champions.png"
-//};
-
-
 NavBar::NavBar() : windowFlags(0) {
+    #ifndef GUI_DEBUG
     windowFlags |= ImGuiWindowFlags_NoTitleBar;
     windowFlags |= ImGuiWindowFlags_NoResize;
     windowFlags |= ImGuiWindowFlags_NoBackground;
     windowFlags |= ImGuiWindowFlags_NoMove;
-
+    #endif
 }
 
 
