@@ -13,7 +13,7 @@
 GameState::GameState(Engine *parentEngine) : _parentEngine(parentEngine),
                                              _stateName("Default state") {}
 
-void GameState::addElement(std::unique_ptr<GameElement> element) {
+void GameState::addElement(std::shared_ptr<GameElement> element) {
 #ifdef DEBUG_GAME_STATE
     std::cout << "Adding element id: "
               << element->getMeta("id") << std::endl;
@@ -54,9 +54,9 @@ void GameState::render() {
 }
 
 void GameState::pollElements() {
-    std::vector<std::pair<std::unique_ptr<GameElement>&, double>> contenders;
+    std::vector<std::pair<std::shared_ptr<GameElement>&, double>> contenders;
 
-    for (std::unique_ptr<GameElement> &element: _elements) {
+    for (std::shared_ptr<GameElement> &element: _elements) {
         if (element->isClicked()) {
             contenders.emplace_back(element, element->getDistance());
         }

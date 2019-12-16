@@ -9,16 +9,16 @@
 class Engine {
 public:
     Engine(int width = 1024, int height=720, int fps=30);
-    explicit Engine(std::unique_ptr<GameState> newState, int width = 1024, int height=720, int fps=30);
+    explicit Engine(std::shared_ptr<GameState> newState, int width = 1024, int height=720, int fps=30);
     ~Engine() = default;
 
-    void setState(std::unique_ptr<GameState> newState);
+    void setState(std::shared_ptr<GameState> newState);
     void start();
 
     GameWindow* getWindow();
 
 protected:
-    std::unique_ptr<GameState> _currState;
+    std::shared_ptr<GameState> _currState;
     GameWindow _window;
     int _fps;
 };

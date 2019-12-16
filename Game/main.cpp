@@ -4,7 +4,7 @@
 
 int main() {
     auto engine = Engine();
-    auto state = std::make_unique<SelectionState>(&engine);
+    auto state = std::make_shared<SelectionState>(&engine);
     engine.setState(std::move(state));
     engine.start();
 }

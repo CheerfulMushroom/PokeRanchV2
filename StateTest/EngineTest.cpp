@@ -8,9 +8,9 @@
 TEST(Engine, checkSetState) {
     Engine engine;
 
-    auto state = std::make_unique<GameState>(&engine);
-    auto el1 = std::make_unique<GameElement>();
-    auto el2 = std::make_unique<GameElement>();
+    auto state = std::make_shared<GameState>(&engine);
+    auto el1 = std::make_shared<GameElement>();
+    auto el2 = std::make_shared<GameElement>();
     EXPECT_TRUE(el1->addMeta("id", "192"));
     EXPECT_TRUE(el1->addMeta("type", "test"));
 

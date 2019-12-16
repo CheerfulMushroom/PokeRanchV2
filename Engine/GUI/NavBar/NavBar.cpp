@@ -14,7 +14,7 @@ NavBar::NavBar() : windowFlags(0) {
 }
 
 
-void NavBar::addButton(std::unique_ptr<ImageButton> button) {
+void NavBar::addButton(std::shared_ptr<ImageButton> button) {
     _elements.push_back(std::move(button));
 }
 
@@ -53,9 +53,9 @@ double NavBar::getDistance() {
 }
 
 void NavBar::exec() {
-    std::vector<std::pair<std::unique_ptr<GameElement> &, double>> contenders;
+    std::vector<std::pair<std::shared_ptr<GameElement> &, double>> contenders;
 
-    for (std::unique_ptr<GameElement> &element: _elements) {
+    for (std::shared_ptr<GameElement> &element: _elements) {
         if (element->isClicked()) {
             contenders.emplace_back(element, element->getDistance());
         }

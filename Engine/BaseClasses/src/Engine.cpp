@@ -19,7 +19,7 @@ Engine::Engine(int width, int height, int fps) :
         _window(width, height),
         _fps(fps) {}
 
-Engine::Engine(std::unique_ptr<GameState> newState, int width, int height, int fps) :
+Engine::Engine(std::shared_ptr<GameState> newState, int width, int height, int fps) :
         _currState(std::move(newState)),
         _window(width, height),
         _fps(fps) {
@@ -28,7 +28,7 @@ Engine::Engine(std::unique_ptr<GameState> newState, int width, int height, int f
 #endif
 }
 
-void Engine::setState(std::unique_ptr<GameState> newState) {
+void Engine::setState(std::shared_ptr<GameState> newState) {
     _currState = std::move(newState);
 #ifdef DEBUG_ENGINE
     std::cout << "Engine state is set to: " << _currState->getName() << std::endl;
