@@ -1,14 +1,9 @@
 #include <iostream>
 
-<<<<<<< HEAD
-static auto func = []() {
-    std::cout << "log in!" << std::endl;
-};
-=======
+
 #include "Form.h"
 #include "imgui.h"
 
->>>>>>> 995b53d2eb7d35290f9e8d15619421eed58bcd92
 
 Form::Form(): _windowFlags(0) {
 #ifndef GUI_DEBUG

@@ -7,7 +7,7 @@ include_directories(${OPENCV_INCLUDE_DIRS})
 
 #add_compile_definitions(DEBUG_MODEL)
 #add_compile_definitions(DEBUG_GAME_STATE)
-add_compile_definitions(GUI_DEBUG)
+#add_compile_definitions(GUI_DEBUG)
 
 include_directories("${PROJECT_SHADER_PROGRAM_DIR}")
 include_directories("${PROJECT_GAME_WINDOW_DIR}")
