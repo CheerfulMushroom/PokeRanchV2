@@ -4,7 +4,7 @@
 #include "imgui.h"
 
 
-Form::Form() {
+Form::Form(): _windowFlags(0) {
 #ifndef GUI_DEBUG
     _windowFlags |= ImGuiWindowFlags_NoTitleBar;
     _windowFlags |= ImGuiWindowFlags_NoResize;
