@@ -5,7 +5,7 @@ find_package(OpenCV REQUIRED)
 include_directories(${OPENCV_INCLUDE_DIRS})
 
 
-add_compile_definitions(DEBUG_MODEL)
+#add_compile_definitions(DEBUG_MODEL)
 #add_compile_definitions(DEBUG_GAME_STATE)
 #add_compile_definitions(GUI_DEBUG)
 
@@ -19,6 +19,7 @@ include_directories("${PROJECT_BUTTON_DIR}")
 include_directories("${PROJECT_NAVBAR_DIR}")
 include_directories("${PROJECT_NETWORK_DIR}")
 include_directories("${PROJECT_STATES_DIR}/include")
+include_directories("${PROJECT_UTILS_DIR}/PathManager")
 
 
 add_executable(main.out
@@ -35,6 +36,8 @@ add_executable(main.out
         ${PROJECT_BASE_CLASSES_DIR}/src/GameElement.cpp
         ${PROJECT_BASE_CLASSES_DIR}/src/GameState.cpp
         ${PROJECT_BASE_CLASSES_DIR}/src/NetworkManager.cpp
+        ${PROJECT_UTILS_DIR}/PathManager/PathManager.cpp
+        ${PROJECT_NETWORK_DIR}/UserSession.cpp
 
         ${PROJECT_IMGUI_DIR}/imgui.cpp
         ${PROJECT_IMGUI_DIR}/imgui_demo.cpp

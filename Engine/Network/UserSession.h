@@ -13,10 +13,12 @@ class UserSession {
 
     bool syncData(std::map<std::string, std::string> &info);
 
+    std::string getPokemonName(); // при поддержке нескольких покемонов std::vector<std::string>
+    std::string getTrainerName();
+
  private:
     std::string _userToken;
     std::map<std::string, std::string> _info; // в каком виде будем хранить информацию пользователя ?
-
 };
 
 

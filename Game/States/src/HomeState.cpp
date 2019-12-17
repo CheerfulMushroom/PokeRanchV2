@@ -10,14 +10,17 @@
 #include "Camera.h"
 #include "Model.h"
 #include "AnimModel.h"
+#include <UserSession.h>
+#include <PathManager.h>
 
 HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
     auto func = std::function([] {});
 
-//    auto switchToAuth = std::function([=] {
-//        auto authState = std::make_shared<AuthState>(_parentEngine);
-//        _parentEngine->setState(std::move(authState));
-//    });
+    UserSession session;
+    PathManager pathManager;
+
+    bool result = session.logIn("booooooom", "password11", "asdjh@");
+
 
     auto switchToKitchen = std::function([=] {
         auto kitchenState = std::make_shared<KitchenState>(_parentEngine);
@@ -69,7 +72,11 @@ HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
                                          height,
                                          std::string("house"));
 
-    auto pokemon = std::make_shared<AnimModel>("Game/Resources/Models/Pikachu/stay.dae",
+
+    std::string pokemonName = session.getPokemonName();
+    std::string pokemonPath = pathManager.getPokemonPath(pokemonName, "stay");
+
+    auto pokemon = std::make_shared<AnimModel>(pokemonPath,
                                                camera.get(),
                                                glm::vec3(-0.9f, -1.0f, 0.0f),
                                                0.02,
@@ -90,5 +97,4 @@ HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
     addElement(std::move(house));
     addElement(std::move(pokemon));
     addElement(std::move(amie));
-
 }

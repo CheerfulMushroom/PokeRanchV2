@@ -2,7 +2,6 @@
 #include <imgui.h>
 #include <iostream>
 
-
 static auto func = []() {
     std::cout << "log in!" << std::endl;
 };

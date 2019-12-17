@@ -104,7 +104,8 @@ SelectionState::SelectionState(Engine *parentEngine) : GameState(parentEngine) {
     });
 
 
-    auto deleteButtonLeft = std::make_shared<ImageButton>("Game/Resources/Pictures/arrowToLeft.png",
+    //"Game/Resources/Pictures/arrowToLeft.png"
+    auto deleteButtonLeft = std::make_shared<ImageButton>("Game/Resources/Pictures/LittenIcon.png",
                                                       ImVec2(64.0f, 64.0f),
                                                       5, true, changeModelToLeft);
 

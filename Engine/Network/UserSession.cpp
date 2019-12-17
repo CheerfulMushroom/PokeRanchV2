@@ -9,7 +9,7 @@ bool UserSession::logIn(const std::string &login, const std::string &password, c
 
         infoForAuth.insert(std::make_pair("login", login));
         infoForAuth.insert(std::make_pair("password", password));
-        infoForAuth.insert(std::make_pair("mail", mail));
+        infoForAuth.insert(std::make_pair("mail", mail)); // исключить почту ?
 
         std::string responseBody = networkManager.post("/auth", infoForAuth);
 
@@ -22,8 +22,13 @@ bool UserSession::logIn(const std::string &login, const std::string &password, c
             return false;
         } else {
             _userToken = tokenPair->second;
-            return true;
         }
+
+        responseBody = networkManager.get("/get_profile");
+        _info = networkManager.jsonToMap(responseBody);
+
+        //check info for valid ?
+        return true;
     }
 
     catch (std::exception const& e) {
@@ -32,3 +37,22 @@ bool UserSession::logIn(const std::string &login, const std::string &password, c
     }
 }
 
+std::string UserSession::getPokemonName() {
+    auto pokemonPair = _info.find("pokemon");
+
+    if (pokemonPair == _info.end()) {
+        std::__throw_logic_error("pokemon field doesnt exist");
+    }
+
+    return pokemonPair->second;
+}
+
+std::string UserSession::getTrainerName() {
+    auto trainerPair = _info.find("trainer");
+
+    if (trainerPair == _info.end()) {
+        std::__throw_logic_error("trainer field doesnt exist");
+    }
+
+    return trainerPair->second;
+}

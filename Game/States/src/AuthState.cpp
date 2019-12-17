@@ -14,7 +14,7 @@ AuthState::AuthState(Engine *parentEngine) : GameState(parentEngine) {
     int height = _parentEngine->getWindow()->getWindowSize().second;
 
 
-    auto logo = std::make_shared<Model>("Game/Resources/Models/PokemonLogo/Logo.dae",
+    auto logo = std::make_shared<Model>("Game/Resources/Models/Static/PokemonLogo/Logo.dae",
                                         camera.get(),
                                         glm::vec3(0.0f, 1.4f, -2.0f),
                                         0.006,
