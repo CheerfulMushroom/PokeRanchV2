@@ -4,21 +4,21 @@
 #include <GameElement.h>
 #include <functional>
 
-static const int labelSize = 64;
 
-class Button : GameElement {
- public:
-    Button(std::string _label, const std::function<void()> &func);
+class Button : public GameElement {
+public:
+    Button(std::string label, std::function<void()> func);
 
     void render() override;
+    bool isClicked() override;
+    double getDistance() override;
     void exec() override;
 
-    void update(double) override {}
+private:
+    std::string _label;
+    std::function<void()> _execFunc;
+    bool _isClicked;
 
-
- private:
-    char label[labelSize];
-    std::function<void ()> _execFunc;
 };
 
 #endif

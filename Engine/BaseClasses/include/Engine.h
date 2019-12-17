@@ -5,6 +5,7 @@
 
 #include "GameState.h"
 #include "GameWindow.h"
+#include "UserSession.h"
 
 class Engine {
 public:
@@ -20,6 +21,7 @@ public:
 protected:
     std::shared_ptr<GameState> _currState;
     GameWindow _window;
+    UserSession session;
     int _fps;
 };
 

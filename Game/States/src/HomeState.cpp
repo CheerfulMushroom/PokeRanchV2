@@ -50,11 +50,11 @@ HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
                                                       5, true, func);
 
     auto navbar = std::make_shared<NavBar>();
-    navbar->addButton(std::move(kitchenButton));
-    navbar->addButton(std::move(homeButton));
-    navbar->addButton(std::move(gymButton));
-    navbar->addButton(std::move(socialButton));
-    navbar->addButton(std::move(battleButton));
+    navbar->addElement(std::move(kitchenButton));
+    navbar->addElement(std::move(homeButton));
+    navbar->addElement(std::move(gymButton));
+    navbar->addElement(std::move(socialButton));
+    navbar->addElement(std::move(battleButton));
     addElement(std::move(navbar));
 
 
