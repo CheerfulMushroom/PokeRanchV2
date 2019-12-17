@@ -1,10 +1,10 @@
 #include "Engine.h"
-#include "HomeState.h"
+#include "AuthState.h"
 #include "SelectionState.h"
 
 int main() {
     auto engine = Engine();
-    auto state = std::make_shared<SelectionState>(&engine);
+    auto state = std::make_shared<AuthState>(&engine);
     engine.setState(std::move(state));
     engine.start();
 }

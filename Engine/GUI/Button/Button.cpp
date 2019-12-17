@@ -1,20 +1,29 @@
-#include <Button.h>
-#include <imgui.h>
-#include <iostream>
+#include "Button.h"
+#include "imgui.h"
 
-Button::Button(std::string _label, const std::function<void()> &func)  : _execFunc(func){
-    assert(_label.size() < labelSize);
-    memcpy(label, _label.c_str(), labelSize);
-}
-
-void Button::exec() {
-    _execFunc();
-}
+Button::Button(std::string label, std::function<void()> func) :
+        _label(std::move(label)),
+        _execFunc(std::move(func)),
+        _isClicked(false) {}
 
 
 void Button::render() {
-    if (ImGui::Button(label)) {
-        exec();
+    if (ImGui::Button(_label.c_str())) {
+        _isClicked = true;
     }
 }
+
+bool Button::isClicked() {
+    return _isClicked;
+}
+
+double Button::getDistance() {
+    return 0;
+}
+
+void Button::exec() {
+    _isClicked = false;
+    _execFunc();
+}
+
 

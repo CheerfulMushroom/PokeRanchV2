@@ -115,8 +115,8 @@ SelectionState::SelectionState(Engine *parentEngine) : GameState(parentEngine) {
 
 
     auto navbar = std::make_shared<NavBar>();
-    navbar->addButton(std::move(deleteButtonLeft));
-    navbar->addButton(std::move(deleteButtonRight));
+    navbar->addElement(std::move(deleteButtonLeft));
+    navbar->addElement(std::move(deleteButtonRight));
 
     addElement(std::move(navbar));
     addElement(std::move(camera));

@@ -68,11 +68,11 @@ int main() {
     auto socialButton = std::make_shared<ImageButton>("Game/Resources/Pictures/human-pyramid.png", ImVec2(64.0f, 64.0f), 5, true, func);
     auto battleButton = std::make_shared<ImageButton>("Game/Resources/Pictures/champions.png", ImVec2(64.0f, 64.0f), 5, true, func);
 
-    navbar.addButton(std::move(kitchenButton));
-    navbar.addButton(std::move(homeButton));
-    navbar.addButton(std::move(gymButton));
-    navbar.addButton(std::move(socialButton));
-    navbar.addButton(std::move(battleButton));
+    navbar.addElement(std::move(kitchenButton));
+    navbar.addElement(std::move(homeButton));
+    navbar.addElement(std::move(gymButton));
+    navbar.addElement(std::move(socialButton));
+    navbar.addElement(std::move(battleButton));
 
     while (!glfwWindowShouldClose(screen.getWindow())) {
         double frame_start_time = glfwGetTime();

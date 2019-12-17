@@ -7,7 +7,7 @@ include_directories(${OPENCV_INCLUDE_DIRS})
 
 add_compile_definitions(DEBUG_MODEL)
 #add_compile_definitions(DEBUG_GAME_STATE)
-#add_compile_definitions(GUI_DEBUG)
+add_compile_definitions(GUI_DEBUG)
 
 include_directories("${PROJECT_SHADER_PROGRAM_DIR}")
 include_directories("${PROJECT_GAME_WINDOW_DIR}")
@@ -16,9 +16,11 @@ include_directories("${PROJECT_BASE_CLASSES_DIR}/include")
 include_directories("${PROJECT_FORM_DIR}")
 include_directories("${PROJECT_IMGUI_DIR}")
 include_directories("${PROJECT_BUTTON_DIR}")
+include_directories("${PROJECT_INPUTTEXT_DIR}")
 include_directories("${PROJECT_NAVBAR_DIR}")
 include_directories("${PROJECT_NETWORK_DIR}")
 include_directories("${PROJECT_STATES_DIR}/include")
+
 
 
 add_executable(main.out
@@ -44,6 +46,7 @@ add_executable(main.out
         ${PROJECT_IMGUI_DIR}/imgui_widgets.cpp
 
         ${PROJECT_BUTTON_DIR}/Button.cpp
+        ${PROJECT_INPUTTEXT_DIR}/InputText.cpp
         ${PROJECT_BUTTON_DIR}/ImageButton.cpp
         ${PROJECT_FORM_DIR}/Form.cpp
         ${PROJECT_NAVBAR_DIR}/NavBar.cpp
