@@ -1,25 +1,18 @@
-#include <NavBar.h>
-#include <opencv2/opencv.hpp>
-#include <GL/glew.h>
-#include <imgui.h>
-#include <imgui_internal.h>
+#include "NavBar.h"
+#include "imgui.h"
+#include "imgui_internal.h"
 
-NavBar::NavBar() : windowFlags(0) {
-    #ifndef GUI_DEBUG
-    windowFlags |= ImGuiWindowFlags_NoTitleBar;
-    windowFlags |= ImGuiWindowFlags_NoResize;
-    windowFlags |= ImGuiWindowFlags_NoBackground;
-    windowFlags |= ImGuiWindowFlags_NoMove;
-    #endif
-}
-
-
-void NavBar::addButton(std::unique_ptr<ImageButton> button) {
-    _elements.push_back(std::move(button));
+NavBar::NavBar() : _windowFlags(0) {
+#ifndef GUI_DEBUG
+    _windowFlags |= ImGuiWindowFlags_NoTitleBar;
+    _windowFlags |= ImGuiWindowFlags_NoResize;
+    _windowFlags |= ImGuiWindowFlags_NoBackground;
+    _windowFlags |= ImGuiWindowFlags_NoMove;
+#endif
 }
 
 void NavBar::render() {
-    ImGui::Begin("navbar", nullptr, windowFlags);
+    ImGui::Begin("navbar", nullptr, _windowFlags);
 
     for (size_t i = 0; i < _elements.size(); i++) {
         ImGui::PushID(i);
@@ -53,9 +46,9 @@ double NavBar::getDistance() {
 }
 
 void NavBar::exec() {
-    std::vector<std::pair<std::unique_ptr<GameElement> &, double>> contenders;
+    std::vector<std::pair<std::shared_ptr<GameElement> &, double>> contenders;
 
-    for (std::unique_ptr<GameElement> &element: _elements) {
+    for (std::shared_ptr<GameElement> &element: _elements) {
         if (element->isClicked()) {
             contenders.emplace_back(element, element->getDistance());
         }
@@ -74,4 +67,8 @@ void NavBar::exec() {
 
         contenders[minIdx].first->exec();
     }
+}
+
+void NavBar::addElement(std::shared_ptr<GameElement> element) {
+    _elements.push_back(std::move(element));
 }

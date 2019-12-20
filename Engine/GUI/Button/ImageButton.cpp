@@ -50,7 +50,7 @@ void ImageButton::render() {
                            ImVec2(0, 0),
                            ImVec2(1, 1),
                            _padding,
-                           ImVec4(0.0f, 0.0f, 0.f, 1.0f))) {
+                           ImVec4(0.0f, 0.0f, 0.0f, 1.0f))) {
         _isClicked = true;
     }
 

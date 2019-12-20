@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <memory>
 
 #include "GameElement.h"
 #include "GameState.h"
@@ -6,8 +7,8 @@
 
 TEST(GameState, checkAddDelete) {
     GameState state(nullptr);
-    auto el1 = std::make_unique<GameElement>();
-    auto el2 = std::make_unique<GameElement>();
+    auto el1 = std::make_shared<GameElement>();
+    auto el2 = std::make_shared<GameElement>();
     EXPECT_TRUE(el1->addMeta("id", "192"));
     EXPECT_TRUE(el1->addMeta("type", "test"));
 

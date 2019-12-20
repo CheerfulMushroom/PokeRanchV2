@@ -14,7 +14,7 @@ public:
     explicit GameState(Engine* parent);
     virtual ~GameState() = default;
 
-    void addElement(std::unique_ptr<GameElement> element);
+    void addElement(std::shared_ptr<GameElement> element);
     bool deleteElement(const std::function<bool(GameElement *)> &cmp);
     int getElementsAmount();
 
@@ -26,7 +26,7 @@ public:
 
 protected:
     Engine* _parentEngine;
-    std::vector<std::unique_ptr<GameElement>> _elements;
+    std::vector<std::shared_ptr<GameElement>> _elements;
     std::string _stateName;
 };
 

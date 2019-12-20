@@ -1,11 +1,11 @@
 #ifndef POKERANCH_V2_GUI_NAVBAR_H_
 #define POKERANCH_V2_GUI_NAVBAR_H_
 
-#include <GameElement.h>
 #include <vector>
-#include <imgui.h>
-#include <ImageButton.h>
 #include <memory>
+
+#include "imgui.h"
+#include "GameElement.h"
 
 class NavBar : public GameElement {
  public:
@@ -16,12 +16,12 @@ class NavBar : public GameElement {
     double getDistance() override;
     void exec() override;
 
-    void addButton(std::unique_ptr<ImageButton> button);
+    void addElement(std::shared_ptr<GameElement> button);
 
  private:
-    ImGuiWindowFlags windowFlags;
+    ImGuiWindowFlags _windowFlags;
 
-    std::vector<std::unique_ptr<GameElement>> _elements;
+    std::vector<std::shared_ptr<GameElement>> _elements;
 };
 
 #endif

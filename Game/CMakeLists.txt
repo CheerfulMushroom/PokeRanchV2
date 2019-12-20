@@ -16,9 +16,12 @@ include_directories("${PROJECT_BASE_CLASSES_DIR}/include")
 include_directories("${PROJECT_FORM_DIR}")
 include_directories("${PROJECT_IMGUI_DIR}")
 include_directories("${PROJECT_BUTTON_DIR}")
+include_directories("${PROJECT_INPUTTEXT_DIR}")
 include_directories("${PROJECT_NAVBAR_DIR}")
 include_directories("${PROJECT_NETWORK_DIR}")
 include_directories("${PROJECT_STATES_DIR}/include")
+include_directories("${PROJECT_UTILS_DIR}/PathManager")
+
 
 
 add_executable(main.out
@@ -28,13 +31,16 @@ add_executable(main.out
         ${PROJECT_STATES_DIR}/src/RegisterState.cpp
         ${PROJECT_STATES_DIR}/src/HomeState.cpp
         ${PROJECT_STATES_DIR}/src/KitchenState.cpp
-        ${PROJECT_STATES_DIR}/src/SelectionState.cpp
+        ${PROJECT_STATES_DIR}/src/TrainerSelectionState.cpp
+        ${PROJECT_STATES_DIR}/src/PokemonSelectionState.cpp
 
 
         ${PROJECT_BASE_CLASSES_DIR}/src/Engine.cpp
         ${PROJECT_BASE_CLASSES_DIR}/src/GameElement.cpp
         ${PROJECT_BASE_CLASSES_DIR}/src/GameState.cpp
         ${PROJECT_BASE_CLASSES_DIR}/src/NetworkManager.cpp
+        ${PROJECT_UTILS_DIR}/PathManager/PathManager.cpp
+        ${PROJECT_NETWORK_DIR}/UserSession.cpp
 
         ${PROJECT_IMGUI_DIR}/imgui.cpp
         ${PROJECT_IMGUI_DIR}/imgui_demo.cpp
@@ -44,6 +50,7 @@ add_executable(main.out
         ${PROJECT_IMGUI_DIR}/imgui_widgets.cpp
 
         ${PROJECT_BUTTON_DIR}/Button.cpp
+        ${PROJECT_INPUTTEXT_DIR}/InputText.cpp
         ${PROJECT_BUTTON_DIR}/ImageButton.cpp
         ${PROJECT_FORM_DIR}/Form.cpp
         ${PROJECT_NAVBAR_DIR}/NavBar.cpp

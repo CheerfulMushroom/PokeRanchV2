@@ -5,26 +5,29 @@
 #include <boost/property_tree/json_parser.hpp>
 #include <iostream>
 
-namespace http = boost::beast::http;
-
 HttpNetworkManager::HttpNetworkManager(const std::string &addr, const std::string &port) :
     _resolver(_ioContext),
     _stream(_ioContext),
     _addr(addr),
     _port(port) {
+}
 
+//HttpNetworkManager::~HttpNetworkManager() {}
+
+std::pair<http::status, std::string> HttpNetworkManager::get(const std::string &target, const std::string &queryString) {
+    // Open socket
     tcp::resolver::results_type endpoints = _resolver.resolve(_addr, _port);
     _stream.connect(endpoints);
-}
 
-HttpNetworkManager::~HttpNetworkManager() {
-    boost::beast::error_code errorCode;
-    _stream.socket().shutdown(tcp::socket::shutdown_both, errorCode);
-}
+    std::string targetWithQuery = target;
 
-std::string HttpNetworkManager::get(const std::string &target) {
-    // http 1.1 hardcode
-    http::request<http::string_body> request(http::verb::get, target, 11);
+    // отсюда тестим
+    if (!queryString.empty()) {
+        targetWithQuery += '?';
+        targetWithQuery += queryString;
+    }
+
+    http::request<http::string_body> request(http::verb::get, targetWithQuery, 11);
     request.set(http::field::host, _addr);
     request.set(http::field::user_agent, BOOST_BEAST_VERSION_STRING);
 
@@ -35,7 +38,11 @@ std::string HttpNetworkManager::get(const std::string &target) {
 
     http::read(_stream, buffer, response);
 
-    return response.body();
+    // Close socket
+    boost::beast::error_code errorCode;
+    _stream.socket().shutdown(tcp::socket::shutdown_both, errorCode);
+
+    return std::make_pair(response.result(), response.body());
 }
 
 std::map<std::string, std::string> HttpNetworkManager::jsonToMap(std::string &jsonBody) {
@@ -68,7 +75,11 @@ void HttpNetworkManager::mapToJson(std::map<std::string, std::string> &info, std
 }
 
 
-std::string HttpNetworkManager::post(const std::string &target, std::map<std::string, std::string> &infoForSend) {
+std::pair<http::status, std::string> HttpNetworkManager::post(const std::string &target, std::map<std::string, std::string> &infoForSend) {
+    // Open socket
+    tcp::resolver::results_type endpoints = _resolver.resolve(_addr, _port);
+    _stream.connect(endpoints);
+
     http::request<http::string_body> request(http::verb::post, target, 11);
     request.set(http::field::host, _addr);
     request.set(http::field::user_agent, BOOST_BEAST_VERSION_STRING);
@@ -89,7 +100,9 @@ std::string HttpNetworkManager::post(const std::string &target, std::map<std::st
 
     http::read(_stream, buffer, response);
 
-    //std::cout << response << std::endl;
+    // Close socket
+    boost::beast::error_code errorCode;
+    _stream.socket().shutdown(tcp::socket::shutdown_both, errorCode);
 
-    return response.body();
+    return std::make_pair(response.result(), response.body());
 }
