@@ -6,7 +6,7 @@ int main() {
     UserSession session;
     PathManager pathManager;
     
-    bool result = session.logIn("booooooom", "password11", "asdjh@");
+    bool result = session.auth("booooooom", "password11");
 
     std::cout << session.getPokemonName() << '\n';
     std::cout << session.getTrainerName() << '\n';

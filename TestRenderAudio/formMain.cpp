@@ -35,7 +35,7 @@ int main() {
                     height,
                     std::string("pokemon"));
 
-    AnimModel trainer("Game/Resources/Models/TrainerMale/avatar.dae",
+    AnimModel trainer("Game/Resources/Models/Red/stay.dae",
                       &camera,
                       glm::vec3(0.9f, -1.0f, 0.0f),
                       0.02,

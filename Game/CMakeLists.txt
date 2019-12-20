@@ -5,7 +5,7 @@ find_package(OpenCV REQUIRED)
 include_directories(${OPENCV_INCLUDE_DIRS})
 
 
-#add_compile_definitions(DEBUG_MODEL)
+add_compile_definitions(DEBUG_MODEL)
 #add_compile_definitions(DEBUG_GAME_STATE)
 #add_compile_definitions(GUI_DEBUG)
 
@@ -31,7 +31,8 @@ add_executable(main.out
         ${PROJECT_STATES_DIR}/src/RegisterState.cpp
         ${PROJECT_STATES_DIR}/src/HomeState.cpp
         ${PROJECT_STATES_DIR}/src/KitchenState.cpp
-        ${PROJECT_STATES_DIR}/src/SelectionState.cpp
+        ${PROJECT_STATES_DIR}/src/TrainerSelectionState.cpp
+        ${PROJECT_STATES_DIR}/src/PokemonSelectionState.cpp
 
 
         ${PROJECT_BASE_CLASSES_DIR}/src/Engine.cpp

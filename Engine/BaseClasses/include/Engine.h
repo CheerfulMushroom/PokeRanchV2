@@ -14,14 +14,16 @@ public:
     ~Engine() = default;
 
     void setState(std::shared_ptr<GameState> newState);
+
     void start();
 
     GameWindow* getWindow();
+    UserSession* getSession();
 
 protected:
     std::shared_ptr<GameState> _currState;
     GameWindow _window;
-    UserSession session;
+    UserSession _session;
     int _fps;
 };
 

@@ -59,6 +59,11 @@ void Engine::start() {
 
 }
 
+UserSession* Engine::getSession() {
+    return &_session;
+}
+
+
 GameWindow *Engine::getWindow() {
     return &_window;
 }

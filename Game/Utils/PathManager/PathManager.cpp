@@ -4,7 +4,7 @@ PathManager::PathManager() :
         _pathToCommonPictures("Game/Resources/Pictures/"),  // со слэшом или без ?
         _pathToAllModels("Game/Resources/Models/") {}
 
-std::string PathManager::getPokemonPath(const std::string &pokemonName, const std::string &animName) {
+std::string PathManager::getPokemonPath(const std::string &pokemonName, const std::string &animName) const {
     boost::filesystem::path resultPath(_pathToAllModels);
 
     resultPath /= "Pokemons";
@@ -17,7 +17,7 @@ std::string PathManager::getPokemonPath(const std::string &pokemonName, const st
     return resultPath.string();
 }
 
-std::string PathManager::getTrainerPath(const std::string &trainerName, const std::string &animName) {
+std::string PathManager::getTrainerPath(const std::string &trainerName, const std::string &animName) const {
     boost::filesystem::path resultPath(_pathToAllModels);
 
     resultPath /= "Trainers";

@@ -1,47 +1,150 @@
 #include <UserSession.h>
 #include <HttpNetworkManager.h>
 
-bool UserSession::logIn(const std::string &login, const std::string &password, const std::string &mail) {
-    try {
-        HttpNetworkManager networkManager("0.0.0.0", "8888");
+UserSession::UserSession() : networkManager("0.0.0.0", "8888") {}
 
+http::status UserSession::auth(const std::string &login, const std::string &password) {
+    try {
         std::map<std::string, std::string> infoForAuth;
 
         infoForAuth.insert(std::make_pair("login", login));
         infoForAuth.insert(std::make_pair("password", password));
-        infoForAuth.insert(std::make_pair("mail", mail)); // исключить почту ?
 
-        std::string responseBody = networkManager.post("/auth", infoForAuth);
+        std::pair<http::status, std::string> response = networkManager.post("/auth", infoForAuth);
 
-        std::map<std::string, std::string> toMemory = networkManager.jsonToMap(responseBody);
+        if (response.first != http::status::ok) {
+            return response.first;
+        }
+
+        std::map<std::string, std::string> toMemory = networkManager.jsonToMap(response.second);
 
         auto tokenPair = toMemory.find("token");
 
-        if (tokenPair == toMemory.end()) {
-            std::cout << "Bad auth" << std::endl;
-            return false;
-        } else {
-            _userToken = tokenPair->second;
-        }
+        _userToken = tokenPair->second;
 
-        responseBody = networkManager.get("/get_profile");
-        _info = networkManager.jsonToMap(responseBody);
-
-        //check info for valid ?
-        return true;
+        return response.first;
     }
 
     catch (std::exception const& e) {
         std::cerr << "Error: " << e.what() << std::endl;
-        return false;
+        return http::status::unknown;
     }
 }
+
+http::status UserSession::getProfile(const std::string &login) {
+    std::string queryString = "token=" + _userToken + "&login" + "=" + login;
+
+    std::pair<http::status, std::string> response = networkManager.get("/get_profile", queryString);
+
+    if (response.first != http::status::ok) {
+        return response.first;
+    }
+
+    _info = networkManager.jsonToMap(response.second);
+    return response.first;
+}
+
+http::status UserSession::registration(const std::string &login, const std::string &password, const std::string &mail) {
+    try {
+        std::map<std::string, std::string> infoForAuth;
+
+        infoForAuth.insert(std::make_pair("login", login));
+        infoForAuth.insert(std::make_pair("password", password));
+        infoForAuth.insert(std::make_pair("mail", mail));
+
+        std::pair<http::status, std::string> response = networkManager.post("/register", infoForAuth);
+
+        return response.first;
+    }
+
+    catch (std::exception const& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+        return http::status::unknown;
+    }
+}
+
+http::status UserSession::addPokemon(const std::string &pokemonName) {
+    try {
+        std::map<std::string, std::string> pokemonInfo;
+
+        pokemonInfo.insert(std::make_pair("token", _userToken));
+        pokemonInfo.insert(std::make_pair("name", pokemonName));
+
+        std::pair<http::status, std::string> response= networkManager.post("/add_pokemon", pokemonInfo);
+
+        return response.first;
+
+    } catch (std::exception const& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+        return http::status::unknown;
+    }
+}
+
+http::status UserSession::addTrainer(const std::string &trainerName) {
+    try {
+        std::map<std::string, std::string> trainerInfo;
+
+        trainerInfo.insert(std::make_pair("token", _userToken));
+        trainerInfo.insert(std::make_pair("name", trainerName));
+
+        std::pair<http::status, std::string> response= networkManager.post("/add_trainer", trainerInfo);
+
+        return response.first;
+
+    } catch (std::exception const& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+        return http::status::unknown;
+    }
+}
+
+http::status UserSession::getPokemon() {
+    std::string queryString = "token=" + _userToken;
+
+    std::pair<http::status, std::string> response = networkManager.get("/get_pokemon", queryString);
+
+    if (response.first != http::status::ok) {
+        return response.first;
+    }
+
+    _info = networkManager.jsonToMap(response.second);
+    return response.first;
+}
+
+http::status UserSession::getTrainer() {
+    std::string queryString = "token=" + _userToken;
+
+    std::pair<http::status, std::string> response = networkManager.get("/get_trainer", queryString);
+
+    if (response.first != http::status::ok) {
+        return response.first;
+    }
+
+    _info = networkManager.jsonToMap(response.second);
+    return response.first;
+}
+
+http::status UserSession::logOut() {
+    try {
+        std::map<std::string, std::string> tokenInfo;
+
+        tokenInfo.insert(std::make_pair("token", _userToken));
+
+        std::pair<http::status, std::string> response= networkManager.post("/add_pokemon", tokenInfo);
+
+        return response.first;
+
+    } catch (std::exception const& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+        return http::status::unknown;
+    }
+}
+
 
 std::string UserSession::getPokemonName() {
     auto pokemonPair = _info.find("pokemon");
 
     if (pokemonPair == _info.end()) {
-        std::__throw_logic_error("pokemon field doesnt exist");
+        return "";
     }
 
     return pokemonPair->second;
@@ -51,7 +154,7 @@ std::string UserSession::getTrainerName() {
     auto trainerPair = _info.find("trainer");
 
     if (trainerPair == _info.end()) {
-        std::__throw_logic_error("trainer field doesnt exist");
+        return "";
     }
 
     return trainerPair->second;
