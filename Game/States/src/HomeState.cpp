@@ -53,7 +53,7 @@ HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
     navbar->addElement(std::move(gymButton));
     navbar->addElement(std::move(socialButton));
     navbar->addElement(std::move(battleButton));
-    //addElement(std::move(navbar));
+    addElement(std::move(navbar));
 
 
     auto camera = std::make_shared<Camera>(glm::vec3(0.0f, 0.0f, 4.0f));

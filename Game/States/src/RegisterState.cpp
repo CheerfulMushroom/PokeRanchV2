@@ -26,7 +26,7 @@ RegisterState::RegisterState(Engine *parentEngine) : GameState(parentEngine) {
         http::status result = _parentEngine->getSession()->registration(login, password, mail);
 
         if (result == http::status::ok) {
-            auto selectState = std::make_shared<TrainerSelectionState>(_parentEngine);
+            auto selectState = std::make_shared<AuthState>(_parentEngine);
             _parentEngine->setState(std::move(selectState));
         } else {
             ;

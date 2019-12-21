@@ -22,6 +22,7 @@ AuthState::AuthState(Engine *parentEngine) : GameState(parentEngine) {
     auto loginCall = [this, loginInput, passwordInput]() {
         std::string login = loginInput->getBuffer();
         std::string password = passwordInput->getBuffer();
+        _parentEngine->getSession()->setLogin(login);
 
         // в случае, если сервер не отмечает надо это ловить
         http::status result = _parentEngine->getSession()->auth(login, password);
@@ -47,7 +48,7 @@ AuthState::AuthState(Engine *parentEngine) : GameState(parentEngine) {
             return;
         }
 
-        if (_parentEngine->getSession()->getTrainerName() == "null") {
+        if (_parentEngine->getSession()->getTrainerName().empty()) {
             _parentEngine->setState(std::move(std::make_shared<TrainerSelectionState>(_parentEngine)));
             return;
         }

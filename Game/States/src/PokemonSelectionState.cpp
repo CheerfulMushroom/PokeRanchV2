@@ -5,6 +5,7 @@
 #include "GymState.h"
 #include "KitchenState.h"
 #include "PokemonSelectionState.h"
+#include "TrainerSelectionState.h"
 
 #include "ImageButton.h"
 #include "NavBar.h"
@@ -26,20 +27,20 @@ PokemonSelectionState::PokemonSelectionState(Engine *parentEngine) : GameState(p
 
     auto camera_ptr = camera.get();
 
-    std::vector<std::string> pokemonsName = { "Pikachu",
-                                              "Meowth",
-                                              "Litten" };
+    std::vector<std::string> pokemonsName = {"Pikachu",
+                                             "Meowth",
+                                             "Litten"};
 
     auto modelSwitcher = std::make_shared<ModelSwitcher<AnimModel>>(*this,
-                                           pokemonsName,
-                                           camera_ptr,
-                                           glm::vec3(0.0f, -1.0f, 0.0f),
-                                           0.02,
-                                           glm::vec3(90.0f, 180.0f, 0.0f),
-                                           width,
-                                           height,
-                                           "pokemon",
-                                           "stay");
+                                                                    pokemonsName,
+                                                                    camera_ptr,
+                                                                    glm::vec3(0.0f, -1.0f, 0.0f),
+                                                                    0.02,
+                                                                    glm::vec3(90.0f, 180.0f, 0.0f),
+                                                                    width,
+                                                                    height,
+                                                                    "pokemon",
+                                                                    "stay");
 
     auto changeModelToLeft = [modelSwitcher]() {
         modelSwitcher->switchToLeft();
@@ -53,9 +54,18 @@ PokemonSelectionState::PokemonSelectionState(Engine *parentEngine) : GameState(p
         std::string pokemonName = modelSwitcher->returnCurrentModelName();
         this->_parentEngine->getSession()->addPokemon(pokemonName);
 
-        // теперь в HomeState
+        std::string login = this->_parentEngine->getSession()->getLogin();
+        this->_parentEngine->getSession()->getProfile(login);
+
+        if (_parentEngine->getSession()->getTrainerName().empty()) {
+            _parentEngine->setState(std::move(std::make_shared<TrainerSelectionState>(_parentEngine)));
+            return;
+        }
+
+        auto homeState = std::make_shared<HomeState>(_parentEngine);
+        _parentEngine->setState(std::move(homeState));
     };
-    
+
     auto switchLeft = std::make_shared<ImageButton>(pathManager.getPicturePath("arrowToLeft"),
                                                     ImVec2(64.0f, 64.0f),
                                                     5, true, changeModelToLeft);

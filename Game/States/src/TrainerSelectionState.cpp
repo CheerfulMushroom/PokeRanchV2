@@ -5,6 +5,7 @@
 #include "GymState.h"
 #include "KitchenState.h"
 #include "TrainerSelectionState.h"
+#include "PokemonSelectionState.h"
 
 #include "ImageButton.h"
 #include "NavBar.h"
@@ -28,23 +29,23 @@ TrainerSelectionState::TrainerSelectionState(Engine *parentEngine) : GameState(p
 
     auto camera_ptr = camera.get();
 
-    std::vector<std::string> trainersName = { "Scientist",
-                                              "Red",
-                                              "Molayne",
-                                              "Sina",
-                                              "Sophocles",
-                                              "Cook" };
+    std::vector<std::string> trainersName = {"Scientist",
+                                             "Red",
+                                             "Molayne",
+                                             "Sina",
+                                             "Sophocles",
+                                             "Cook"};
 
     auto modelSwitcher = std::make_shared<ModelSwitcher<AnimModel>>(*this,
-            trainersName,
-            camera_ptr,
-            glm::vec3(0.0f, -1.0f, 0.0f),
-            0.012,
-            glm::vec3(0.0f, 0.0f, 0.0f),
-            width,
-            height,
-            "trainer",
-            "stay");
+                                                                    trainersName,
+                                                                    camera_ptr,
+                                                                    glm::vec3(0.0f, -1.0f, 0.0f),
+                                                                    0.012,
+                                                                    glm::vec3(0.0f, 0.0f, 0.0f),
+                                                                    width,
+                                                                    height,
+                                                                    "trainer",
+                                                                    "stay");
 
     auto changeModelToLeft = [modelSwitcher]() {
         modelSwitcher->switchToLeft();
@@ -58,20 +59,29 @@ TrainerSelectionState::TrainerSelectionState(Engine *parentEngine) : GameState(p
         std::string trainerName = modelSwitcher->returnCurrentModelName();
         this->_parentEngine->getSession()->addTrainer(trainerName);
 
-        // теперь в PokemonSelectionState
+        std::string login = this->_parentEngine->getSession()->getLogin();
+        this->_parentEngine->getSession()->getProfile(login);
+
+        if (_parentEngine->getSession()->getPokemonName().empty()) {
+            _parentEngine->setState(std::move(std::make_shared<PokemonSelectionState>(_parentEngine)));
+            return;
+        }
+
+        auto homeState = std::make_shared<HomeState>(_parentEngine);
+        _parentEngine->setState(std::move(homeState));
     };
 
     auto switchLeft = std::make_shared<ImageButton>(pathManager.getPicturePath("arrowToLeft"),
-                                                      ImVec2(64.0f, 64.0f),
-                                                      5, true, changeModelToLeft);
+                                                    ImVec2(64.0f, 64.0f),
+                                                    5, true, changeModelToLeft);
 
     auto switchRight = std::make_shared<ImageButton>(pathManager.getPicturePath("arrowToRight"),
-                                                          ImVec2(64.0f, 64.0f),
-                                                          5, true, changeModelToRight);
+                                                     ImVec2(64.0f, 64.0f),
+                                                     5, true, changeModelToRight);
 
     auto markChoice = std::make_shared<ImageButton>(pathManager.getPicturePath("check-mark"),
-                                                           ImVec2(64.0f, 64.0f),
-                                                           5, true, makeChoice);
+                                                    ImVec2(64.0f, 64.0f),
+                                                    5, true, makeChoice);
 
     auto navbar = std::make_shared<NavBar>();
     navbar->addElement(std::move(switchLeft));

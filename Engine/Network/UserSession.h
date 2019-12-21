@@ -12,6 +12,9 @@ class UserSession {
  public:
     UserSession();
 
+    void setLogin(std::string login);
+    std::string getLogin();
+
     http::status auth(const std::string &login, const std::string &password);
     http::status registration(const std::string &login, const std::string &password, const std::string &mail);
     http::status logOut();
@@ -32,6 +35,7 @@ class UserSession {
 
  private:
     HttpNetworkManager networkManager;
+    std::string _login;
     std::string _userToken;
     std::map<std::string, std::string> _info; // в каком виде будем хранить информацию пользователя ?
 };

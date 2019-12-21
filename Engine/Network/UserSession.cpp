@@ -3,6 +3,24 @@
 
 UserSession::UserSession() : networkManager("0.0.0.0", "8888") {}
 
+void UserSession::setLogin(std::string login) {
+    _login = std::move(login);
+}
+
+std::string UserSession::getLogin() {
+    return _login;
+}
+
+std::string UserSession::getTrainerName() {
+    auto trainerPair = _info.find("trainer_name");
+
+    if (trainerPair == _info.end()) {
+        return "";
+    }
+
+    return trainerPair->second;
+}
+
 http::status UserSession::auth(const std::string &login, const std::string &password) {
     try {
         std::map<std::string, std::string> infoForAuth;
@@ -25,7 +43,7 @@ http::status UserSession::auth(const std::string &login, const std::string &pass
         return response.first;
     }
 
-    catch (std::exception const& e) {
+    catch (std::exception const &e) {
         std::cerr << "Error: " << e.what() << std::endl;
         return http::status::unknown;
     }
@@ -57,7 +75,7 @@ http::status UserSession::registration(const std::string &login, const std::stri
         return response.first;
     }
 
-    catch (std::exception const& e) {
+    catch (std::exception const &e) {
         std::cerr << "Error: " << e.what() << std::endl;
         return http::status::unknown;
     }
@@ -70,11 +88,11 @@ http::status UserSession::addPokemon(const std::string &pokemonName) {
         pokemonInfo.insert(std::make_pair("token", _userToken));
         pokemonInfo.insert(std::make_pair("name", pokemonName));
 
-        std::pair<http::status, std::string> response= networkManager.post("/add_pokemon", pokemonInfo);
+        std::pair<http::status, std::string> response = networkManager.post("/add_pokemon", pokemonInfo);
 
         return response.first;
 
-    } catch (std::exception const& e) {
+    } catch (std::exception const &e) {
         std::cerr << "Error: " << e.what() << std::endl;
         return http::status::unknown;
     }
@@ -87,11 +105,11 @@ http::status UserSession::addTrainer(const std::string &trainerName) {
         trainerInfo.insert(std::make_pair("token", _userToken));
         trainerInfo.insert(std::make_pair("name", trainerName));
 
-        std::pair<http::status, std::string> response= networkManager.post("/add_trainer", trainerInfo);
+        std::pair<http::status, std::string> response = networkManager.post("/add_trainer", trainerInfo);
 
         return response.first;
 
-    } catch (std::exception const& e) {
+    } catch (std::exception const &e) {
         std::cerr << "Error: " << e.what() << std::endl;
         return http::status::unknown;
     }
@@ -129,11 +147,11 @@ http::status UserSession::logOut() {
 
         tokenInfo.insert(std::make_pair("token", _userToken));
 
-        std::pair<http::status, std::string> response= networkManager.post("/add_pokemon", tokenInfo);
+        std::pair<http::status, std::string> response = networkManager.post("/add_pokemon", tokenInfo);
 
         return response.first;
 
-    } catch (std::exception const& e) {
+    } catch (std::exception const &e) {
         std::cerr << "Error: " << e.what() << std::endl;
         return http::status::unknown;
     }
@@ -150,12 +168,4 @@ std::string UserSession::getPokemonName() {
     return pokemonPair->second;
 }
 
-std::string UserSession::getTrainerName() {
-    auto trainerPair = _info.find("trainer_name");
 
-    if (trainerPair == _info.end()) {
-        return "";
-    }
-
-    return trainerPair->second;
-}
