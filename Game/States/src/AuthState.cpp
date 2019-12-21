@@ -47,7 +47,7 @@ AuthState::AuthState(Engine *parentEngine) : GameState(parentEngine) {
             return;
         }
 
-        if (_parentEngine->getSession()->getTrainerName().empty()) {
+        if (_parentEngine->getSession()->getTrainerName() == "null") {
             _parentEngine->setState(std::move(std::make_shared<TrainerSelectionState>(_parentEngine)));
             return;
         }

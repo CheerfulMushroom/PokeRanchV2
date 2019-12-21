@@ -17,6 +17,15 @@ std::string PathManager::getPokemonPath(const std::string &pokemonName, const st
     return resultPath.string();
 }
 
+std::string PathManager::getPicturePath(const std::string &pictureTitle) const {
+    boost::filesystem::path resultPath(_pathToCommonPictures);
+
+    resultPath /= pictureTitle;
+    resultPath += ".png";
+
+    return resultPath.string();
+}
+
 std::string PathManager::getTrainerPath(const std::string &trainerName, const std::string &animName) const {
     boost::filesystem::path resultPath(_pathToAllModels);
 

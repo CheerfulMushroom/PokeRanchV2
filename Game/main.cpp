@@ -1,7 +1,5 @@
 #include "Engine.h"
 #include "AuthState.h"
-#include "HomeState.h"
-#include "SelectionState.h"
 
 int main() {
     auto engine = Engine();
