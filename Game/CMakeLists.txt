@@ -7,7 +7,7 @@ include_directories(${OPENCV_INCLUDE_DIRS})
 
 add_compile_definitions(DEBUG_MODEL)
 #add_compile_definitions(DEBUG_GAME_STATE)
-#add_compile_definitions(GUI_DEBUG)
+add_compile_definitions(GUI_DEBUG)
 
 include_directories("${PROJECT_SHADER_PROGRAM_DIR}")
 include_directories("${PROJECT_GAME_WINDOW_DIR}")
@@ -21,7 +21,7 @@ include_directories("${PROJECT_NAVBAR_DIR}")
 include_directories("${PROJECT_NETWORK_DIR}")
 include_directories("${PROJECT_STATES_DIR}/include")
 include_directories("${PROJECT_UTILS_DIR}/PathManager")
-
+include_directories("${PROJECT_UTILS_DIR}/ModelSwitcher")
 
 
 add_executable(main.out
@@ -55,7 +55,6 @@ add_executable(main.out
         ${PROJECT_FORM_DIR}/Form.cpp
         ${PROJECT_NAVBAR_DIR}/NavBar.cpp
         ${PROJECT_NETWORK_DIR}/HttpNetworkManager.cpp
-
 
         ${PROJECT_GAME_WINDOW_DIR}/GameWindow.cpp
         ${PROJECT_MODEL_DIR}/AnimModel.cpp

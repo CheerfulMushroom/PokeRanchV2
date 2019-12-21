@@ -11,7 +11,7 @@ class PathManager {
     std::string getPokemonPath(const std::string &pokemonName, const std::string &animName) const;
     std::string getTrainerPath(const std::string &trainerName, const std::string &animName) const;
     std::string getStaticModelPath(const std::string &modelName) const;
-    std::string getCommonPicturePath(const std::string &pictureName) const;
+    std::string getPicturePath(const std::string &pictureTitle) const;
 
     std::tuple<std::string, std::string> getStaticModelShadersSources() const;
     std::tuple<std::string, std::string> getAnimModelShadersSources() const;
@@ -19,7 +19,6 @@ class PathManager {
  private:
     std::string _pathToCommonPictures;
     std::string _pathToAllModels;
-
 };
 
 

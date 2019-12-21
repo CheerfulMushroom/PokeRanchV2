@@ -141,7 +141,7 @@ http::status UserSession::logOut() {
 
 
 std::string UserSession::getPokemonName() {
-    auto pokemonPair = _info.find("pokemon");
+    auto pokemonPair = _info.find("pokemon_name");
 
     if (pokemonPair == _info.end()) {
         return "";
@@ -151,7 +151,7 @@ std::string UserSession::getPokemonName() {
 }
 
 std::string UserSession::getTrainerName() {
-    auto trainerPair = _info.find("trainer");
+    auto trainerPair = _info.find("trainer_name");
 
     if (trainerPair == _info.end()) {
         return "";

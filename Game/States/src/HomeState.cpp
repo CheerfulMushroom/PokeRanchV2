@@ -16,12 +16,9 @@
 HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
     auto func = std::function([] {});
 
-
     PathManager pathManager;
 
     UserSession* session = _parentEngine->getSession();
-    //session->auth("booooooom", "password11", "asdjh@");
-
 
     auto switchToKitchen = std::function([=] {
         auto kitchenState = std::make_shared<KitchenState>(_parentEngine);
@@ -74,7 +71,7 @@ HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
 
     auto house = std::make_shared<Model>("Game/Resources/Models/Static/PokemonHouse/PokemonHouse.obj",
                                          camera.get(),
-                                         glm::vec3(-1.3f, -1.0f, -2.0f),
+                                         glm::vec3(-2.2f, -1.0f, -2.0f),
                                          0.02,
                                          glm::vec3(0.0f, 38.0f, 0.0f),
                                          width,
@@ -83,9 +80,9 @@ HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
 
     auto pokemon = std::make_shared<AnimModel>(pokemonPath,
                                                camera.get(),
-                                               glm::vec3(-0.9f, -1.0f, 0.0f),
+                                               glm::vec3(0.9f, -1.0f, 0.0f),
                                                0.02,
-                                               glm::vec3(90.0f, 45.0f, 0.0f),
+                                               glm::vec3(90.0f, 150.0f, 0.0f),
                                                width,
                                                height,
                                                std::string("pokemon"));
