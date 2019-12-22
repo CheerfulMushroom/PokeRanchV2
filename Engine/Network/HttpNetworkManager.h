@@ -1,7 +1,6 @@
 #ifndef NETWORK_HTTP_MANAGER_H_
 #define NETWORK_HTTP_MANAGER_H_
 
-#include <NetworkManager.h>
 #include <boost/asio.hpp>
 #include <boost/beast/core.hpp>
 #include <boost/beast/http/status.hpp>
@@ -9,7 +8,7 @@
 using namespace boost::beast;
 using boost::asio::ip::tcp;
 
-class HttpNetworkManager : public NetworkManager {
+class HttpNetworkManager {
  public:
     HttpNetworkManager(const std::string &addr, const std::string &port);
     ~HttpNetworkManager() = default;

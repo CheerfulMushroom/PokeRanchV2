@@ -25,7 +25,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 add_executable(simpleGet.out
         simpleGet.cpp
         ${PROJECT_NETWORK_DIR}/HttpNetworkManager.cpp
-        ${PROJECT_NETWORK_DIR}/UserSession.cpp
+        ${PROJECT_USERSESSION_DIR}/UserSession.cpp
         )
 
 target_link_libraries(simpleGet.out
@@ -37,7 +37,7 @@ target_link_libraries(simpleGet.out
 add_executable(sessionTest.out
         sessionTest.cpp
         ${PROJECT_NETWORK_DIR}/HttpNetworkManager.cpp
-        ${PROJECT_NETWORK_DIR}/UserSession.cpp
+        ${PROJECT_USERSESSION_DIR}/UserSession.cpp
         ${PROJECT_UTILS_DIR}/PathManager/PathManager.cpp)
 
 target_link_libraries(sessionTest.out
