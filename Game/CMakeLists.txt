@@ -23,7 +23,7 @@ include_directories("${PROJECT_STATES_DIR}/include")
 include_directories("${PROJECT_UTILS_DIR}/PathManager")
 include_directories("${PROJECT_UTILS_DIR}/ModelSwitcher")
 include_directories("${PROJECT_POKEMON_DIR}")
-include_directories("${PROJECT_USERSESSION_DIR}")
+include_directories("${PROJECT_SERVERAPI_DIR}")
 
 
 
@@ -42,7 +42,8 @@ add_executable(main.out
         ${PROJECT_BASE_CLASSES_DIR}/src/GameElement.cpp
         ${PROJECT_BASE_CLASSES_DIR}/src/GameState.cpp
         ${PROJECT_UTILS_DIR}/PathManager/PathManager.cpp
-        ${PROJECT_USERSESSION_DIR}/UserSession.cpp
+        ${PROJECT_SERVERAPI_DIR}/ServerAPI.cpp
+
 
         ${PROJECT_IMGUI_DIR}/imgui.cpp
         ${PROJECT_IMGUI_DIR}/imgui_demo.cpp

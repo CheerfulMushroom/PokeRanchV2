@@ -20,7 +20,7 @@ set(PROJECT_NAVBAR_DIR          ${CMAKE_CURRENT_SOURCE_DIR}/Engine/GUI/NavBar)
 set(PROJECT_NETWORK_DIR         ${CMAKE_CURRENT_SOURCE_DIR}/Engine/Network)
 set(PROJECT_STATES_DIR          ${CMAKE_CURRENT_SOURCE_DIR}/Game/States)
 set(PROJECT_UTILS_DIR           ${CMAKE_CURRENT_SOURCE_DIR}/Game/Utils)
-set(PROJECT_USERSESSION_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/Game/UserSession)
+set(PROJECT_SERVERAPI_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Game/ServerAPI)
 set(PROJECT_POKEMON_DIR         ${CMAKE_CURRENT_SOURCE_DIR}/Game/Pokemon)
 
 include_directories(/home/alexandr/Downloads/boost_1_71_0)

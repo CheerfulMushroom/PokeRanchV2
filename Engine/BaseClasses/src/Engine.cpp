@@ -52,21 +52,26 @@ void Engine::start() {
         _currState->pollElements();
         _window.frameEnd();
 
-
-        //TODO(al):remove this
         std::this_thread::sleep_for(std::chrono::milliseconds(1 / _fps));
     }
 
 }
 
-UserSession* Engine::getSession() {
-    return &_session;
+void Engine::updateSessionInfo(const std::string& objectName, const std::map<std::string, std::string>& objectInfo) {
+    for (const auto& keyAndInfo: objectInfo) {
+        _sessionInfo[objectName][keyAndInfo.first] = keyAndInfo.second;
+    }
 }
 
+std::map<std::string, std::string> Engine::getSessionInfo(const std::string& objectName) {
+    return _sessionInfo[objectName];
+}
 
-GameWindow *Engine::getWindow() {
+GameWindow* Engine::getWindow() {
     return &_window;
 }
+
+
 
 /********************************************************
  * PRIVATE

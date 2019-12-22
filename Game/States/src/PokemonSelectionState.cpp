@@ -15,9 +15,9 @@
 
 #include "PathManager.h"
 #include "ModelSwitcher.hpp"
-
+#include "ServerAPI.h"
 // куда всунуть PathManager ?
-PokemonSelectionState::PokemonSelectionState(Engine *parentEngine) : GameState(parentEngine) {
+PokemonSelectionState::PokemonSelectionState(Engine* parentEngine) : GameState(parentEngine) {
     PathManager pathManager;
 
     auto camera = std::make_shared<Camera>(glm::vec3(0.0f, 0.0f, 4.0f));
@@ -52,12 +52,26 @@ PokemonSelectionState::PokemonSelectionState(Engine *parentEngine) : GameState(p
 
     auto makeChoice = [this, modelSwitcher]() {
         std::string pokemonName = modelSwitcher->returnCurrentModelName();
-        this->_parentEngine->getSession()->addPokemon(pokemonName);
 
-        std::string login = this->_parentEngine->getSession()->getLogin();
-        this->_parentEngine->getSession()->getProfile(login);
+        ServerAPI api;
+        std::map<std::string, std::string> profileInfo = _parentEngine->getSessionInfo("profile");
 
-        if (_parentEngine->getSession()->getTrainerName().empty()) {
+        Answer_t response = api.savePokemon({{"name", pokemonName}}, profileInfo["token"]);
+        if (response.first != http::status::ok) {
+            return;
+        }
+
+        response = api.getPokemon(profileInfo["token"]);
+        if (response.first != http::status::ok) {
+            return;
+        }
+
+        _parentEngine->updateSessionInfo("pokemon", response.second);
+        _parentEngine->updateSessionInfo("profile", {{"pokemon_name", pokemonName}});
+
+
+        profileInfo = _parentEngine->getSessionInfo("profile");
+        if (profileInfo["trainer_name"].empty()) {
             _parentEngine->setState(std::move(std::make_shared<TrainerSelectionState>(_parentEngine)));
             return;
         }

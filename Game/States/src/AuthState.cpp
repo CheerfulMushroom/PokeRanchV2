@@ -6,13 +6,14 @@
 #include "Model.h"
 #include "Camera.h"
 #include "Engine.h"
+#include "ServerAPI.h"
 
 #include "HomeState.h"
 #include "TrainerSelectionState.h"
 #include "PokemonSelectionState.h"
 #include "RegisterState.h"
 
-AuthState::AuthState(Engine *parentEngine) : GameState(parentEngine) {
+AuthState::AuthState(Engine* parentEngine) : GameState(parentEngine) {
     // LOGIN FORM
     auto loginForm = std::make_shared<Form>();
 
@@ -22,40 +23,62 @@ AuthState::AuthState(Engine *parentEngine) : GameState(parentEngine) {
     auto loginCall = [this, loginInput, passwordInput]() {
         std::string login = loginInput->getBuffer();
         std::string password = passwordInput->getBuffer();
-        _parentEngine->getSession()->setLogin(login);
 
-        // в случае, если сервер не отмечает надо это ловить
-        http::status result = _parentEngine->getSession()->auth(login, password);
-
-        if (result != http::status::ok) {
-            std::cout << "Error occured: " << result << std::endl;
+        ServerAPI api;
+        Answer_t response = api.auth(login, password);
+        if (response.first != http::status::ok) {
+            std::cout << "Error occurred: " << response.first << std::endl;
             return;
         }
 
-//        if (result == http::status::ok) {
-//            auto homeState = std::make_shared<HomeState>(_parentEngine);
-//            _parentEngine->setState(std::move(homeState));
-//        } else {
-//            // TODO
-//            // подсветить форму ?
-//        }
+        _parentEngine->updateSessionInfo("profile",
+                                         {
+                                                 {"login",    login},
+                                                 {"password", password},
+                                         });
+        _parentEngine->updateSessionInfo("profile", response.second);
 
-        _parentEngine->getSession()->getProfile(login);
+        /// UPDATE PROFILE INFO
+        std::string token = _parentEngine->getSessionInfo("profile")["token"];
+        response = api.getProfile(login, token);
+        if (response.first != http::status::ok) {
+            std::cout << "Error occurred: " << response.first << std::endl;
+            return;
+        }
+        _parentEngine->updateSessionInfo("profile", response.second);
 
 
-        if (_parentEngine->getSession()->getPokemonName().empty()) {
+        /// UPDATE POKEMON INFO
+        response = api.getPokemon(token);
+        if (response.first == http::status::ok) {
+            _parentEngine->updateSessionInfo("pokemon", response.second);
+        }
+
+
+        /// UPDATE TRAINER INFO
+        response = api.getTrainer(token);
+        if (response.first == http::status::ok) {
+            _parentEngine->updateSessionInfo("trainer", response.second);
+        }
+
+
+        std::map<std::string, std::string> profileInfo = _parentEngine->getSessionInfo("profile");
+
+        /// ADD POKEMON IF NONE
+        if (profileInfo["pokemon_name"].empty()) {
             _parentEngine->setState(std::move(std::make_shared<PokemonSelectionState>(_parentEngine)));
             return;
         }
 
-        if (_parentEngine->getSession()->getTrainerName().empty()) {
+        /// ADD TRAINER IF NONE
+        if (profileInfo["trainer_name"].empty()) {
             _parentEngine->setState(std::move(std::make_shared<TrainerSelectionState>(_parentEngine)));
             return;
         }
 
+
         auto homeState = std::make_shared<HomeState>(_parentEngine);
         _parentEngine->setState(std::move(homeState));
-
     };
 
     auto registerCall = [this]() {

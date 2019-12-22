@@ -11,7 +11,9 @@
 #include "RegisterState.h"
 #include "AuthState.h"
 
-RegisterState::RegisterState(Engine *parentEngine) : GameState(parentEngine) {
+#include "ServerAPI.h"
+
+RegisterState::RegisterState(Engine* parentEngine) : GameState(parentEngine) {
     auto registrationForm = std::make_shared<Form>();
 
     auto loginInput = std::make_shared<InputText>("login", false, false);
@@ -23,14 +25,15 @@ RegisterState::RegisterState(Engine *parentEngine) : GameState(parentEngine) {
         std::string password = passwordInput->getBuffer();
         std::string mail = mailInput->getBuffer();
 
-        http::status result = _parentEngine->getSession()->registration(login, password, mail);
+        ServerAPI api;
+        Answer_t response = api.registration(login, password, mail);
 
-        if (result == http::status::ok) {
-            auto selectState = std::make_shared<AuthState>(_parentEngine);
-            _parentEngine->setState(std::move(selectState));
-        } else {
-            ;
+        if (response.first != http::status::ok) {
+            return;
         }
+
+        auto selectState = std::make_shared<AuthState>(_parentEngine);
+        _parentEngine->setState(std::move(selectState));
     };
 
     auto authCall = [this]() {

@@ -15,6 +15,7 @@
 
 #include "PathManager.h"
 #include "ModelSwitcher.h"
+#include "ServerAPI.h"
 
 
 // куда всунуть PathManager ?
@@ -57,13 +58,27 @@ TrainerSelectionState::TrainerSelectionState(Engine *parentEngine) : GameState(p
 
     auto makeChoice = [this, modelSwitcher]() {
         std::string trainerName = modelSwitcher->returnCurrentModelName();
-        this->_parentEngine->getSession()->addTrainer(trainerName);
 
-        std::string login = this->_parentEngine->getSession()->getLogin();
-        this->_parentEngine->getSession()->getProfile(login);
+        ServerAPI api;
+        std::map<std::string, std::string> profileInfo = _parentEngine->getSessionInfo("profile");
 
-        if (_parentEngine->getSession()->getPokemonName().empty()) {
-            _parentEngine->setState(std::move(std::make_shared<PokemonSelectionState>(_parentEngine)));
+        Answer_t response = api.saveTrainer({{"name", trainerName}}, profileInfo["token"]);
+        if (response.first != http::status::ok) {
+            return;
+        }
+
+        response = api.getTrainer(profileInfo["token"]);
+        if (response.first != http::status::ok) {
+            return;
+        }
+
+        _parentEngine->updateSessionInfo("trainer", response.second);
+        _parentEngine->updateSessionInfo("profile", {{"trainer_name", trainerName}});
+
+
+        profileInfo = _parentEngine->getSessionInfo("profile");
+        if (profileInfo["pokemon_name"].empty()) {
+            _parentEngine->setState(std::move(std::make_shared<TrainerSelectionState>(_parentEngine)));
             return;
         }
 

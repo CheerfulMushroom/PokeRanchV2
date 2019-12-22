@@ -11,15 +11,13 @@
 #include "Model.h"
 #include "AnimModel.h"
 #include "Pokemon.h"
-#include <UserSession.h>
-#include <PathManager.h>
+#include "PathManager.h"
+
 
 HomeState::HomeState(Engine* parentEngine) : GameState(parentEngine) {
     auto func = std::function([] {});
 
     PathManager pathManager;
-
-    UserSession* session = _parentEngine->getSession();
 
     auto switchToKitchen = std::function([=] {
         auto kitchenState = std::make_shared<KitchenState>(_parentEngine);
@@ -63,8 +61,8 @@ HomeState::HomeState(Engine* parentEngine) : GameState(parentEngine) {
     int height = _parentEngine->getWindow()->getWindowSize().second;
 
 
-    std::string pokemonName = session->getPokemonName();
-    std::string trainerName = session->getTrainerName();
+    std::string pokemonName = _parentEngine->getSessionInfo("pokemon")["name"];
+    std::string trainerName = _parentEngine->getSessionInfo("trainer")["name"];
 
     std::string pokemonPath = pathManager.getPokemonPath(pokemonName, "stay");
     std::string trainerPath = pathManager.getTrainerPath(trainerName, "stay");

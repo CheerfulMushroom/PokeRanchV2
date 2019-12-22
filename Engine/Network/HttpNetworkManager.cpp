@@ -45,36 +45,6 @@ std::pair<http::status, std::string> HttpNetworkManager::get(const std::string &
     return std::make_pair(response.result(), response.body());
 }
 
-std::map<std::string, std::string> HttpNetworkManager::jsonToMap(std::string &jsonBody) {
-    std::stringstream jsonStream(jsonBody);
-    std::map<std::string, std::string> encodedInfo;
-
-    boost::property_tree::ptree root;
-    boost::property_tree::read_json(jsonStream, root);
-
-    // depend of json document structure
-    // now for (key : value), where value is simple var
-    for (auto &node : root.get_child("")) {
-        encodedInfo.insert(std::make_pair(node.first, node.second.data()));
-    }
-
-    return std::move(encodedInfo);
-}
-
-void HttpNetworkManager::mapToJson(std::map<std::string, std::string> &info, std::ostream &output, bool pretty) {
-    boost::property_tree::ptree root;
-
-    // depend of json document structure
-    // now for (key : value), where value is simple var
-
-    for (auto &x : info) {
-        root.put(x.first, x.second);
-    }
-
-    boost::property_tree::write_json(output, root, pretty);
-}
-
-
 std::pair<http::status, std::string> HttpNetworkManager::post(const std::string &target, std::map<std::string, std::string> &infoForSend) {
     // Open socket
     tcp::resolver::results_type endpoints = _resolver.resolve(_addr, _port);
@@ -106,3 +76,34 @@ std::pair<http::status, std::string> HttpNetworkManager::post(const std::string 
 
     return std::make_pair(response.result(), response.body());
 }
+
+std::map<std::string, std::string> HttpNetworkManager::jsonToMap(std::string &jsonBody) {
+    std::stringstream jsonStream(jsonBody);
+    std::map<std::string, std::string> encodedInfo;
+
+    boost::property_tree::ptree root;
+    boost::property_tree::read_json(jsonStream, root);
+
+    // depend of json document structure
+    // now for (key : value), where value is simple var
+    for (auto &node : root.get_child("")) {
+        encodedInfo.insert(std::make_pair(node.first, node.second.data()));
+    }
+
+    return std::move(encodedInfo);
+}
+
+void HttpNetworkManager::mapToJson(std::map<std::string, std::string> &info, std::ostream &output, bool pretty) {
+    boost::property_tree::ptree root;
+
+    // depend of json document structure
+    // now for (key : value), where value is simple var
+
+    for (auto &x : info) {
+        root.put(x.first, x.second);
+    }
+
+    boost::property_tree::write_json(output, root, pretty);
+}
+
+
