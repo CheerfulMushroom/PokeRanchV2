@@ -12,7 +12,7 @@ class TrainerSelectionState : public GameState {
 public:
     explicit TrainerSelectionState(Engine *parentEngine);
 
-    void nextScene(const std::shared_ptr<ModelSwitcher<AnimModel>>& modelSwitcher);
+    void setNextScene(const std::shared_ptr<ModelSwitcher<AnimModel>>& modelSwitcher);
 private:
     ServerAPI _api;
 };

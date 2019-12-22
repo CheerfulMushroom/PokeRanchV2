@@ -19,7 +19,6 @@
 #include "ModelSwitcher.h"
 
 
-// куда всунуть PathManager ?
 TrainerSelectionState::TrainerSelectionState(Engine *parentEngine) : GameState(parentEngine) {
     PathManager pathManager;
 
@@ -63,7 +62,7 @@ TrainerSelectionState::TrainerSelectionState(Engine *parentEngine) : GameState(p
     auto chooseOption = std::make_shared<ImageButton>(pathManager.getPicturePath("check-mark"),
                                                       ImVec2(64.0f, 64.0f),
                                                       5, true,
-                                                      std::bind(&TrainerSelectionState::nextScene, this, modelSwitcher));
+                                                      std::bind(&TrainerSelectionState::setNextScene, this, modelSwitcher));
 
     auto navbar = std::make_shared<NavBar>();
     navbar->addElement(switchLeftButton);
@@ -76,7 +75,7 @@ TrainerSelectionState::TrainerSelectionState(Engine *parentEngine) : GameState(p
 }
 
 
-void TrainerSelectionState::nextScene(const std::shared_ptr<ModelSwitcher<AnimModel>>& modelSwitcher) {
+void TrainerSelectionState::setNextScene(const std::shared_ptr<ModelSwitcher<AnimModel>>& modelSwitcher) {
     std::string trainerName = modelSwitcher->returnCurrentModelName();
     std::map<std::string, std::string> profileInfo = _parentEngine->getSessionInfo("profile");
 
