@@ -16,6 +16,7 @@
 #include "PathManager.h"
 #include "ModelSwitcher.h"
 #include "ServerAPI.h"
+#include "ModelSwitcher.h"
 
 
 // куда всунуть PathManager ?
@@ -48,62 +49,57 @@ TrainerSelectionState::TrainerSelectionState(Engine *parentEngine) : GameState(p
                                                                     "trainer",
                                                                     "stay");
 
-    auto changeModelToLeft = [modelSwitcher]() {
-        modelSwitcher->switchToLeft();
-    };
 
-    auto changeModelToRight = [modelSwitcher]() {
-        modelSwitcher->switchToRight();
-    };
+    auto switchLeftButton = std::make_shared<ImageButton>(pathManager.getPicturePath("arrowToLeft"),
+                                                          ImVec2(64.0f, 64.0f),
+                                                          5, true,
+                                                          std::bind(&ModelSwitcher<AnimModel>::switchToLeft, modelSwitcher.get()));
 
-    auto makeChoice = [this, modelSwitcher]() {
-        std::string trainerName = modelSwitcher->returnCurrentModelName();
+    auto switchRightButton = std::make_shared<ImageButton>(pathManager.getPicturePath("arrowToRight"),
+                                                           ImVec2(64.0f, 64.0f),
+                                                           5, true,
+                                                           std::bind(&ModelSwitcher<AnimModel>::switchToRight, modelSwitcher.get()));
 
-        ServerAPI api;
-        std::map<std::string, std::string> profileInfo = _parentEngine->getSessionInfo("profile");
-
-        Answer_t response = api.saveTrainer({{"name", trainerName}}, profileInfo["token"]);
-        if (response.first != http::status::ok) {
-            return;
-        }
-
-        response = api.getTrainer(profileInfo["token"]);
-        if (response.first != http::status::ok) {
-            return;
-        }
-
-        _parentEngine->updateSessionInfo("trainer", response.second);
-        _parentEngine->updateSessionInfo("profile", {{"trainer_name", trainerName}});
-
-
-        profileInfo = _parentEngine->getSessionInfo("profile");
-        if (profileInfo["pokemon_name"].empty()) {
-            _parentEngine->setState(std::move(std::make_shared<TrainerSelectionState>(_parentEngine)));
-            return;
-        }
-
-        auto homeState = std::make_shared<HomeState>(_parentEngine);
-        _parentEngine->setState(std::move(homeState));
-    };
-
-    auto switchLeft = std::make_shared<ImageButton>(pathManager.getPicturePath("arrowToLeft"),
-                                                    ImVec2(64.0f, 64.0f),
-                                                    5, true, changeModelToLeft);
-
-    auto switchRight = std::make_shared<ImageButton>(pathManager.getPicturePath("arrowToRight"),
-                                                     ImVec2(64.0f, 64.0f),
-                                                     5, true, changeModelToRight);
-
-    auto markChoice = std::make_shared<ImageButton>(pathManager.getPicturePath("check-mark"),
-                                                    ImVec2(64.0f, 64.0f),
-                                                    5, true, makeChoice);
+    auto chooseOption = std::make_shared<ImageButton>(pathManager.getPicturePath("check-mark"),
+                                                      ImVec2(64.0f, 64.0f),
+                                                      5, true,
+                                                      std::bind(&TrainerSelectionState::nextScene, this, modelSwitcher));
 
     auto navbar = std::make_shared<NavBar>();
-    navbar->addElement(std::move(switchLeft));
-    navbar->addElement(std::move(switchRight));
-    navbar->addElement(std::move(markChoice));
+    navbar->addElement(switchLeftButton);
+    navbar->addElement(switchRightButton);
+    navbar->addElement(chooseOption);
 
-    addElement(std::move(navbar));
-    addElement(std::move(camera));
-    addElement(std::move(modelSwitcher));
+    addElement(navbar);
+    addElement(camera);
+    addElement(modelSwitcher);
+}
+
+
+void TrainerSelectionState::nextScene(const std::shared_ptr<ModelSwitcher<AnimModel>>& modelSwitcher) {
+    std::string trainerName = modelSwitcher->returnCurrentModelName();
+    std::map<std::string, std::string> profileInfo = _parentEngine->getSessionInfo("profile");
+
+    Answer_t response = _api.saveTrainer({{"name", trainerName}}, profileInfo["token"]);
+    if (response.first != http::status::ok) {
+        return;
+    }
+
+    response = _api.getTrainer(profileInfo["token"]);
+    if (response.first != http::status::ok) {
+        return;
+    }
+
+    _parentEngine->updateSessionInfo("trainer", response.second);
+    _parentEngine->updateSessionInfo("profile", {{"trainer_name", trainerName}});
+
+
+    profileInfo = _parentEngine->getSessionInfo("profile");
+    if (profileInfo["pokemon_name"].empty()) {
+        _parentEngine->setState(std::move(std::make_shared<TrainerSelectionState>(_parentEngine)));
+        return;
+    }
+
+    auto homeState = std::make_shared<HomeState>(_parentEngine);
+    _parentEngine->setState(std::move(homeState));
 }

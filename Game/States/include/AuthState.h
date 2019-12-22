@@ -8,6 +8,8 @@ class Engine;
 class AuthState : public GameState {
 public:
     explicit AuthState(Engine *parentEngine);
+
+
 };
 
 

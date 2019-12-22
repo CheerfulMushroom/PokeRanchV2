@@ -1,3 +1,7 @@
+#ifndef GAME_MODEL_SWITCHER_HPP_
+#define GAME_MODEL_SWITCHER_HPP_
+
+
 #include "ModelSwitcher.h"
 #include "PathManager.h"
 
@@ -102,6 +106,8 @@ void ModelSwitcher<ModelType>::switchToLeft() {
 }
 
 template <class ModelType>
-std::string ModelSwitcher<ModelType>::returnCurrentModelName() {
+std::string ModelSwitcher<ModelType>::returnCurrentModelName() const {
     return _modelNames[_id];
 }
+
+#endif //GAME_MODEL_SWITCHER_HPP_

@@ -1,3 +1,7 @@
+#ifndef GAME_MODEL_SWITCHER_H_
+#define GAME_MODEL_SWITCHER_H_
+
+
 #include <vector>
 
 #include "Engine.h"
@@ -6,7 +10,7 @@
 #include "PathManager.h"
 
 // Предназначен для перебора заданных моделей в статической позиции
-template <class modelType>
+template <class ModelType>
 class ModelSwitcher : public GameElement {
  public:
     ModelSwitcher(GameState &state,
@@ -23,7 +27,7 @@ class ModelSwitcher : public GameElement {
     void switchToLeft();
     void switchToRight();
 
-    std::string returnCurrentModelName();
+    std::string returnCurrentModelName() const;
 
  private:
     GameState &_state;
@@ -41,3 +45,7 @@ class ModelSwitcher : public GameElement {
     std::string _type;
     std::string _animationName;
 };
+
+#endif //GAME_MODEL_SWITCHER_H_
+
+#include "ModelSwitcher.hpp"
