@@ -22,6 +22,7 @@ include_directories("${PROJECT_NETWORK_DIR}")
 include_directories("${PROJECT_STATES_DIR}/include")
 include_directories("${PROJECT_UTILS_DIR}/PathManager")
 include_directories("${PROJECT_UTILS_DIR}/ModelSwitcher")
+include_directories("${PROJECT_POKEMON_DIR}")
 
 
 add_executable(main.out
@@ -56,6 +57,7 @@ add_executable(main.out
         ${PROJECT_NAVBAR_DIR}/NavBar.cpp
         ${PROJECT_NETWORK_DIR}/HttpNetworkManager.cpp
 
+        ${PROJECT_POKEMON_DIR}/Pokemon.cpp
         ${PROJECT_GAME_WINDOW_DIR}/GameWindow.cpp
         ${PROJECT_MODEL_DIR}/AnimModel.cpp
         ${PROJECT_MODEL_DIR}/Model.cpp

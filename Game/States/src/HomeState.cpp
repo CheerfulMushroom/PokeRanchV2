@@ -10,10 +10,11 @@
 #include "Camera.h"
 #include "Model.h"
 #include "AnimModel.h"
+#include "Pokemon.h"
 #include <UserSession.h>
 #include <PathManager.h>
 
-HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
+HomeState::HomeState(Engine* parentEngine) : GameState(parentEngine) {
     auto func = std::function([] {});
 
     PathManager pathManager;
@@ -78,14 +79,8 @@ HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
                                          height,
                                          std::string("house"));
 
-    auto pokemon = std::make_shared<AnimModel>(pokemonPath,
-                                               camera.get(),
-                                               glm::vec3(0.9f, -1.0f, 0.0f),
-                                               0.02,
-                                               glm::vec3(90.0f, 150.0f, 0.0f),
-                                               width,
-                                               height,
-                                               std::string("pokemon"));
+    auto pokemon = std::make_shared<Pokemon>(camera, width, height, pokemonPath,
+                                             pokemonName, 10, 10, 10, 10, 10, 10);
 
     auto trainer = std::make_shared<AnimModel>(trainerPath,
                                                camera.get(),

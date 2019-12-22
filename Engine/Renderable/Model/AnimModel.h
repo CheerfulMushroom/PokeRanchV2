@@ -33,6 +33,7 @@ class Camera;
 
 class AnimModel: public GameElement {
 public:
+    AnimModel() = default;
     AnimModel(std::string const &path,
               Camera *camera,
               glm::vec3 translate,
