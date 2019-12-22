@@ -20,34 +20,40 @@ RegisterState::RegisterState(Engine* parentEngine) : GameState(parentEngine) {
     auto passwordInput = std::make_shared<InputText>("password", false, true);
     auto mailInput = std::make_shared<InputText>("mail", false, false);
 
-    auto registerCall = [this, loginInput, passwordInput, mailInput]() {
-        std::string login = loginInput->getBuffer();
-        std::string password = passwordInput->getBuffer();
-        std::string mail = mailInput->getBuffer();
-
-        ServerAPI api;
-        Answer_t response = api.registration(login, password, mail);
-
-        if (response.first != http::status::ok) {
-            return;
-        }
-
-        auto selectState = std::make_shared<AuthState>(_parentEngine);
-        _parentEngine->setState(std::move(selectState));
-    };
-
-    auto authCall = [this]() {
-        auto authState = std::make_shared<AuthState>(_parentEngine);
-        _parentEngine->setState(std::move(authState));
-    };
 
     registrationForm->addElement(loginInput);
     registrationForm->addElement(passwordInput);
     registrationForm->addElement(mailInput);
 
-    registrationForm->addElement(std::make_shared<Button>("logfgin", authCall));
-    registrationForm->addElement(std::make_shared<Button>("register", registerCall));
-    //registrationForm->addElement(std::make_shared<Button>("login", authCall));
+    registrationForm->addElement(
+            std::make_shared<Button>(
+                    "Register",
+                    std::bind(&RegisterState::registerUser, this, loginInput, passwordInput, mailInput)));
+
+
+    auto switchToLogin = [this]() {
+        auto authState = std::make_shared<AuthState>(_parentEngine);
+        _parentEngine->setState(std::move(authState));
+    };
+    registrationForm->addElement(std::make_shared<Button>("Login", switchToLogin));
+
 
     addElement(registrationForm);
+}
+
+void RegisterState::registerUser(const std::shared_ptr<InputText>& loginInput,
+                                 const std::shared_ptr<InputText>& passwordInput,
+                                 const std::shared_ptr<InputText>& mailInput) {
+    std::string login = loginInput->getBuffer();
+    std::string password = passwordInput->getBuffer();
+    std::string mail = mailInput->getBuffer();
+
+    Answer_t response = _api.registration(login, password, mail);
+
+    if (response.first != http::status::ok) {
+        return;
+    }
+
+    auto selectState = std::make_shared<AuthState>(_parentEngine);
+    _parentEngine->setState(std::move(selectState));
 }
