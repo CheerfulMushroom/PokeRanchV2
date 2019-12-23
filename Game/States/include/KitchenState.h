@@ -11,10 +11,6 @@ class Engine;
 class KitchenState : public GameState {
 public:
     explicit KitchenState(Engine *parentEngine);
-    void saveProgress(const std::shared_ptr<Pokemon>& pokemon);
-
-private:
-    ServerAPI _api;
 };
 
 #endif //POKE_RANCH_V2_KITCHEN_STATE_H_

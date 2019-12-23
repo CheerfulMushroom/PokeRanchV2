@@ -44,6 +44,7 @@ add_executable(main.out
         ${PROJECT_BASE_CLASSES_DIR}/src/GameElement.cpp
         ${PROJECT_BASE_CLASSES_DIR}/src/GameState.cpp
         ${PROJECT_UTILS_DIR}/PathManager/PathManager.cpp
+        ${PROJECT_UTILS_DIR}/ButtonFunctions/ButtonFunctions.cpp
         ${PROJECT_SERVERAPI_DIR}/ServerAPI.cpp
         ${PROJECT_POKEMONINFOUPDATER_DIR}/PokemonInfoUpdater.cpp
 

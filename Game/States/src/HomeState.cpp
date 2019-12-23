@@ -119,7 +119,8 @@ HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
 
     auto kitchenButton = std::make_shared<ImageButton>("Game/Resources/Pictures/cake-slice.png",
                                                        ImVec2(64.0f, 64.0f),
-                                                       5, true, std::bind(switchToState<KitchenState>, this->_parentEngine));
+                                                       5, true,
+                                                       std::bind(switchToState<KitchenState>, this->_parentEngine));
 
     auto homeButton = std::make_shared<ImageButton>("Game/Resources/Pictures/house.png",
                                                     ImVec2(64.0f, 64.0f),
@@ -136,7 +137,7 @@ HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
     auto saveButton = std::make_shared<ImageButton>("Game/Resources/Pictures/champions.png",
                                                     ImVec2(64.0f, 64.0f),
                                                     5, true,
-                                                    std::bind(&HomeState::saveProgress, this, pokemon));
+                                                    std::bind(savePokemonProgress, pokemon, this->_parentEngine));
 
     auto navbar = std::make_shared<NavBar>();
     navbar->addElement(std::move(kitchenButton));
@@ -146,23 +147,4 @@ HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
     navbar->addElement(std::move(battleButton));
     navbar->addElement(std::move(saveButton));
     addElement(std::move(navbar));
-}
-
-void HomeState::saveProgress(const std::shared_ptr<Pokemon> &pokemon) {
-    auto pokemonInfo = pokemon->getInfo();
-    _parentEngine->updateSessionInfo("pokemon", pokemonInfo);
-
-    auto profileInfo = _parentEngine->getSessionInfo("profile");
-    std::string token = profileInfo["token"];
-
-    Answer_t response = _api.savePokemon(pokemonInfo, token);
-
-    if (response.first != http::status::ok) {
-        std::cout << "Error occurred:" << std::endl;
-        for (const auto &errorInfo:response.second) {
-            std::cout << errorInfo.first << ": " << errorInfo.second << std::endl;
-        }
-        return;
-    }
-
 }

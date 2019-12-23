@@ -2,11 +2,15 @@
 #define UTILS_MOVE_FUNCS_H_
 
 #include <functional>
-#include <Engine.h>
+#include <memory>
+#include "Engine.h"
+#include "Pokemon.h"
 
 
-template <class State>
+template<class State>
 void switchToState(Engine *engine);
+
+void savePokemonProgress(const std::shared_ptr<Pokemon> &pokemon, Engine *engine);
 
 #include <ButtonFunctions.hpp>
 
