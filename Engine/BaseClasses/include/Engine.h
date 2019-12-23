@@ -16,8 +16,8 @@ public:
     void setState(std::shared_ptr<GameState> newState);
     void start();
 
-    void updateSessionInfo(const std::string& objectName, const std::map<std::string, std::string>& objectInfo);
-    std::map<std::string, std::string> getSessionInfo(const std::string& objectName);
+    void updateSessionInfo(const std::string& category, const std::map<std::string, std::string>& infoToUpdate);
+    std::map<std::string, std::string> getSessionInfo(const std::string& category);
 
 
     GameWindow* getWindow();

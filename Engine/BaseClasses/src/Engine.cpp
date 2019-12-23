@@ -57,14 +57,14 @@ void Engine::start() {
 
 }
 
-void Engine::updateSessionInfo(const std::string& objectName, const std::map<std::string, std::string>& objectInfo) {
-    for (const auto& keyAndInfo: objectInfo) {
-        _sessionInfo[objectName][keyAndInfo.first] = keyAndInfo.second;
+void Engine::updateSessionInfo(const std::string& category, const std::map<std::string, std::string>& infoToUpdate) {
+    for (const auto& keyAndInfo: infoToUpdate) {
+        _sessionInfo[category][keyAndInfo.first] = keyAndInfo.second;
     }
 }
 
-std::map<std::string, std::string> Engine::getSessionInfo(const std::string& objectName) {
-    return _sessionInfo[objectName];
+std::map<std::string, std::string> Engine::getSessionInfo(const std::string& category) {
+    return _sessionInfo[category];
 }
 
 GameWindow* Engine::getWindow() {

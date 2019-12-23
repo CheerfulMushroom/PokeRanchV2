@@ -1,8 +1,7 @@
 #include "Pokemon.h"
-#include "PathManager.h"
 #include "Camera.h"
 
-Pokemon::Pokemon(const std::shared_ptr<Camera>& camera, int width, int height, const std::string& pathToModel,
+Pokemon::Pokemon(const std::shared_ptr<Camera> &camera, int width, int height, const std::string &pathToModel,
                  std::string name, int power, int agility, int loyalty, int satiety, int health, int maxHealth) :
         _model(pathToModel,
                camera.get(),
@@ -36,14 +35,23 @@ void Pokemon::update(double dt) {
     }
 }
 
+
 std::map<std::string, std::string> Pokemon::getInfo() {
     return {
-            {"name",  _name},
-            {"power", std::to_string(int(round(_power)))},
-            {"agility", std::to_string(int(round(_agility)))},
-            {"loyalty", std::to_string(int(round(_loyalty)))},
-            {"satiety", std::to_string(int(round(_satiety)))},
-            {"health", std::to_string(int(round(_health)))},
-            {"maxHealth", std::to_string(int(round(_maxHealth)))},
+            {"name",      _name},
+            {"power",     std::to_string(int(round(_power)))},
+            {"agility",   std::to_string(int(round(_agility)))},
+            {"loyalty",   std::to_string(int(round(_loyalty)))},
+            {"satiety",   std::to_string(int(round(_satiety)))},
+            {"health",    std::to_string(int(round(_health)))},
+            {"max_health", std::to_string(int(round(_maxHealth)))},
     };
+}
+
+void Pokemon::feed(int satietyFactor) {
+    _satiety += satietyFactor;
+}
+
+void Pokemon::pet(int loyaltyFactor) {
+    _loyalty += loyaltyFactor;
 }

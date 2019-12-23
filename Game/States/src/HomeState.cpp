@@ -14,59 +14,19 @@
 #include "PathManager.h"
 
 
-HomeState::HomeState(Engine* parentEngine) : GameState(parentEngine) {
-    auto func = std::function([] {});
-
-    PathManager pathManager;
-
-    auto switchToKitchen = std::function([=] {
-        auto kitchenState = std::make_shared<KitchenState>(_parentEngine);
-        _parentEngine->setState(std::move(kitchenState));
-    });
-
-    auto switchToGym = std::function([=] {
-        auto gymState = std::make_shared<GymState>(_parentEngine);
-        _parentEngine->setState(std::move(gymState));
-    });
-
-
-    auto kitchenButton = std::make_shared<ImageButton>("Game/Resources/Pictures/cake-slice.png",
-                                                       ImVec2(64.0f, 64.0f),
-                                                       5, true, switchToKitchen);
-    auto homeButton = std::make_shared<ImageButton>("Game/Resources/Pictures/house.png",
-                                                    ImVec2(64.0f, 64.0f),
-                                                    5, false, func);
-    auto gymButton = std::make_shared<ImageButton>("Game/Resources/Pictures/muscle-up.png",
-                                                   ImVec2(64.0f, 64.0f),
-                                                   5, true, switchToGym);
-    auto socialButton = std::make_shared<ImageButton>("Game/Resources/Pictures/human-pyramid.png",
-                                                      ImVec2(64.0f, 64.0f),
-                                                      5, true, func);
-    auto battleButton = std::make_shared<ImageButton>("Game/Resources/Pictures/champions.png",
-                                                      ImVec2(64.0f, 64.0f),
-                                                      5, true, func);
-
-    auto navbar = std::make_shared<NavBar>();
-    navbar->addElement(std::move(kitchenButton));
-    navbar->addElement(std::move(homeButton));
-    navbar->addElement(std::move(gymButton));
-    navbar->addElement(std::move(socialButton));
-    navbar->addElement(std::move(battleButton));
-    addElement(std::move(navbar));
-
-
+HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
+    /// ADDING MODELS
     auto camera = std::make_shared<Camera>(glm::vec3(0.0f, 0.0f, 4.0f));
-
-    int width = _parentEngine->getWindow()->getWindowSize().first;
-    int height = _parentEngine->getWindow()->getWindowSize().second;
-
 
     std::string pokemonName = _parentEngine->getSessionInfo("pokemon")["name"];
     std::string trainerName = _parentEngine->getSessionInfo("trainer")["name"];
 
+    PathManager pathManager;
     std::string pokemonPath = pathManager.getPokemonPath(pokemonName, "stay");
     std::string trainerPath = pathManager.getTrainerPath(trainerName, "stay");
 
+    int width = _parentEngine->getWindow()->getWindowSize().first;
+    int height = _parentEngine->getWindow()->getWindowSize().second;
 
     auto house = std::make_shared<Model>("Game/Resources/Models/Static/PokemonHouse/PokemonHouse.obj",
                                          camera.get(),
@@ -97,9 +57,63 @@ HomeState::HomeState(Engine* parentEngine) : GameState(parentEngine) {
                                         width,
                                         height,
                                         std::string("amie"));
-    addElement(std::move(camera));
-    addElement(std::move(house));
-    addElement(std::move(pokemon));
-    addElement(std::move(trainer));
-    addElement(std::move(amie));
+    addElement(camera);
+    addElement(house);
+    addElement(pokemon);
+    addElement(trainer);
+    addElement(amie);
+
+
+    /// ADDING BUTTONS
+
+    auto emptyFunc = std::function([] {});
+
+
+    auto kitchenButton = std::make_shared<ImageButton>("Game/Resources/Pictures/cake-slice.png",
+                                                       ImVec2(64.0f, 64.0f),
+                                                       5, true, emptyFunc);
+    auto homeButton = std::make_shared<ImageButton>("Game/Resources/Pictures/house.png",
+                                                    ImVec2(64.0f, 64.0f),
+                                                    5, false, emptyFunc);
+    auto gymButton = std::make_shared<ImageButton>("Game/Resources/Pictures/muscle-up.png",
+                                                   ImVec2(64.0f, 64.0f),
+                                                   5, true, emptyFunc);
+    auto socialButton = std::make_shared<ImageButton>("Game/Resources/Pictures/human-pyramid.png",
+                                                      ImVec2(64.0f, 64.0f),
+                                                      5, true, emptyFunc);
+    auto battleButton = std::make_shared<ImageButton>("Game/Resources/Pictures/champions.png",
+                                                      ImVec2(64.0f, 64.0f),
+                                                      5, true, emptyFunc);
+    auto saveButton = std::make_shared<ImageButton>("Game/Resources/Pictures/champions.png",
+                                                    ImVec2(64.0f, 64.0f),
+                                                    5, true,
+                                                    std::bind(&HomeState::saveProgress, this, pokemon));
+
+    auto navbar = std::make_shared<NavBar>();
+    navbar->addElement(std::move(kitchenButton));
+    navbar->addElement(std::move(homeButton));
+    navbar->addElement(std::move(gymButton));
+    navbar->addElement(std::move(socialButton));
+    navbar->addElement(std::move(battleButton));
+    navbar->addElement(std::move(saveButton));
+    addElement(std::move(navbar));
+}
+
+void HomeState::saveProgress(const std::shared_ptr<Pokemon>& pokemon) {
+    auto pokemonInfo = pokemon->getInfo();
+    _parentEngine->updateSessionInfo("pokemon", pokemonInfo);
+
+    auto profileInfo = _parentEngine->getSessionInfo("profile");
+    std::string token = profileInfo["token"];
+
+    Answer_t response = _api.savePokemon(pokemonInfo, token);
+
+    if (response.first != http::status::ok) {
+        std::cout << "Error occurred:" << std::endl;
+        for (const auto &errorInfo:response.second) {
+            std::cout << errorInfo.first << ": " << errorInfo.second << std::endl;
+        }
+        return;
+    }
+
 }
