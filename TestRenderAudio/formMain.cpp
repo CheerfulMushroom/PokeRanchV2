@@ -10,6 +10,8 @@
 #include <HttpNetworkManager.h>
 
 #include <AnimModel.h>
+#include <ProgressBar.h>
+
 
 #define FPS 60
 
@@ -25,72 +27,32 @@ int main() {
     int width = std::get<0>(WindowSize);
     int height = std::get<1>(WindowSize);
 
+    Form formBar;
 
-    AnimModel pokemon("Game/Resources/Models/Litten/stay.dae",
-                    &camera,
-                    glm::vec3(0.9f, -1.0f, 0.0f),
-                    0.02,
-                    glm::vec3(90.0f, 140.0f, 0.0f),
-                    width,
-                    height,
-                    std::string("pokemon"));
+    auto lB = std::make_shared<ProgressBar>(ImVec2(300.0f, 0.0f), "loyalty");
+    lB->setProgress(0.5f);
+    lB->setCapacity(150.0f);
 
-    AnimModel trainer("Game/Resources/Models/Red/stay.dae",
-                      &camera,
-                      glm::vec3(0.9f, -1.0f, 0.0f),
-                      0.02,
-                      glm::vec3(90.0f, 140.0f, 0.0f),
-                      width,
-                      height,
-                      std::string("trainer"));
+    formBar.addElement(lB);
 
-    #ifdef DEBUG_MODEL
-//    gym.shader.setSources(std::make_tuple("Engine/Renderable/Shaders/v_model_shader.vs", "Engine/Renderable/Shaders/f_model_shader.fs"));
-//    gym.shader.compileSources();
+    auto sB = std::make_shared<ProgressBar>(ImVec2(300.0f, 0.0f), "satiety");
+    sB->setProgress(0.3f);
+    sB->setCapacity(50.0f);
 
-//    suit.shader.setSources(std::make_tuple("Engine/Renderable/Shaders/v_model_shader.vs", "Engine/Renderable/Shaders/f_model_shader.fs"));
-//    suit.shader.compileSources();
+    formBar.addElement(sB);
 
-//    amie.shader.setSources(std::make_tuple("Engine/Renderable/Shaders/v_model_shader.vs", "Engine/Renderable/Shaders/f_model_shader.fs"));
-//    amie.shader.compileSources();
-//
-//    logo.shader.setSources(std::make_tuple("Engine/Renderable/Shaders/v_model_shader.vs", "Engine/Renderable/Shaders/f_model_shader.fs"));
-//    logo.shader.compileSources();
-    #endif
+    auto hB = std::make_shared<ProgressBar>(ImVec2(300.0f, 0.0f), "health");
+    hB->setProgress(0.1f);
+    hB->setCapacity(100.0f);
 
-    auto func = []() {
-        std::cout << "KEK" << std::endl;
-    };
-
-    auto kitchenButton = std::make_shared<ImageButton>("Game/Resources/Pictures/cake-slice.png", ImVec2(64.0f, 64.0f), 5, true, func);
-    auto homeButton = std::make_shared<ImageButton>("Game/Resources/Pictures/house.png", ImVec2(64.0f, 64.0f), 5, true, func);
-    auto gymButton = std::make_shared<ImageButton>("Game/Resources/Pictures/muscle-up.png", ImVec2(128.0f, 128.0f), 5, true, func);
-    auto socialButton = std::make_shared<ImageButton>("Game/Resources/Pictures/human-pyramid.png", ImVec2(64.0f, 64.0f), 5, true, func);
-    auto battleButton = std::make_shared<ImageButton>("Game/Resources/Pictures/champions.png", ImVec2(64.0f, 64.0f), 5, true, func);
-
-    navbar.addElement(std::move(kitchenButton));
-    navbar.addElement(std::move(homeButton));
-    navbar.addElement(std::move(gymButton));
-    navbar.addElement(std::move(socialButton));
-    navbar.addElement(std::move(battleButton));
+    formBar.addElement(hB);
 
     while (!glfwWindowShouldClose(screen.getWindow())) {
         double frame_start_time = glfwGetTime();
         screen.frameInit();
 
-        ImGui::ShowDemoWindow();
 
-        //authForm.render();
-
-        //navbar.render();
-
-
-//        pokemon.update(0.0);
-//        pokemon.render();
-
-//        trainer.update(0.0);
-//        trainer.render();
-
+        formBar.render();
 
         double allowed_frame_time = 1.0 / FPS;
         double frame_end_time = glfwGetTime();

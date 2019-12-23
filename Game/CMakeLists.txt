@@ -19,6 +19,7 @@ include_directories("${PROJECT_BUTTON_DIR}")
 include_directories("${PROJECT_INPUTTEXT_DIR}")
 include_directories("${PROJECT_NAVBAR_DIR}")
 include_directories("${PROJECT_NETWORK_DIR}")
+include_directories("${PROJECT_PROGRESS_BAR_DIR}")
 include_directories("${PROJECT_STATES_DIR}/include")
 include_directories("${PROJECT_UTILS_DIR}/PathManager")
 include_directories("${PROJECT_UTILS_DIR}/ModelSwitcher")
@@ -58,6 +59,7 @@ add_executable(main.out
         ${PROJECT_BUTTON_DIR}/ImageButton.cpp
         ${PROJECT_FORM_DIR}/Form.cpp
         ${PROJECT_NAVBAR_DIR}/NavBar.cpp
+        ${PROJECT_PROGRESS_BAR_DIR}/ProgressBar.cpp
         ${PROJECT_NETWORK_DIR}/HttpNetworkManager.cpp
 
         ${PROJECT_POKEMON_DIR}/Pokemon.cpp

@@ -11,6 +11,7 @@ set(PROJECT_FORM_DIR ../Engine/GUI/Form)
 set(PROJECT_IMGUI_DIR ../Engine/GUI/imgui)
 set(PROJECT_BUTTON_DIR ../Engine/GUI/Button)
 set(PROJECT_NAVBAR_DIR ../Engine/GUI/NavBar)
+set(PROJECT_PROGRESS_BAR_DIR ../Engine/GUI/ProgressBar)
 set(PROJECT_NETWORK_DIR ../Engine/Network)
 
 if(NOT CMAKE_BUILD_TYPE)
@@ -27,6 +28,7 @@ include_directories("${PROJECT_FORM_DIR}")
 include_directories("${PROJECT_IMGUI_DIR}")
 include_directories("${PROJECT_BUTTON_DIR}")
 include_directories("${PROJECT_NAVBAR_DIR}")
+include_directories("${PROJECT_PROGRESS_BAR_DIR}")
 include_directories("${PROJECT_NETWORK_DIR}")
 
 find_package(OpenCV REQUIRED)
@@ -97,6 +99,7 @@ add_executable(formMain.out
         ${PROJECT_MODEL_DIR}/math_3d.cpp
         ${PROJECT_BUTTON_DIR}/Button.cpp
         ${PROJECT_BUTTON_DIR}/ImageButton.cpp
+        ${PROJECT_PROGRESS_BAR_DIR}/ProgressBar.cpp
         ${PROJECT_BASE_CLASSES_DIR}/src/GameElement.cpp
         ${PROJECT_NETWORK_DIR}/HttpNetworkManager.cpp
         )
