@@ -17,9 +17,7 @@ Pokemon::Pokemon(const std::shared_ptr<Camera> &camera, int width, int height, c
         _loyalty(loyalty),
         _satiety(satiety),
         _health(health),
-        _maxHealth(maxHealth) {
-
-}
+        _maxHealth(maxHealth) {}
 
 void Pokemon::render() {
     _model.render();
@@ -27,11 +25,11 @@ void Pokemon::render() {
 
 void Pokemon::update(double dt) {
     _model.update(dt);
-    _satiety -= dt / (10 * 1000);
+    _satiety -= dt / (0.5 * 1000);
     if (_satiety < 0) {
         _satiety = 0;
-        _health -= dt / (20 * 1000);
-        _loyalty -= dt / (30 * 1000);
+        _health -= dt / (1 * 1000);
+        _loyalty -= dt / (1.5 * 1000);
     }
 }
 

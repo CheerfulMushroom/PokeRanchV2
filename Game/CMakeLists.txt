@@ -25,7 +25,7 @@ include_directories("${PROJECT_UTILS_DIR}/PathManager")
 include_directories("${PROJECT_UTILS_DIR}/ModelSwitcher")
 include_directories("${PROJECT_POKEMON_DIR}")
 include_directories("${PROJECT_SERVERAPI_DIR}")
-
+include_directories("${PROJECT_POKEMONINFOUPDATER_DIR}")
 
 
 add_executable(main.out

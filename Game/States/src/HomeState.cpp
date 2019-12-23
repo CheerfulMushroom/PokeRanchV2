@@ -12,18 +12,21 @@
 #include "AnimModel.h"
 #include "Pokemon.h"
 #include "PathManager.h"
+#include "ProgressBar.h"
+#include "Form.h"
+#include "PokemonInfoUpdater.h"
 
 
 HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
     /// ADDING MODELS
     auto camera = std::make_shared<Camera>(glm::vec3(0.0f, 0.0f, 4.0f));
 
-    std::string pokemonName = _parentEngine->getSessionInfo("pokemon")["name"];
-    std::string trainerName = _parentEngine->getSessionInfo("trainer")["name"];
+    auto pokemonInfo = _parentEngine->getSessionInfo("pokemon");
+    auto trainerInfo = _parentEngine->getSessionInfo("trainer");
 
     PathManager pathManager;
-    std::string pokemonPath = pathManager.getPokemonPath(pokemonName, "stay");
-    std::string trainerPath = pathManager.getTrainerPath(trainerName, "stay");
+    std::string pokemonPath = pathManager.getPokemonPath(pokemonInfo["name"], "stay");
+    std::string trainerPath = pathManager.getTrainerPath(trainerInfo["name"], "stay");
 
     int width = _parentEngine->getWindow()->getWindowSize().first;
     int height = _parentEngine->getWindow()->getWindowSize().second;
@@ -38,7 +41,13 @@ HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
                                          std::string("house"));
 
     auto pokemon = std::make_shared<Pokemon>(camera, width, height, pokemonPath,
-                                             pokemonName, 10, 10, 10, 10, 10, 10);
+                                             pokemonInfo["name"],
+                                             std::stoi(pokemonInfo["power"]),
+                                             std::stoi(pokemonInfo["agility"]),
+                                             std::stoi(pokemonInfo["loyalty"]),
+                                             std::stoi(pokemonInfo["satiety"]),
+                                             std::stoi(pokemonInfo["health"]),
+                                             std::stoi(pokemonInfo["max_health"]));
 
     auto trainer = std::make_shared<AnimModel>(trainerPath,
                                                camera.get(),
@@ -63,6 +72,40 @@ HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
     addElement(trainer);
     addElement(amie);
 
+
+    /// ADDING POKEMON INFO
+
+    float loyalty = std::stof(pokemonInfo["loyalty"]);
+    float satiety = std::stof(pokemonInfo["satiety"]);
+    float health = std::stof(pokemonInfo["health"]);
+    float maxHealth = std::stof(pokemonInfo["max_health"]);
+
+    auto loyaltyBar = std::make_shared<ProgressBar>(ImVec2(300.0f, 0.0f), "Loyalty");
+    loyaltyBar->setCapacity(100);
+    loyaltyBar->setProgress(loyalty / 100);
+
+    auto satietyBar = std::make_shared<ProgressBar>(ImVec2(300.0f, 0.0f), "Satiety");
+    satietyBar->setCapacity(100);
+    satietyBar->setProgress(satiety / 100);
+
+    auto healthBar = std::make_shared<ProgressBar>(ImVec2(300.0f, 0.0f), "Health");
+    healthBar->setCapacity(maxHealth);
+    healthBar->setProgress(health / maxHealth);
+
+
+    auto pokemonStats = std::make_shared<Form>();
+    pokemonStats->addElement(loyaltyBar);
+    pokemonStats->addElement(satietyBar);
+    pokemonStats->addElement(healthBar);
+    addElement(pokemonStats);
+
+    /// ADDING POKEMON INFO UPDATER
+
+    auto pokemonInfoUpdater = std::make_shared<PokemonInfoUpdater>(pokemon,
+                                                                   healthBar,
+                                                                   satietyBar,
+                                                                   loyaltyBar);
+    addElement(pokemonInfoUpdater);
 
     /// ADDING BUTTONS
 
@@ -99,7 +142,7 @@ HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
     addElement(std::move(navbar));
 }
 
-void HomeState::saveProgress(const std::shared_ptr<Pokemon>& pokemon) {
+void HomeState::saveProgress(const std::shared_ptr<Pokemon> &pokemon) {
     auto pokemonInfo = pokemon->getInfo();
     _parentEngine->updateSessionInfo("pokemon", pokemonInfo);
 
