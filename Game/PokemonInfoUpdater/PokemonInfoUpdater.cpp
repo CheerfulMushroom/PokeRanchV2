@@ -22,10 +22,10 @@ void PokemonInfoUpdater::update(double dt) {
     _healthBar->setCapacity(maxHealth);
     _healthBar->setProgress(health / maxHealth);
 
-    _satietyBar->setCapacity(100);
-    _satietyBar->setProgress(satiety / 100);
+    _satietyBar->setCapacity(MAX_SATIETY);
+    _satietyBar->setProgress(satiety / MAX_SATIETY);
 
-    _loyaltyBar->setCapacity(100);
-    _loyaltyBar->setProgress(loyalty / 100);
+    _loyaltyBar->setCapacity(MAX_LOYALTY);
+    _loyaltyBar->setProgress(loyalty / MAX_LOYALTY);
 }
 

@@ -1,6 +1,9 @@
 #ifndef POKERANCHV2_POKEMON_H
 #define POKERANCHV2_POKEMON_H
 
+#define MAX_SATIETY 100
+#define MAX_LOYALTY 100
+
 #include <memory>
 
 #include "GameElement.h"
@@ -9,7 +12,8 @@
 class Pokemon : public GameElement {
 public:
     Pokemon(const std::shared_ptr<Camera> &camera, int width, int height, const std::string &pathToModel,
-            std::string name, int power, int agility, int loyalty, int satiety, int health, int maxHealth);
+            std::string name, int power, int agility, int loyalty, int satiety, int health, int maxHealth,
+            int secondsSinceLastSave);
 
     void render() override;
     void update(double dt) override;
