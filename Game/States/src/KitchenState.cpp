@@ -48,7 +48,8 @@ KitchenState::KitchenState(Engine *parentEngine) : GameState(parentEngine) {
                                              std::stoi(pokemonInfo["loyalty"]),
                                              std::stoi(pokemonInfo["satiety"]),
                                              std::stoi(pokemonInfo["health"]),
-                                             std::stoi(pokemonInfo["max_health"]));
+                                             std::stoi(pokemonInfo["max_health"]),
+                                             std::stoi(pokemonInfo["seconds_since_last_save"]));
 
     auto trainer = std::make_shared<AnimModel>(trainerPath,
                                                camera.get(),
