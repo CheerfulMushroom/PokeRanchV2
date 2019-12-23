@@ -48,7 +48,8 @@ HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
                                              std::stoi(pokemonInfo["loyalty"]),
                                              std::stoi(pokemonInfo["satiety"]),
                                              std::stoi(pokemonInfo["health"]),
-                                             std::stoi(pokemonInfo["max_health"]));
+                                             std::stoi(pokemonInfo["max_health"]),
+                                             std::stoi(pokemonInfo["seconds_since_last_save"]));
 
     auto trainer = std::make_shared<AnimModel>(trainerPath,
                                                camera.get(),
@@ -82,12 +83,12 @@ HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
     float maxHealth = std::stof(pokemonInfo["max_health"]);
 
     auto loyaltyBar = std::make_shared<ProgressBar>(ImVec2(300.0f, 0.0f), "Loyalty");
-    loyaltyBar->setCapacity(100);
-    loyaltyBar->setProgress(loyalty / 100);
+    loyaltyBar->setCapacity(MAX_LOYALTY);
+    loyaltyBar->setProgress(loyalty / MAX_LOYALTY);
 
     auto satietyBar = std::make_shared<ProgressBar>(ImVec2(300.0f, 0.0f), "Satiety");
-    satietyBar->setCapacity(100);
-    satietyBar->setProgress(satiety / 100);
+    satietyBar->setCapacity(MAX_SATIETY);
+    satietyBar->setProgress(satiety / MAX_SATIETY);
 
     auto healthBar = std::make_shared<ProgressBar>(ImVec2(300.0f, 0.0f), "Health");
     healthBar->setCapacity(maxHealth);
