@@ -43,6 +43,7 @@ add_executable(main.out
         ${PROJECT_BASE_CLASSES_DIR}/src/GameState.cpp
         ${PROJECT_UTILS_DIR}/PathManager/PathManager.cpp
         ${PROJECT_SERVERAPI_DIR}/ServerAPI.cpp
+        ${PROJECT_POKEMONINFOUPDATER_DIR}/PokemonInfoUpdater.cpp
 
 
         ${PROJECT_IMGUI_DIR}/imgui.cpp

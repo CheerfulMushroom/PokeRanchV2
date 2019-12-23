@@ -22,8 +22,9 @@ set(PROJECT_STATES_DIR          ${CMAKE_CURRENT_SOURCE_DIR}/Game/States)
 set(PROJECT_UTILS_DIR           ${CMAKE_CURRENT_SOURCE_DIR}/Game/Utils)
 set(PROJECT_SERVERAPI_DIR       ${CMAKE_CURRENT_SOURCE_DIR}/Game/ServerAPI)
 set(PROJECT_POKEMON_DIR         ${CMAKE_CURRENT_SOURCE_DIR}/Game/Pokemon)
+set(PROJECT_POKEMONINFOUPDATER_DIR         ${CMAKE_CURRENT_SOURCE_DIR}/Game/PokemonInfoUpdater)
 
-include_directories(/home/alexandr/Downloads/boost_1_71_0)
+
 include_directories(Engine)
 include_directories(Game)
 
