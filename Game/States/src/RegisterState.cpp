@@ -14,7 +14,7 @@
 #include "ServerAPI.h"
 
 RegisterState::RegisterState(Engine* parentEngine) : GameState(parentEngine) {
-    auto registrationForm = std::make_shared<Form>();
+    auto registrationForm = std::make_shared<Form>("RegisterForm");
 
     auto loginInput = std::make_shared<InputText>("login", false, false);
     auto passwordInput = std::make_shared<InputText>("password", false, true);

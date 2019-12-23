@@ -5,7 +5,7 @@
 #include "imgui.h"
 
 
-Form::Form(): _windowFlags(0) {
+Form::Form(const std::string &title): _windowFlags(0), _title(title) {
 #ifndef GUI_DEBUG
     _windowFlags |= ImGuiWindowFlags_NoTitleBar;
     _windowFlags |= ImGuiWindowFlags_NoResize;
@@ -19,7 +19,7 @@ void Form::addElement(std::shared_ptr<GameElement> element) {
 }
 
 void Form::render() {
-    ImGui::Begin("form", nullptr, _windowFlags);
+    ImGui::Begin(_title.c_str(), nullptr, _windowFlags);
 
     for (const auto &element:_elements) {
         element->render();

@@ -15,7 +15,7 @@
 
 AuthState::AuthState(Engine* parentEngine) : GameState(parentEngine) {
     /// LOGIN FORM
-    auto loginForm = std::make_shared<Form>();
+    auto loginForm = std::make_shared<Form>("LoginForm");
 
     auto loginInput = std::make_shared<InputText>("login", false, false);
     auto passwordInput = std::make_shared<InputText>("password", false, true);

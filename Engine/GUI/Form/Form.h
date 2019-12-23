@@ -12,7 +12,7 @@ static const int fieldSize = 64;
 
 class Form : public GameElement {
  public:
-    Form();
+    Form(const std::string &title);
 
     void render() override;
     bool isClicked() override;
@@ -24,6 +24,7 @@ class Form : public GameElement {
  private:
     ImGuiWindowFlags _windowFlags;
 
+    std::string _title;
     std::vector<std::shared_ptr<GameElement>> _elements;
 };
 

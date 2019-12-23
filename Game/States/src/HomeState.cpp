@@ -16,6 +16,7 @@
 #include "Form.h"
 #include "PokemonInfoUpdater.h"
 
+#include "MoveFuncs.h"
 
 HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
     /// ADDING MODELS
@@ -93,7 +94,7 @@ HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
     healthBar->setProgress(health / maxHealth);
 
 
-    auto pokemonStats = std::make_shared<Form>();
+    auto pokemonStats = std::make_shared<Form>("PokemonStats");
     pokemonStats->addElement(loyaltyBar);
     pokemonStats->addElement(satietyBar);
     pokemonStats->addElement(healthBar);
@@ -111,10 +112,14 @@ HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
 
     auto emptyFunc = std::function([] {});
 
+//    auto kitchenButton = std::make_shared<ImageButton>("Game/Resources/Pictures/cake-slice.png",
+//                                                       ImVec2(64.0f, 64.0f),
+//                                                       5, true, emptyFunc);
 
     auto kitchenButton = std::make_shared<ImageButton>("Game/Resources/Pictures/cake-slice.png",
                                                        ImVec2(64.0f, 64.0f),
-                                                       5, true, emptyFunc);
+                                                       5, true, std::bind(switchToState<KitchenState>, this->_parentEngine));
+
     auto homeButton = std::make_shared<ImageButton>("Game/Resources/Pictures/house.png",
                                                     ImVec2(64.0f, 64.0f),
                                                     5, false, emptyFunc);
