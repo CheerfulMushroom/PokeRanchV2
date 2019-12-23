@@ -8,6 +8,6 @@
 template <class State>
 void switchToState(Engine *engine);
 
-#include <MoveFuncs.hpp>
+#include <ButtonFunctions.hpp>
 
 #endif  // UTILS_MOVE_FUNCS_H_

@@ -16,7 +16,7 @@
 #include "Form.h"
 #include "PokemonInfoUpdater.h"
 
-#include "MoveFuncs.h"
+#include "ButtonFunctions.h"
 
 KitchenState::KitchenState(Engine *parentEngine) : GameState(parentEngine) {
     /// ADDING MODELS
