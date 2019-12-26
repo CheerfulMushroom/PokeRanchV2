@@ -29,7 +29,7 @@ Pokemon::Pokemon(std::shared_ptr<Camera> camera,
         _satiety(satiety),
         _health(health),
         _maxHealth(maxHealth),
-        _model("Game/Resources/Models/Pokemons/" + name +"/stay.dae",
+        _model("Game/Resources/Models/Pokemons/" + name + "/stay.dae",
                _camera.get(),
                _translate,
                _scale,
@@ -39,8 +39,7 @@ Pokemon::Pokemon(std::shared_ptr<Camera> camera,
                std::string("pokemon")) {
 
     switchAnimation("stay");
-    update(secondsSinceLastSave
-           * 1000);
+    update(secondsSinceLastSave * 1000);
 }
 
 void Pokemon::render() {
