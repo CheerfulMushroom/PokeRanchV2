@@ -15,6 +15,7 @@ class Camera;
 
 class Model : public GameElement {
 public:
+    Model() = default;
     Model(std::string const &path,
           Camera *camera,
           glm::vec3 translate,

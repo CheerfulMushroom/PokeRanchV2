@@ -11,6 +11,7 @@
 #include "Model.h"
 #include "AnimModel.h"
 #include "Pokemon.h"
+#include "Cupcake.h"
 #include "PathManager.h"
 #include "ProgressBar.h"
 #include "Form.h"
@@ -53,16 +54,21 @@ KitchenState::KitchenState(Engine *parentEngine) : GameState(parentEngine) {
                                          std::string("plate"));
 
 
-    auto puff = std::make_shared<Model>(pathManager.getStaticModelPath("PokePuffs/Summer/summer6"),
-                                         camera.get(),
-                                         glm::vec3(0.0f, -0.77f, -2.0f),
-                                         0.04,
-                                         glm::vec3(0.0f, 38.0f, 0.0f),
-                                         width,
-                                         height,
-                                         std::string("puff"));
+    auto puff = std::make_shared<Cupcake>("PokePuffs/Summer/summer",
+                                          camera,
+                                          glm::vec3(0.0f, -0.77f, -2.0f),
+                                          0.04,
+                                          glm::vec3(0.0f, 38.0f, 0.0f),
+                                          width,
+                                          height);
 
-    auto pokemon = std::make_shared<Pokemon>(camera, width, height, pokemonPath,
+    auto pokemon = std::make_shared<Pokemon>(pokemonPath,
+                                             camera,
+                                             glm::vec3(0.9f, -1.0f, 0.0f),
+                                             0.02,
+                                             glm::vec3(90.0f, 150.0f, 0.0f),
+                                             width,
+                                             height,
                                              pokemonInfo["name"],
                                              std::stoi(pokemonInfo["power"]),
                                              std::stoi(pokemonInfo["agility"]),
@@ -124,8 +130,8 @@ KitchenState::KitchenState(Engine *parentEngine) : GameState(parentEngine) {
     auto emptyFunction = []() {};
 
     auto pokemonIcon = std::make_shared<ImageButton>(pathManager.getPicturePath(pokemonInfo["name"] + "Icon"),
-                                                       ImVec2(64.0f, 64.0f),
-                                                       0, true, emptyFunction);
+                                                     ImVec2(64.0f, 64.0f),
+                                                     0, true, emptyFunction);
 
     pokemonStats->addElement(pokemonIcon);
     pokemonStats->addElement(loyaltyBar);

@@ -41,7 +41,13 @@ HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
                                          height,
                                          std::string("house"));
 
-    auto pokemon = std::make_shared<Pokemon>(camera, width, height, pokemonPath,
+    auto pokemon = std::make_shared<Pokemon>(pokemonPath,
+                                             camera,
+                                             glm::vec3(0.9f, -1.0f, 0.0f),
+                                             0.02,
+                                             glm::vec3(90.0f, 150.0f, 0.0f),
+                                             width,
+                                             height,
                                              pokemonInfo["name"],
                                              std::stoi(pokemonInfo["power"]),
                                              std::stoi(pokemonInfo["agility"]),

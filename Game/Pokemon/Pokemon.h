@@ -5,14 +5,27 @@
 #define MAX_LOYALTY 100
 
 #include <memory>
+#include <glm/glm.hpp>
 
 #include "GameElement.h"
 #include "AnimModel.h"
 
 class Pokemon : public GameElement {
 public:
-    Pokemon(const std::shared_ptr<Camera> &camera, int width, int height, const std::string &pathToModel,
-            std::string name, int power, int agility, int loyalty, int satiety, int health, int maxHealth,
+    Pokemon(const std::string &pathToModel,
+            const std::shared_ptr<Camera> &camera,
+            glm::vec3 translate,
+            float scale,
+            glm::vec3 angles,
+            int width,
+            int height,
+            std::string name,
+            int power,
+            int agility,
+            int loyalty,
+            int satiety,
+            int health,
+            int maxHealth,
             int secondsSinceLastSave);
 
     void render() override;

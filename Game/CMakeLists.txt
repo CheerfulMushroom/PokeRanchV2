@@ -25,6 +25,7 @@ include_directories("${PROJECT_UTILS_DIR}/PathManager")
 include_directories("${PROJECT_UTILS_DIR}/ModelSwitcher")
 include_directories("${PROJECT_UTILS_DIR}/ButtonFunctions")
 include_directories("${PROJECT_POKEMON_DIR}")
+include_directories("${PROJECT_CUPCAKE_DIR}")
 include_directories("${PROJECT_SERVERAPI_DIR}")
 include_directories("${PROJECT_POKEMONINFOUPDATER_DIR}")
 
@@ -65,6 +66,7 @@ add_executable(main.out
         ${PROJECT_NETWORK_DIR}/HttpNetworkManager.cpp
 
         ${PROJECT_POKEMON_DIR}/Pokemon.cpp
+        ${PROJECT_CUPCAKE_DIR}/Cupcake.cpp
         ${PROJECT_GAME_WINDOW_DIR}/GameWindow.cpp
         ${PROJECT_MODEL_DIR}/AnimModel.cpp
         ${PROJECT_MODEL_DIR}/Model.cpp
