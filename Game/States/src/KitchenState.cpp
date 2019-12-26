@@ -159,7 +159,7 @@ KitchenState::KitchenState(Engine *parentEngine) : GameState(parentEngine) {
     auto saveButton = std::make_shared<ImageButton>("Game/Resources/Pictures/save.png",
                                                     ImVec2(64.0f, 64.0f),
                                                     5, true,
-                                                    std::bind(savePokemonProgress, pokemon, this->_parentEngine));
+                                                    std::bind(savePokemonProgress, pokemon->getInfo(), this->_parentEngine));
 
     auto navbar = std::make_shared<NavBar>();
     navbar->addElement(std::move(kitchenButton));
@@ -168,25 +168,21 @@ KitchenState::KitchenState(Engine *parentEngine) : GameState(parentEngine) {
     addElement(std::move(navbar));
 
 
-    // ADDING SIDE_BAR
+    /// ADDING SIDE_BAR
 
     auto sideBar = std::make_shared<Form>("SideBar");
 
-    auto winterPuff = std::make_shared<ImageButton>(pathManager.getPicturePath("summerPuff"),
+    auto summerPuff = std::make_shared<ImageButton>(pathManager.getPicturePath("summerPuff"),
                                                     ImVec2(128.0f, 128.0f),
-                                                    5, true, [](){});
+                                                    5, true, [pokemon, puff, this]() {
+                pokemon->feed(puff->eat());
+                savePokemonProgress(pokemon->getInfo(), this->_parentEngine);
+            });
 
-    auto summerPuff = std::make_shared<ImageButton>(pathManager.getPicturePath("winterPuff"),
-                                                    ImVec2(128.0f, 128.0f),
-                                                    5, true, [](){});
-
-    auto springPuff = std::make_shared<ImageButton>(pathManager.getPicturePath("wishPuff"),
-                                                    ImVec2(128.0f, 128.0f),
-                                                    5, true, [](){});
-
-    sideBar->addElement(std::move(winterPuff));
     sideBar->addElement(std::move(summerPuff));
-    sideBar->addElement(std::move(springPuff));
-
     addElement(std::move(sideBar));
+}
+KitchenState::~KitchenState() {
+    auto pokemonInfo = _parentEngine->getSessionInfo("pokemon");
+    savePokemonProgress(pokemonInfo, _parentEngine);
 }

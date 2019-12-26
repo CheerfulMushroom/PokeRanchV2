@@ -116,7 +116,6 @@ HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
     /// ADDING BUTTONS
 
 
-
     auto kitchenButton = std::make_shared<ImageButton>("Game/Resources/Pictures/cake-slice.png",
                                                        ImVec2(64.0f, 64.0f),
                                                        5, true,
@@ -128,11 +127,21 @@ HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
     auto saveButton = std::make_shared<ImageButton>("Game/Resources/Pictures/save.png",
                                                     ImVec2(64.0f, 64.0f),
                                                     5, true,
-                                                    std::bind(savePokemonProgress, pokemon, this->_parentEngine));
+                                                    std::bind(savePokemonProgress, pokemon->getInfo(), this->_parentEngine));
+    auto petButton = std::make_shared<ImageButton>("Game/Resources/Pictures/hand.png",
+                                                    ImVec2(64.0f, 64.0f),
+                                                    5, true,
+                                                    std::bind(&Pokemon::pet, pokemon.get(), 15));
 
     auto navbar = std::make_shared<NavBar>();
     navbar->addElement(std::move(kitchenButton));
     navbar->addElement(std::move(homeButton));
     navbar->addElement(std::move(saveButton));
+    navbar->addElement(std::move(petButton));
     addElement(std::move(navbar));
+}
+
+HomeState::~HomeState() {
+    auto pokemonInfo = _parentEngine->getSessionInfo("pokemon");
+    savePokemonProgress(pokemonInfo, _parentEngine);
 }

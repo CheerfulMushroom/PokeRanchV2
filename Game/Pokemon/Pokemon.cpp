@@ -68,11 +68,16 @@ void Pokemon::update(double dt) {
     }
 
     /// UPDATE HEALTH
+    if (_satiety > 0) {
+        _health += dt / (1 * 1000) * _satiety / 10;
+    }
+
     if (_health < 0) {
         _health = 0;
     } else if (_health > _maxHealth) {
         _health = _maxHealth;
     }
+
 
     _timeSinceFeeding += dt;
     _alive = _health > 0;
@@ -104,11 +109,17 @@ std::map<std::string, std::string> Pokemon::getInfo() {
 }
 
 void Pokemon::feed(int satietyFactor) {
-    _satiety += satietyFactor;
+    if (satietyFactor > 0) {
+        _timeSinceFeeding = 0;
+        _satiety += satietyFactor;
+        _loyalty += satietyFactor / 2.0;
+    }
 }
 
 void Pokemon::pet(int loyaltyFactor) {
-    _loyalty += loyaltyFactor;
+    if (_health > 0) {
+        _loyalty += loyaltyFactor;
+    }
 }
 
 void Pokemon::switchAnimation(const std::string &action) {
