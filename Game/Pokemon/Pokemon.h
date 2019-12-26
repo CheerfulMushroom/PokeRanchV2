@@ -12,8 +12,7 @@
 
 class Pokemon : public GameElement {
 public:
-    Pokemon(const std::string &pathToModel,
-            const std::shared_ptr<Camera> &camera,
+    Pokemon(std::shared_ptr<Camera> camera,
             glm::vec3 translate,
             float scale,
             glm::vec3 angles,
@@ -37,6 +36,14 @@ public:
     std::map<std::string, std::string> getInfo();
 
 private:
+    void switchAnimation(const std::string &action);
+
+    std::shared_ptr<Camera> _camera;
+    glm::vec3 _translate;
+    float _scale;
+    glm::vec3 _angles;
+    int _width;
+    int _height;
     AnimModel _model;
     std::string _name;
     double _power;

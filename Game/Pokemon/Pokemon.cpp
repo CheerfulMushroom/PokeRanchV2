@@ -1,8 +1,8 @@
 #include "Pokemon.h"
 #include "Camera.h"
+#include "PathManager.h"
 
-Pokemon::Pokemon(const std::string &pathToModel,
-                 const std::shared_ptr<Camera> &camera,
+Pokemon::Pokemon(std::shared_ptr<Camera> camera,
                  glm::vec3 translate,
                  float scale,
                  glm::vec3 angles,
@@ -16,22 +16,31 @@ Pokemon::Pokemon(const std::string &pathToModel,
                  int health,
                  int maxHealth,
                  int secondsSinceLastSave) :
-        _model(pathToModel,
-               camera.get(),
-               translate,
-               scale,
-               angles,
-               width,
-               height,
-               std::string("pokemon")),
-        _name(std::move(name)),
+        _camera(std::move(camera)),
+        _translate(translate),
+        _scale(scale),
+        _angles(angles),
+        _width(width),
+        _height(height),
+        _name(name),
         _power(power),
         _agility(agility),
         _loyalty(loyalty),
         _satiety(satiety),
         _health(health),
-        _maxHealth(maxHealth) {
-    update(secondsSinceLastSave * 1000);
+        _maxHealth(maxHealth),
+        _model("Game/Resources/Models/Pokemons/" + name +"/stay.dae",
+               _camera.get(),
+               _translate,
+               _scale,
+               _angles,
+               _width,
+               _height,
+               std::string("pokemon")) {
+
+    switchAnimation("stay");
+    update(secondsSinceLastSave
+           * 1000);
 }
 
 void Pokemon::render() {
@@ -85,4 +94,11 @@ void Pokemon::feed(int satietyFactor) {
 
 void Pokemon::pet(int loyaltyFactor) {
     _loyalty += loyaltyFactor;
+}
+
+void Pokemon::switchAnimation(const std::string &action) {
+    PathManager pathManager;
+    std::string pokemonPath = pathManager.getPokemonPath(_name, action);
+    _model.change_animation(pokemonPath);
+
 }

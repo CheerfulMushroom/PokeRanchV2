@@ -26,7 +26,6 @@ HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
     auto trainerInfo = _parentEngine->getSessionInfo("trainer");
 
     PathManager pathManager;
-    std::string pokemonPath = pathManager.getPokemonPath(pokemonInfo["name"], "stay");
     std::string trainerPath = pathManager.getTrainerPath(trainerInfo["name"], "stay");
 
     int width = _parentEngine->getWindow()->getWindowSize().first;
@@ -41,8 +40,7 @@ HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
                                          height,
                                          std::string("house"));
 
-    auto pokemon = std::make_shared<Pokemon>(pokemonPath,
-                                             camera,
+    auto pokemon = std::make_shared<Pokemon>(camera,
                                              glm::vec3(0.9f, -1.0f, 0.0f),
                                              0.02,
                                              glm::vec3(90.0f, 150.0f, 0.0f),
