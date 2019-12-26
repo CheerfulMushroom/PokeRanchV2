@@ -115,30 +115,17 @@ HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
 
     /// ADDING BUTTONS
 
-    auto emptyFunc = std::function([] {});
 
-//    auto kitchenButton = std::make_shared<ImageButton>("Game/Resources/Pictures/cake-slice.png",
-//                                                       ImVec2(64.0f, 64.0f),
-//                                                       5, true, emptyFunc);
 
     auto kitchenButton = std::make_shared<ImageButton>("Game/Resources/Pictures/cake-slice.png",
                                                        ImVec2(64.0f, 64.0f),
                                                        5, true,
                                                        std::bind(switchToState<KitchenState>, this->_parentEngine));
-
     auto homeButton = std::make_shared<ImageButton>("Game/Resources/Pictures/house.png",
                                                     ImVec2(64.0f, 64.0f),
-                                                    5, false, emptyFunc);
-    auto gymButton = std::make_shared<ImageButton>("Game/Resources/Pictures/muscle-up.png",
-                                                   ImVec2(64.0f, 64.0f),
-                                                   5, true, emptyFunc);
-    auto socialButton = std::make_shared<ImageButton>("Game/Resources/Pictures/human-pyramid.png",
-                                                      ImVec2(64.0f, 64.0f),
-                                                      5, true, emptyFunc);
-    auto battleButton = std::make_shared<ImageButton>("Game/Resources/Pictures/champions.png",
-                                                      ImVec2(64.0f, 64.0f),
-                                                      5, true, emptyFunc);
-    auto saveButton = std::make_shared<ImageButton>("Game/Resources/Pictures/champions.png",
+                                                    5, false,
+                                                    std::bind(switchToState<HomeState>, this->_parentEngine));
+    auto saveButton = std::make_shared<ImageButton>("Game/Resources/Pictures/save.png",
                                                     ImVec2(64.0f, 64.0f),
                                                     5, true,
                                                     std::bind(savePokemonProgress, pokemon, this->_parentEngine));
@@ -146,9 +133,6 @@ HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
     auto navbar = std::make_shared<NavBar>();
     navbar->addElement(std::move(kitchenButton));
     navbar->addElement(std::move(homeButton));
-    navbar->addElement(std::move(gymButton));
-    navbar->addElement(std::move(socialButton));
-    navbar->addElement(std::move(battleButton));
     navbar->addElement(std::move(saveButton));
     addElement(std::move(navbar));
 }

@@ -3,12 +3,14 @@
 
 #define MAX_SATIETY 100
 #define MAX_LOYALTY 100
+#define HAPPY_AFTER_FEEDING_MS 2000
 
 #include <memory>
 #include <glm/glm.hpp>
 
 #include "GameElement.h"
 #include "AnimModel.h"
+
 
 class Pokemon : public GameElement {
 public:
@@ -18,7 +20,7 @@ public:
             glm::vec3 angles,
             int width,
             int height,
-            std::string name,
+            const std::string& name,
             int power,
             int agility,
             int loyalty,
@@ -52,6 +54,10 @@ private:
     double _satiety;
     double _health;
     double _maxHealth;
+
+    bool _alive;
+    bool _happy;
+    double _timeSinceFeeding;
 };
 
 

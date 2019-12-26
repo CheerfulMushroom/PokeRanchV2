@@ -8,7 +8,7 @@ Pokemon::Pokemon(std::shared_ptr<Camera> camera,
                  glm::vec3 angles,
                  int width,
                  int height,
-                 std::string name,
+                 const std::string &name,
                  int power,
                  int agility,
                  int loyalty,
@@ -36,7 +36,10 @@ Pokemon::Pokemon(std::shared_ptr<Camera> camera,
                _angles,
                _width,
                _height,
-               std::string("pokemon")) {
+               std::string("pokemon")),
+        _alive(health > 0),
+        _happy(false),
+        _timeSinceFeeding(HAPPY_AFTER_FEEDING_MS) {
 
     switchAnimation("stay");
     update(secondsSinceLastSave * 1000);
@@ -69,6 +72,19 @@ void Pokemon::update(double dt) {
         _health = 0;
     } else if (_health > _maxHealth) {
         _health = _maxHealth;
+    }
+
+    _timeSinceFeeding += dt;
+    _alive = _health > 0;
+    _happy = _timeSinceFeeding < HAPPY_AFTER_FEEDING_MS;
+
+    /// UPDATE ANIMATION
+    if (!_alive) {
+        switchAnimation("sleep");
+    } else if (_happy) {
+        switchAnimation("emotion");
+    } else {
+        switchAnimation("stay");
     }
 
     _model.update(dt);

@@ -4,6 +4,7 @@
 #include "AuthState.h"
 #include "GymState.h"
 #include "KitchenState.h"
+#include "HomeState.h"
 
 #include "ImageButton.h"
 #include "NavBar.h"
@@ -147,26 +148,15 @@ KitchenState::KitchenState(Engine *parentEngine) : GameState(parentEngine) {
 
     /// ADDING BUTTONS
 
-    auto emptyFunc = std::function([] {});
-
-    auto kitchenButton = std::make_shared<ImageButton>(pathManager.getPicturePath("cake-slice"),
+    auto kitchenButton = std::make_shared<ImageButton>("Game/Resources/Pictures/cake-slice.png",
                                                        ImVec2(64.0f, 64.0f),
                                                        5, false,
                                                        std::bind(switchToState<KitchenState>, this->_parentEngine));
-
-    auto homeButton = std::make_shared<ImageButton>(pathManager.getPicturePath("house"),
+    auto homeButton = std::make_shared<ImageButton>("Game/Resources/Pictures/house.png",
                                                     ImVec2(64.0f, 64.0f),
-                                                    5, true, emptyFunc);
-    auto gymButton = std::make_shared<ImageButton>(pathManager.getPicturePath("muscle-up"),
-                                                   ImVec2(64.0f, 64.0f),
-                                                   5, true, emptyFunc);
-    auto socialButton = std::make_shared<ImageButton>(pathManager.getPicturePath("human-pyramid"),
-                                                      ImVec2(64.0f, 64.0f),
-                                                      5, true, emptyFunc);
-    auto battleButton = std::make_shared<ImageButton>(pathManager.getPicturePath("champions"),
-                                                      ImVec2(64.0f, 64.0f),
-                                                      5, true, emptyFunc);
-    auto saveButton = std::make_shared<ImageButton>(pathManager.getPicturePath("champions"),
+                                                    5, true,
+                                                    std::bind(switchToState<HomeState>, this->_parentEngine));
+    auto saveButton = std::make_shared<ImageButton>("Game/Resources/Pictures/save.png",
                                                     ImVec2(64.0f, 64.0f),
                                                     5, true,
                                                     std::bind(savePokemonProgress, pokemon, this->_parentEngine));
@@ -174,9 +164,6 @@ KitchenState::KitchenState(Engine *parentEngine) : GameState(parentEngine) {
     auto navbar = std::make_shared<NavBar>();
     navbar->addElement(std::move(kitchenButton));
     navbar->addElement(std::move(homeButton));
-    navbar->addElement(std::move(gymButton));
-    navbar->addElement(std::move(socialButton));
-    navbar->addElement(std::move(battleButton));
     navbar->addElement(std::move(saveButton));
     addElement(std::move(navbar));
 
@@ -187,15 +174,15 @@ KitchenState::KitchenState(Engine *parentEngine) : GameState(parentEngine) {
 
     auto winterPuff = std::make_shared<ImageButton>(pathManager.getPicturePath("summerPuff"),
                                                     ImVec2(128.0f, 128.0f),
-                                                    5, true, emptyFunc);
+                                                    5, true, [](){});
 
     auto summerPuff = std::make_shared<ImageButton>(pathManager.getPicturePath("winterPuff"),
                                                     ImVec2(128.0f, 128.0f),
-                                                    5, true, emptyFunc);
+                                                    5, true, [](){});
 
     auto springPuff = std::make_shared<ImageButton>(pathManager.getPicturePath("wishPuff"),
                                                     ImVec2(128.0f, 128.0f),
-                                                    5, true, emptyFunc);
+                                                    5, true, [](){});
 
     sideBar->addElement(std::move(winterPuff));
     sideBar->addElement(std::move(summerPuff));
