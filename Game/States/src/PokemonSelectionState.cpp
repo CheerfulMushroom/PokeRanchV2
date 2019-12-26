@@ -30,7 +30,8 @@ PokemonSelectionState::PokemonSelectionState(Engine* parentEngine) : GameState(p
 
     std::vector<std::string> pokemonsName = {"Pikachu",
                                              "Meowth",
-                                             "Litten"};
+                                             "Litten",
+                                             "Vulpix"};
 
     auto modelSwitcher = std::make_shared<ModelSwitcher<AnimModel>>(*this,
                                                                     pokemonsName,

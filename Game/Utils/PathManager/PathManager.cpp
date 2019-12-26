@@ -39,6 +39,27 @@ std::string PathManager::getTrainerPath(const std::string &trainerName, const st
     return resultPath.string();
 }
 
+std::string PathManager::getStaticModelPath(const std::string &modelName) const {
+    boost::filesystem::path resultPath(_pathToAllModels);
+    resultPath /= "Static";
+
+    resultPath /= modelName;
+    // в данный момент у нас нет единства в плане формата моделей (присутствуют .dae, .obj, .mtl и другие),
+    // переводить все модели в единый 3D формат сейчас затруднительно и времязатратно, поэтому остановимся на
+    // костыле с перебором формата до нахождения существующего файла
+
+    if (boost::filesystem::exists(resultPath.string() + ".dae")) {
+        resultPath += ".dae";
+    } else if (boost::filesystem::exists(resultPath.string() + ".obj")) {
+        resultPath += ".obj";
+    } else if (boost::filesystem::exists(resultPath.string() + ".mtl")) {
+        resultPath += ".mtl";
+    }
+
+
+    return resultPath.string();
+}
+
 
 
 
