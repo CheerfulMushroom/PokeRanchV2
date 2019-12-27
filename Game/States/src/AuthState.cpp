@@ -18,14 +18,13 @@ AuthState::AuthState(Engine* parentEngine) : GameState(parentEngine) {
     /// LOGIN FORM
 
 
-    auto background = std::make_shared<Picture>(-1.0f, -1.0f, 2.0f, 2.0f, "Game/Resources/Pictures/background.png");
+    auto background = std::make_shared<Picture>(-1.0f, -1.0f, 2.0f, 2.0f, "Game/Resources/Pictures/loginBackground.png");
+    addElement(background);
 
     auto loginForm = std::make_shared<Form>("LoginForm");
 
     auto loginInput = std::make_shared<InputText>("login", false, false);
     auto passwordInput = std::make_shared<InputText>("password", false, true);
-
-    addElement(background);
 
     loginForm->addElement(loginInput);
     loginForm->addElement(passwordInput);
@@ -49,8 +48,8 @@ AuthState::AuthState(Engine* parentEngine) : GameState(parentEngine) {
 
     auto logo = std::make_shared<Model>("Game/Resources/Models/Static/PokemonLogo/Logo.dae",
                                         camera.get(),
-                                        glm::vec3(0.0f, 1.4f, -2.0f),
-                                        0.006,
+                                        glm::vec3(0.0f, 1.0f, 0.0f),
+                                        0.004,
                                         glm::vec3(0.0f, 0.0f, 0.0f),
                                         width,
                                         height,

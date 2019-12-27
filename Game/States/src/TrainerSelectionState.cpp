@@ -12,6 +12,7 @@
 #include "Camera.h"
 #include "Model.h"
 #include "AnimModel.h"
+#include "Picture.h"
 
 #include "PathManager.h"
 #include "ModelSwitcher.h"
@@ -21,6 +22,9 @@
 
 TrainerSelectionState::TrainerSelectionState(Engine *parentEngine) : GameState(parentEngine) {
     PathManager pathManager;
+
+    auto background = std::make_shared<Picture>(-1.0f, -1.0f, 2.0f, 2.0f, "Game/Resources/Pictures/trainerSelectBackground.png");
+    addElement(std::move(background));
 
     auto camera = std::make_shared<Camera>(glm::vec3(0.0f, 0.0f, 4.0f));
 

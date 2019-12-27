@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include "Form.h"
 #include "InputText.h"
@@ -6,6 +5,7 @@
 #include "Model.h"
 #include "Camera.h"
 #include "Engine.h"
+#include "Picture.h"
 
 #include "TrainerSelectionState.h"
 #include "RegisterState.h"
@@ -15,6 +15,10 @@
 
 RegisterState::RegisterState(Engine* parentEngine) : GameState(parentEngine) {
     auto registrationForm = std::make_shared<Form>("RegisterForm");
+
+    auto background = std::make_shared<Picture>(-1.0f, -1.0f, 2.0f, 2.0f, "Game/Resources/Pictures/registerBackground.png");
+    addElement(background);
+
 
     auto loginInput = std::make_shared<InputText>("login", false, false);
     auto passwordInput = std::make_shared<InputText>("password", false, true);

@@ -12,6 +12,7 @@
 #include "Camera.h"
 #include "Model.h"
 #include "AnimModel.h"
+#include "Picture.h"
 
 #include "PathManager.h"
 #include "ModelSwitcher.hpp"
@@ -20,6 +21,9 @@
 
 PokemonSelectionState::PokemonSelectionState(Engine* parentEngine) : GameState(parentEngine) {
     PathManager pathManager;
+
+    auto background = std::make_shared<Picture>(-1.0f, -1.0f, 2.0f, 2.0f, "Game/Resources/Pictures/pokemonSelectBackground.png");
+    addElement(std::move(background));
 
     auto camera = std::make_shared<Camera>(glm::vec3(0.0f, 0.0f, 4.0f));
 
@@ -36,9 +40,9 @@ PokemonSelectionState::PokemonSelectionState(Engine* parentEngine) : GameState(p
     auto modelSwitcher = std::make_shared<ModelSwitcher<AnimModel>>(*this,
                                                                     pokemonsName,
                                                                     camera_ptr,
-                                                                    glm::vec3(0.0f, -1.0f, 0.0f),
-                                                                    0.02,
-                                                                    glm::vec3(90.0f, 180.0f, 0.0f),
+                                                                    glm::vec3(-1.4f, -1.0f, 1.0f),
+                                                                    0.024,
+                                                                    glm::vec3(90.0f, 223.0f, 0.0f),
                                                                     width,
                                                                     height,
                                                                     "pokemon",

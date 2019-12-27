@@ -1,24 +1,47 @@
 #include "Pokemon.h"
 #include "Camera.h"
+#include "PathManager.h"
 
-Pokemon::Pokemon(const std::shared_ptr<Camera> &camera, int width, int height, const std::string &pathToModel,
-                 std::string name, int power, int agility, int loyalty, int satiety, int health, int maxHealth,
+Pokemon::Pokemon(std::shared_ptr<Camera> camera,
+                 glm::vec3 translate,
+                 float scale,
+                 glm::vec3 angles,
+                 int width,
+                 int height,
+                 const std::string &name,
+                 int power,
+                 int agility,
+                 int loyalty,
+                 int satiety,
+                 int health,
+                 int maxHealth,
                  int secondsSinceLastSave) :
-        _model(pathToModel,
-               camera.get(),
-               glm::vec3(0.9f, -1.0f, 0.0f),
-               0.02,
-               glm::vec3(90.0f, 150.0f, 0.0f),
-               width,
-               height,
-               std::string("pokemon")),
-        _name(std::move(name)),
+        _camera(std::move(camera)),
+        _translate(translate),
+        _scale(scale),
+        _angles(angles),
+        _width(width),
+        _height(height),
+        _name(name),
         _power(power),
         _agility(agility),
         _loyalty(loyalty),
         _satiety(satiety),
         _health(health),
-        _maxHealth(maxHealth) {
+        _maxHealth(maxHealth),
+        _model("Game/Resources/Models/Pokemons/" + name + "/stay.dae",
+               _camera.get(),
+               _translate,
+               _scale,
+               _angles,
+               _width,
+               _height,
+               std::string("pokemon")),
+        _alive(health > 0),
+        _happy(false),
+        _timeSinceFeeding(HAPPY_AFTER_FEEDING_MS) {
+
+    switchAnimation("stay");
     update(secondsSinceLastSave * 1000);
 }
 
@@ -45,10 +68,28 @@ void Pokemon::update(double dt) {
     }
 
     /// UPDATE HEALTH
+    if (_satiety > 0) {
+        _health += dt / (1 * 1000) * _satiety / 10;
+    }
+
     if (_health < 0) {
         _health = 0;
     } else if (_health > _maxHealth) {
         _health = _maxHealth;
+    }
+
+
+    _timeSinceFeeding += dt;
+    _alive = _health > 0;
+    _happy = _timeSinceFeeding < HAPPY_AFTER_FEEDING_MS;
+
+    /// UPDATE ANIMATION
+    if (!_alive) {
+        switchAnimation("sleep");
+    } else if (_happy) {
+        switchAnimation("emotion");
+    } else {
+        switchAnimation("stay");
     }
 
     _model.update(dt);
@@ -68,9 +109,22 @@ std::map<std::string, std::string> Pokemon::getInfo() {
 }
 
 void Pokemon::feed(int satietyFactor) {
-    _satiety += satietyFactor;
+    if (satietyFactor > 0) {
+        _timeSinceFeeding = 0;
+        _satiety += satietyFactor;
+        _loyalty += satietyFactor / 2.0;
+    }
 }
 
 void Pokemon::pet(int loyaltyFactor) {
-    _loyalty += loyaltyFactor;
+    if (_health > 0) {
+        _loyalty += loyaltyFactor;
+    }
+}
+
+void Pokemon::switchAnimation(const std::string &action) {
+    PathManager pathManager;
+    std::string pokemonPath = pathManager.getPokemonPath(_name, action);
+    _model.change_animation(pokemonPath);
+
 }

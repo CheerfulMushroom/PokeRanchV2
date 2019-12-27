@@ -4,6 +4,7 @@
 #include "AuthState.h"
 #include "GymState.h"
 #include "KitchenState.h"
+#include "HomeState.h"
 
 #include "ImageButton.h"
 #include "NavBar.h"
@@ -11,6 +12,7 @@
 #include "Model.h"
 #include "AnimModel.h"
 #include "Pokemon.h"
+#include "Cupcake.h"
 #include "PathManager.h"
 #include "ProgressBar.h"
 #include "Form.h"
@@ -27,7 +29,6 @@ KitchenState::KitchenState(Engine *parentEngine) : GameState(parentEngine) {
 
     PathManager pathManager;
 
-    std::string pokemonPath = pathManager.getPokemonPath(pokemonInfo["name"], "eat");
 
     std::string cockPath = pathManager.getTrainerPath("Cook", "stay");
 
@@ -53,16 +54,20 @@ KitchenState::KitchenState(Engine *parentEngine) : GameState(parentEngine) {
                                          std::string("plate"));
 
 
-    auto puff = std::make_shared<Model>(pathManager.getStaticModelPath("PokePuffs/Summer/summer1"),
-                                         camera.get(),
-                                         glm::vec3(0.0f, -0.77f, -2.0f),
-                                         0.04,
-                                         glm::vec3(0.0f, 38.0f, 0.0f),
-                                         width,
-                                         height,
-                                         std::string("puff"));
+    auto puff = std::make_shared<Cupcake>("PokePuffs/Summer/summer",
+                                          camera,
+                                          glm::vec3(0.0f, -0.77f, -2.0f),
+                                          0.04,
+                                          glm::vec3(0.0f, 38.0f, 0.0f),
+                                          width,
+                                          height);
 
-    auto pokemon = std::make_shared<Pokemon>(camera, width, height, pokemonPath,
+    auto pokemon = std::make_shared<Pokemon>(camera,
+                                             glm::vec3(0.9f, -1.0f, 0.0f),
+                                             0.02,
+                                             glm::vec3(90.0f, 150.0f, 0.0f),
+                                             width,
+                                             height,
                                              pokemonInfo["name"],
                                              std::stoi(pokemonInfo["power"]),
                                              std::stoi(pokemonInfo["agility"]),
@@ -124,8 +129,8 @@ KitchenState::KitchenState(Engine *parentEngine) : GameState(parentEngine) {
     auto emptyFunction = []() {};
 
     auto pokemonIcon = std::make_shared<ImageButton>(pathManager.getPicturePath(pokemonInfo["name"] + "Icon"),
-                                                       ImVec2(64.0f, 64.0f),
-                                                       0, true, emptyFunction);
+                                                     ImVec2(64.0f, 64.0f),
+                                                     0, true, emptyFunction);
 
     pokemonStats->addElement(pokemonIcon);
     pokemonStats->addElement(loyaltyBar);
@@ -138,64 +143,47 @@ KitchenState::KitchenState(Engine *parentEngine) : GameState(parentEngine) {
     auto pokemonInfoUpdater = std::make_shared<PokemonInfoUpdater>(pokemon,
                                                                    healthBar,
                                                                    satietyBar,
-                                                                   loyaltyBar);
+                                                                   loyaltyBar,
+                                                                   this->_parentEngine);
     addElement(pokemonInfoUpdater);
 
     /// ADDING BUTTONS
 
-    auto emptyFunc = std::function([] {});
-
-    auto kitchenButton = std::make_shared<ImageButton>(pathManager.getPicturePath("cake-slice"),
+    auto kitchenButton = std::make_shared<ImageButton>("Game/Resources/Pictures/cake-slice.png",
                                                        ImVec2(64.0f, 64.0f),
                                                        5, false,
                                                        std::bind(switchToState<KitchenState>, this->_parentEngine));
-
-    auto homeButton = std::make_shared<ImageButton>(pathManager.getPicturePath("house"),
-                                                    ImVec2(64.0f, 64.0f),
-                                                    5, true, emptyFunc);
-    auto gymButton = std::make_shared<ImageButton>(pathManager.getPicturePath("muscle-up"),
-                                                   ImVec2(64.0f, 64.0f),
-                                                   5, true, emptyFunc);
-    auto socialButton = std::make_shared<ImageButton>(pathManager.getPicturePath("human-pyramid"),
-                                                      ImVec2(64.0f, 64.0f),
-                                                      5, true, emptyFunc);
-    auto battleButton = std::make_shared<ImageButton>(pathManager.getPicturePath("champions"),
-                                                      ImVec2(64.0f, 64.0f),
-                                                      5, true, emptyFunc);
-    auto saveButton = std::make_shared<ImageButton>(pathManager.getPicturePath("champions"),
+    auto homeButton = std::make_shared<ImageButton>("Game/Resources/Pictures/house.png",
                                                     ImVec2(64.0f, 64.0f),
                                                     5, true,
-                                                    std::bind(savePokemonProgress, pokemon, this->_parentEngine));
+                                                    std::bind(switchToState<HomeState>, this->_parentEngine));
+    auto saveButton = std::make_shared<ImageButton>("Game/Resources/Pictures/save.png",
+                                                    ImVec2(64.0f, 64.0f),
+                                                    5, true,
+                                                    std::bind(savePokemonProgress, pokemon->getInfo(), this->_parentEngine));
 
     auto navbar = std::make_shared<NavBar>();
     navbar->addElement(std::move(kitchenButton));
     navbar->addElement(std::move(homeButton));
-    navbar->addElement(std::move(gymButton));
-    navbar->addElement(std::move(socialButton));
-    navbar->addElement(std::move(battleButton));
     navbar->addElement(std::move(saveButton));
     addElement(std::move(navbar));
 
 
-    // ADDING SIDE_BAR
+    /// ADDING SIDE_BAR
 
     auto sideBar = std::make_shared<Form>("SideBar");
 
-    auto winterPuff = std::make_shared<ImageButton>(pathManager.getPicturePath("summerPuff"),
+    auto summerPuff = std::make_shared<ImageButton>(pathManager.getPicturePath("summerPuff"),
                                                     ImVec2(128.0f, 128.0f),
-                                                    5, true, emptyFunc);
+                                                    5, true, [pokemon, puff, this]() {
+                pokemon->feed(puff->eat());
+                savePokemonProgress(pokemon->getInfo(), this->_parentEngine);
+            });
 
-    auto summerPuff = std::make_shared<ImageButton>(pathManager.getPicturePath("winterPuff"),
-                                                    ImVec2(128.0f, 128.0f),
-                                                    5, true, emptyFunc);
-
-    auto springPuff = std::make_shared<ImageButton>(pathManager.getPicturePath("wishPuff"),
-                                                    ImVec2(128.0f, 128.0f),
-                                                    5, true, emptyFunc);
-
-    sideBar->addElement(std::move(winterPuff));
     sideBar->addElement(std::move(summerPuff));
-    sideBar->addElement(std::move(springPuff));
-
     addElement(std::move(sideBar));
+}
+KitchenState::~KitchenState() {
+    auto pokemonInfo = _parentEngine->getSessionInfo("pokemon");
+    savePokemonProgress(pokemonInfo, _parentEngine);
 }

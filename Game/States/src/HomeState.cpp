@@ -26,7 +26,6 @@ HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
     auto trainerInfo = _parentEngine->getSessionInfo("trainer");
 
     PathManager pathManager;
-    std::string pokemonPath = pathManager.getPokemonPath(pokemonInfo["name"], "stay");
     std::string trainerPath = pathManager.getTrainerPath(trainerInfo["name"], "stay");
 
     int width = _parentEngine->getWindow()->getWindowSize().first;
@@ -41,7 +40,12 @@ HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
                                          height,
                                          std::string("house"));
 
-    auto pokemon = std::make_shared<Pokemon>(camera, width, height, pokemonPath,
+    auto pokemon = std::make_shared<Pokemon>(camera,
+                                             glm::vec3(0.9f, -1.0f, 0.0f),
+                                             0.02,
+                                             glm::vec3(90.0f, 150.0f, 0.0f),
+                                             width,
+                                             height,
                                              pokemonInfo["name"],
                                              std::stoi(pokemonInfo["power"]),
                                              std::stoi(pokemonInfo["agility"]),
@@ -96,6 +100,13 @@ HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
 
 
     auto pokemonStats = std::make_shared<Form>("PokemonStats");
+    auto emptyFunction = []() {};
+
+    auto pokemonIcon = std::make_shared<ImageButton>(pathManager.getPicturePath(pokemonInfo["name"] + "Icon"),
+                                                     ImVec2(64.0f, 64.0f),
+                                                     0, true, emptyFunction);
+
+    pokemonStats->addElement(pokemonIcon);
     pokemonStats->addElement(loyaltyBar);
     pokemonStats->addElement(satietyBar);
     pokemonStats->addElement(healthBar);
@@ -106,45 +117,39 @@ HomeState::HomeState(Engine *parentEngine) : GameState(parentEngine) {
     auto pokemonInfoUpdater = std::make_shared<PokemonInfoUpdater>(pokemon,
                                                                    healthBar,
                                                                    satietyBar,
-                                                                   loyaltyBar);
+                                                                   loyaltyBar,
+                                                                   this->_parentEngine);
     addElement(pokemonInfoUpdater);
 
     /// ADDING BUTTONS
 
-    auto emptyFunc = std::function([] {});
-
-//    auto kitchenButton = std::make_shared<ImageButton>("Game/Resources/Pictures/cake-slice.png",
-//                                                       ImVec2(64.0f, 64.0f),
-//                                                       5, true, emptyFunc);
 
     auto kitchenButton = std::make_shared<ImageButton>("Game/Resources/Pictures/cake-slice.png",
                                                        ImVec2(64.0f, 64.0f),
                                                        5, true,
                                                        std::bind(switchToState<KitchenState>, this->_parentEngine));
-
     auto homeButton = std::make_shared<ImageButton>("Game/Resources/Pictures/house.png",
                                                     ImVec2(64.0f, 64.0f),
-                                                    5, false, emptyFunc);
-    auto gymButton = std::make_shared<ImageButton>("Game/Resources/Pictures/muscle-up.png",
-                                                   ImVec2(64.0f, 64.0f),
-                                                   5, true, emptyFunc);
-    auto socialButton = std::make_shared<ImageButton>("Game/Resources/Pictures/human-pyramid.png",
-                                                      ImVec2(64.0f, 64.0f),
-                                                      5, true, emptyFunc);
-    auto battleButton = std::make_shared<ImageButton>("Game/Resources/Pictures/champions.png",
-                                                      ImVec2(64.0f, 64.0f),
-                                                      5, true, emptyFunc);
-    auto saveButton = std::make_shared<ImageButton>("Game/Resources/Pictures/champions.png",
+                                                    5, false,
+                                                    std::bind(switchToState<HomeState>, this->_parentEngine));
+    auto saveButton = std::make_shared<ImageButton>("Game/Resources/Pictures/save.png",
                                                     ImVec2(64.0f, 64.0f),
                                                     5, true,
-                                                    std::bind(savePokemonProgress, pokemon, this->_parentEngine));
+                                                    std::bind(savePokemonProgress, pokemon->getInfo(), this->_parentEngine));
+    auto petButton = std::make_shared<ImageButton>("Game/Resources/Pictures/hand.png",
+                                                    ImVec2(64.0f, 64.0f),
+                                                    5, true,
+                                                    std::bind(&Pokemon::pet, pokemon.get(), 15));
 
     auto navbar = std::make_shared<NavBar>();
     navbar->addElement(std::move(kitchenButton));
     navbar->addElement(std::move(homeButton));
-    navbar->addElement(std::move(gymButton));
-    navbar->addElement(std::move(socialButton));
-    navbar->addElement(std::move(battleButton));
     navbar->addElement(std::move(saveButton));
+    navbar->addElement(std::move(petButton));
     addElement(std::move(navbar));
+}
+
+HomeState::~HomeState() {
+    auto pokemonInfo = _parentEngine->getSessionInfo("pokemon");
+    savePokemonProgress(pokemonInfo, _parentEngine);
 }

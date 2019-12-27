@@ -11,6 +11,7 @@ class Engine;
 class KitchenState : public GameState {
 public:
     explicit KitchenState(Engine *parentEngine);
+    ~KitchenState();
 };
 
 #endif //POKE_RANCH_V2_KITCHEN_STATE_H_

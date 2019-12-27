@@ -30,7 +30,7 @@ ModelSwitcher<ModelType>::ModelSwitcher(GameState &state,
 
 
     auto model = std::make_shared<ModelType>(initModelPath,
-                        camera,
+                        _camera,
                         _translate,
                         _scale,
                         _angles,

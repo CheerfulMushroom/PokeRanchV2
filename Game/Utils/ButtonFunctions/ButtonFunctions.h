@@ -10,7 +10,8 @@
 template<class State>
 void switchToState(Engine *engine);
 
-void savePokemonProgress(const std::shared_ptr<Pokemon> &pokemon, Engine *engine);
+void savePokemonProgress(std::map<std::string, std::string> pokemonInfo, Engine *engine);
+
 
 #include <ButtonFunctions.hpp>
 

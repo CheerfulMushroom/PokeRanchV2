@@ -7,10 +7,16 @@ static unsigned int texture_from_file(const std::string &path) {  // Перен�
     unsigned int texture_id;
     glGenTextures(1, &texture_id);
 
-    cv::Mat image = cv::imread(path);
+    cv::Mat image = cv::imread(path, -1);
+    bool has_alpha = image.channels() == 4;
 
     glBindTexture(GL_TEXTURE_2D, texture_id);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image.cols, image.rows, 0, GL_BGR, GL_UNSIGNED_BYTE, image.ptr());
+
+    if (has_alpha) {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.cols, image.rows, 0, GL_BGRA, GL_UNSIGNED_BYTE, image.ptr());
+    } else {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image.cols, image.rows, 0, GL_BGR, GL_UNSIGNED_BYTE, image.ptr());
+    }
 
     glGenerateMipmap(GL_TEXTURE_2D);
 
@@ -50,7 +56,7 @@ void ImageButton::render() {
                            ImVec2(0, 0),
                            ImVec2(1, 1),
                            _padding,
-                           ImVec4(0.0f, 0.0f, 0.0f, 1.0f))) {
+                           ImVec4(0.0f, 0.0f, 0.0f, 0.0f))) {
         _isClicked = true;
     }
 
