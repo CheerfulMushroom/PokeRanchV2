@@ -5,7 +5,7 @@ find_package(OpenCV REQUIRED)
 include_directories(${OPENCV_INCLUDE_DIRS})
 
 
-add_compile_definitions(DEBUG_MODEL)
+#add_compile_definitions(DEBUG_MODEL)
 #add_compile_definitions(DEBUG_GAME_STATE)
 #add_compile_definitions(GUI_DEBUG)
 
