@@ -143,7 +143,8 @@ KitchenState::KitchenState(Engine *parentEngine) : GameState(parentEngine) {
     auto pokemonInfoUpdater = std::make_shared<PokemonInfoUpdater>(pokemon,
                                                                    healthBar,
                                                                    satietyBar,
-                                                                   loyaltyBar);
+                                                                   loyaltyBar,
+                                                                   this->_parentEngine);
     addElement(pokemonInfoUpdater);
 
     /// ADDING BUTTONS
