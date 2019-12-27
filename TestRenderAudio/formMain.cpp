@@ -11,14 +11,39 @@
 
 #include <AnimModel.h>
 #include <ProgressBar.h>
-
+#include <Picture.h>
 
 #define FPS 60
 
+static unsigned int texture_from_file(const std::string &path) {  // Перенести в utils
+    unsigned int texture_id;
+    glGenTextures(1, &texture_id);
+
+    cv::Mat image = cv::imread(path);
+
+    glBindTexture(GL_TEXTURE_2D, texture_id);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image.cols, image.rows, 0, GL_BGR, GL_UNSIGNED_BYTE, image.ptr());
+
+    glGenerateMipmap(GL_TEXTURE_2D);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    cv::flip(image, image, 0);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    return texture_id;
+}
+
 int main() {
-    GameWindow screen(1280, 1024);
-    Form authForm;
+    GameWindow screen(1366, 768);
+    Form authForm("lol");
     NavBar navbar;
+
 
     Camera camera(glm::vec3(0.0f, 0.0f, 4.0f));
 
@@ -27,7 +52,7 @@ int main() {
     int width = std::get<0>(WindowSize);
     int height = std::get<1>(WindowSize);
 
-    Form formBar;
+    Form formBar("lol1");
 
     auto lB = std::make_shared<ProgressBar>(ImVec2(300.0f, 0.0f), "loyalty");
     lB->setProgress(0.5f);
@@ -47,12 +72,19 @@ int main() {
 
     formBar.addElement(hB);
 
+//    add_element(std::make_unique<Picture>(-1.0f, -1.0f, 2.0f, 2.0f,
+//                                          "project/pictures/main_screen.png"));
+
+    Picture background(-1.0f, -1.0f, 2.0f, 2.0f, "Game/Resources/Pictures/background.png");
+
     while (!glfwWindowShouldClose(screen.getWindow())) {
         double frame_start_time = glfwGetTime();
         screen.frameInit();
 
-
+        //ImGui::ShowDemoWindow();
         formBar.render();
+
+        background.render();
 
         double allowed_frame_time = 1.0 / FPS;
         double frame_end_time = glfwGetTime();

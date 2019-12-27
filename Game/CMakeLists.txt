@@ -5,7 +5,7 @@ find_package(OpenCV REQUIRED)
 include_directories(${OPENCV_INCLUDE_DIRS})
 
 
-add_compile_definitions(DEBUG_MODEL)
+#add_compile_definitions(DEBUG_MODEL)
 #add_compile_definitions(DEBUG_GAME_STATE)
 add_compile_definitions(GUI_DEBUG)
 
@@ -16,6 +16,7 @@ include_directories("${PROJECT_BASE_CLASSES_DIR}/include")
 include_directories("${PROJECT_FORM_DIR}")
 include_directories("${PROJECT_IMGUI_DIR}")
 include_directories("${PROJECT_BUTTON_DIR}")
+include_directories("${PROJECT_PICTURE_DIR}")
 include_directories("${PROJECT_INPUTTEXT_DIR}")
 include_directories("${PROJECT_NAVBAR_DIR}")
 include_directories("${PROJECT_NETWORK_DIR}")
@@ -60,6 +61,7 @@ add_executable(main.out
         ${PROJECT_INPUTTEXT_DIR}/InputText.cpp
         ${PROJECT_BUTTON_DIR}/ImageButton.cpp
         ${PROJECT_FORM_DIR}/Form.cpp
+        ${PROJECT_PICTURE_DIR}/Picture.cpp
         ${PROJECT_NAVBAR_DIR}/NavBar.cpp
         ${PROJECT_PROGRESS_BAR_DIR}/ProgressBar.cpp
         ${PROJECT_NETWORK_DIR}/HttpNetworkManager.cpp

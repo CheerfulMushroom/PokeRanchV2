@@ -36,8 +36,8 @@ KitchenState::KitchenState(Engine *parentEngine) : GameState(parentEngine) {
 
     auto house = std::make_shared<Model>("Game/Resources/Models/Static/PokemonHouse/PokemonHouse.obj",
                                          camera.get(),
-                                         glm::vec3(-2.3f, -1.0f, -2.3f),
-                                         0.058,
+                                         glm::vec3(-2.9f, -1.0f, -2.3f),
+                                         0.040,
                                          glm::vec3(0.0f, 38.0f, 0.0f),
                                          width,
                                          height,
@@ -53,7 +53,7 @@ KitchenState::KitchenState(Engine *parentEngine) : GameState(parentEngine) {
                                          std::string("plate"));
 
 
-    auto puff = std::make_shared<Model>(pathManager.getStaticModelPath("PokePuffs/Summer/summer6"),
+    auto puff = std::make_shared<Model>(pathManager.getStaticModelPath("PokePuffs/Summer/summer1"),
                                          camera.get(),
                                          glm::vec3(0.0f, -0.77f, -2.0f),
                                          0.04,
