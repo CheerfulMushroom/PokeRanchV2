@@ -5,7 +5,6 @@
 
 #include "GameState.h"
 #include "GameWindow.h"
-#include "ServerAPI.h"
 
 class Engine {
 public:
